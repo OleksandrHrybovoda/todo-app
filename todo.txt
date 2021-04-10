@@ -1,0 +1,18 @@
+Tasks
+Every task has such structure:
+{
+id - number, integer
+Title - text
+Description - text
+Last Update Date - string or date or int 
+Creation Date - string or date or int 
+}
+Any user can create new task, edit any task, delete any task.
+On page 'tasks' show list of all tasks like list of cards. Use standard components from Material library.
+Don't care about styles much at this point. 
+Use pagination, show only 10 tasks per page. When user scrolls down, there is a button saying "Show more". 
+Click on that button loads and displays another portion of 10 tasks if available. 
+When next portion of tasks is fetched from server - show toast message saying, "N Tasks successfully fetched."
+If error - show the same toast but in red with details of error. 
+API to fetch tasks and comments will be provided later. Currently use stubs but write code in a good manner so it's 
+possible to easily switch to api instead of stubs. 
