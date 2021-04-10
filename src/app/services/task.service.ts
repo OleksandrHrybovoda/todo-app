@@ -72,7 +72,7 @@ export class TaskService {
 
   constructor() { }
 
-  get prepareTasks(): Observable<Task[]> {
+  get getTasks(): Observable<Task[]> {
     return this.tasksSubscription;
   }
 }
