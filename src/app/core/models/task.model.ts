@@ -3,5 +3,5 @@ export class Task {
   title: string;
   description: string;
   lastUpdated: number;
-  creationDate: number;
+  lastUpdatedDate: number;
 }

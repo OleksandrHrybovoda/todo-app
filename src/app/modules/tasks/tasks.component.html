@@ -3,19 +3,7 @@
   <button mat-raised-button color="accent">Add new</button>
   <div class="cards">
     <mat-card class="card" *ngFor="let task of tasks; trackBy: trackByItem">
-      <mat-card-header>
-        <div class="card-header"></div>
-        <mat-card-title>{{ task.title }}</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>
-          {{ task.description }}
-        </p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-raised-button color="primary">Edit</button>
-        <button mat-raised-button color="warn">Delete</button>
-      </mat-card-actions>
+      <app-task [task]="task"></app-task>
     </mat-card>
   </div>
 </div>
