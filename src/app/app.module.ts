@@ -7,11 +7,13 @@ import { MatCardModule } from '@angular/material/card';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TasksComponent } from './modules/tasks/tasks.component';
+import { TaskComponent } from './modules/tasks/task/task.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TasksComponent
+    TasksComponent,
+    TaskComponent
   ],
   imports: [
     BrowserModule,
