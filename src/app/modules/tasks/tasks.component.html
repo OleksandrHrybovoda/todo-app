@@ -1,6 +1,6 @@
 <div class="container">
   <h1>Tasks</h1>
-  <button mat-raised-button color="accent">Add new</button>
+  <button mat-raised-button color="accent" (click)="openDialogToAddTask()">Add new</button>
   <div class="cards">
     <mat-card class="card" *ngFor="let task of tasks; trackBy: trackByItem">
       <app-task [task]="task"></app-task>
