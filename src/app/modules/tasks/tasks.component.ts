@@ -20,7 +20,7 @@ export class TasksComponent implements OnInit, OnDestroy {
   }
 
   private init(): void {
-    this.taskService.prepareTasks
+    this.taskService.getTasks
       .pipe(takeUntil(this.destroy$))
       .subscribe(res => this.tasks = res);
   }
