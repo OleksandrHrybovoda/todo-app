@@ -8,12 +8,14 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TasksComponent } from './modules/tasks/tasks.component';
 import { TaskComponent } from './modules/tasks/task/task.component';
+import { DeleteTaskComponent } from './modules/tasks/delete-task/delete-task.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TasksComponent,
-    TaskComponent
+    TaskComponent,
+    DeleteTaskComponent
   ],
   imports: [
     BrowserModule,
