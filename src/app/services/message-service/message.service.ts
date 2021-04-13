@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { Task } from '../core/models/task.model';
+import { Task } from '../../core/models/task.model';
 
 @Injectable({
   providedIn: 'root'

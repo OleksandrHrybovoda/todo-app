@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Task } from '../core/models/task.model';
+import { Task } from '../../core/models/task.model';
 
 const tasks: Task[] = [{
   id: 1,

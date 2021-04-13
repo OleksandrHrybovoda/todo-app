@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Task } from 'src/app/core/models/task.model';
-import { TaskService } from 'src/app/services/task.service';
+import { TaskService } from 'src/app/services/tasks.service/task.service';
 import { takeUntil } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { AddNewTaskComponent } from './add-new-task/add-new-task.component';
-import { MessageService } from 'src/app/services/message.service';
+import { MessageService } from 'src/app/services/message-service/message.service';
 
 @Component({
   selector: 'app-tasks-list',

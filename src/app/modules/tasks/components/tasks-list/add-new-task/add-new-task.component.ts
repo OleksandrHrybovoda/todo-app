@@ -2,8 +2,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Task } from 'src/app/core/models/task.model';
-import { MessageService } from 'src/app/services/message.service';
-import { TaskHelperService } from 'src/app/services/task-helper.service';
+import { MessageService } from 'src/app/services/message-service/message.service';
+import { TaskHelperService } from 'src/app/services/task-helper-service/task-helper.service';
 
 @Component({
   selector: 'app-add-new-task',

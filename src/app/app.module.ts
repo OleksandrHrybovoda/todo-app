@@ -4,7 +4,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TasksModule } from './modules/tasks/tasks.module';
-import { ServicesModule } from './services/services.module';
+import { TaskHelperModule } from './services/task-helper-service/task-helper.module';
+import { ServicesModule } from './services/message-service/services.module';
+import { TasksServiceModule } from './services/tasks.service/tasks-service.module';
 
 @NgModule({
   declarations: [
@@ -12,6 +14,8 @@ import { ServicesModule } from './services/services.module';
   ],
   imports: [
     TasksModule,
+    TaskHelperModule,
+    TasksServiceModule,
     ServicesModule,
     BrowserModule,
     AppRoutingModule,
