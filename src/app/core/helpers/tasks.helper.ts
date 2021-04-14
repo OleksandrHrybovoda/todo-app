@@ -28,7 +28,6 @@ export class TasksHelper {
     // todo - use any random number generator
     // but keep in mind that 'id' will be created by server
     return Math.floor(Math.random() * 100);
-    return 0;
   }
 
 }
