@@ -7,27 +7,27 @@ export class TasksHelper {
 
   constructor() { }
 
-  public createNewTask(taskForm: FormGroup): Promise<Task> {
+  public createNewTask(task: Task): Promise<Task> {
     // todo ideally we pass Task-like object instead of FormGroup
-
+    console.log(task);
     return new Promise(resolve => {
-      const task: Task = {
+      const taskItem: Task = {
         id: this.generateId(),
-        title: taskForm.value.title,
-        description: taskForm.value.description,
+        ...task,
         lastUpdated: Date.now(),
         lastUpdatedDate: Date.now()
       };
 
-      // todo - here task is sent to server and saved 
+      // todo - here task is sent to server and saved
 
-      resolve(task);
+      resolve(taskItem);
     });
   }
 
   private generateId(): number {
     // todo - use any random number generator
-    // but keep in mind that 'id' will be created by server 
+    // but keep in mind that 'id' will be created by server
+    return Math.floor(Math.random() * 100);
     return 0;
   }
 

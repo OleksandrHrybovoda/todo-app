@@ -21,7 +21,7 @@
           cdkFocusInitial
           [disabled]="addNewTaskForm.invalid"
           color="primary"
-          (click)="createTask(addNewTaskForm)">
+          (click)="createTask(addNewTaskForm.value)">
     Create
   </button>
 </mat-dialog-actions>
