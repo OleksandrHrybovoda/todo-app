@@ -1,16 +1,18 @@
 <mat-card-header>
-  <div class="card-header"></div>
   <mat-card-title>{{ task.title }}</mat-card-title>
 </mat-card-header>
+
 <mat-card-content>
   <p>
     {{ task.description }}
   </p>
 </mat-card-content>
+
 <mat-card-actions>
   <button mat-raised-button color="primary">Edit</button>
   <button mat-raised-button color="warn">Delete</button>
 </mat-card-actions>
+
 <mat-card-footer>
   <span class="card-footer">{{ task.lastUpdated | date: "dd/MM/YYYY" }}</span>
 </mat-card-footer>

@@ -4,20 +4,23 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TasksModule } from './modules/tasks/tasks.module';
-import { ServicesModule } from './services/message-service/services.module';
+import { HelpersModule } from './core/helpers/helpers.module';
+import { ServicesModule } from './services/services.module';
 
 @NgModule({
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    HelpersModule,
+    ServicesModule,
+    TasksModule,
+  ],
   declarations: [
     AppComponent,
   ],
-  imports: [
-    TasksModule,
-    ServicesModule,
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [
+    AppComponent
+  ]
 })
 export class AppModule { }

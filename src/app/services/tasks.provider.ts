@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Task } from '../../core/models/task.model';
+import {
+  BehaviorSubject,
+  Subject
+} from 'rxjs';
+import { Task } from '../core/models/task.model';
 
-export const tasks: Task[] = [{
+const tasks: Task[] = [{
   id: 1,
   title: 'Task 1',
   description: 'Simple Task 1',
@@ -64,15 +67,14 @@ export const tasks: Task[] = [{
   lastUpdatedDate: 1618048954,
 }];
 
-@Injectable({
-  providedIn: 'root'
-})
-export class TaskService {
-  private tasksSubscription: BehaviorSubject<Task[]> = new BehaviorSubject<Task[]>(tasks);
+@Injectable()
+export class TasksProvider {
+
+  private tasksMocks: BehaviorSubject<Task[]> = new BehaviorSubject<Task[]>(tasks);
 
   constructor() { }
 
-  get getTasks(): Observable<Task[]> {
-    return this.tasksSubscription;
+  public getTasks(): Subject<Task[]> {
+    return this.tasksMocks;
   }
 }

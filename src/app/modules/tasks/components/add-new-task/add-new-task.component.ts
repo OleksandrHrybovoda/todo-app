@@ -1,8 +1,14 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Task } from 'src/app/core/models/task.model';
-import { MessageService } from 'src/app/services/message-service/message.service';
-import { TaskHelperService } from 'src/app/services/task-helper-service/task-helper.service';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup
+} from '@angular/forms';
+import { TasksHelper } from '../../../../core/helpers/tasks.helper';
+import { MessagesService } from '../../../../services/messages.service';
 
 @Component({
   selector: 'app-add-new-task',
@@ -14,36 +20,38 @@ export class AddNewTaskComponent implements OnInit {
   title = new FormControl('');
   description = new FormControl('');
 
-  constructor(private fb: FormBuilder,
-              private messageService: MessageService,
-              private taskHelperService: TaskHelperService) {
-  }
+  constructor(
+    private fb: FormBuilder,
+    private msgService: MessagesService,
+    private tasksHelper: TasksHelper
+  ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.init();
   }
 
+  public createTask(form: FormGroup): void {
+    this.tasksHelper.createNewTask(form).then(createdTask => {
+      // todo - we need to notify parent component that new task was added
+      // use @Output for this 
+      this.showSuccessMessage();
+    });
+  }
+
+  private showSuccessMessage(): void {
+    let msg: string = "Successfully added new task!";
+    this.msgService.openSnackBar(msg);
+  }
+
   private init(): void {
+    this.initForm();
+  }
+
+  private initForm(): void {
     this.addNewTaskForm = this.fb.group({
       title: this.title,
       description: this.description,
     });
-  }
-
-  public createTask(form: FormGroup): void {
-    const task: Task = {
-      id: this.taskHelperService.generateNewID(),
-      title: form.value.title,
-      description: form.value.description,
-      lastUpdated: Date.now(),
-      lastUpdatedDate: Date.now()
-    };
-    this.taskHelperService.addNewTask(task);
-    this.openSnackBar();
-  }
-
-  private openSnackBar(): void {
-    this.messageService.openSnackBar('Successfully added!');
   }
 
 }

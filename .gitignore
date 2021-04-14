@@ -92,3 +92,7 @@ Thumbs.db
 *.mov
 *.wmv
 
+/.vs/VSWorkspaceState.json
+/.vs/slnx.sqlite
+/.vs/todo-app-og-repo/config/applicationhost.config
+/.vs/todo-app-og-repo/v16/.suo
