@@ -17,7 +17,7 @@ import { ServicesModule } from './services/services.module';
     TasksModule,
   ],
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   bootstrap: [
     AppComponent

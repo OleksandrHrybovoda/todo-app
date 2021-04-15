@@ -7,12 +7,27 @@ $card-color: #000
   color: $card-color
   font-weight: bold
   font-size: 3em
-  text-align: center
 
-  mat-card-footer
-    text-align: right
+  mat-card-header
+    display: flex
+    flex-direction: column
 
-    .card-footer
-      font-size: 12px
-      margin-right: 10px
+    .sub-title
+      font-size: 14px
+      margin: 0 16px
       color: $card-footer
+
+  mat-card-content
+    display: flex
+    justify-content: space-between
+    p
+      margin-top: 20px
+      font-size: 17px
+    .card-actions
+      display: flex
+      flex-direction: column
+      button
+        margin-bottom: 10px
+
+
+
