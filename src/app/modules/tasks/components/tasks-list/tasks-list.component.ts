@@ -30,7 +30,6 @@ export class TasksListComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.init();
-    this.getNewTask();
   }
 
   public openDialogToAddTask(): void {
@@ -52,10 +51,11 @@ export class TasksListComponent implements OnInit, OnDestroy {
       .subscribe(tasks => {
         this.tasks = tasks;
       });
+    this.subscribeToTaskCreation();
   }
 
-  private getNewTask(): void {
-    this.stateManagementService.getTaskCreationEvent()
+  private subscribeToTaskCreation(): void {
+    this.stateManagementService.subscribeToTaskCreationEvent()
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (task) => {

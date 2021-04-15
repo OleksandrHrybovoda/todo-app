@@ -33,17 +33,15 @@ export class AddNewTaskComponent implements OnInit {
     this.init();
   }
 
-  public createTask(task: Task): void {
-    this.tasksHelper.createNewTask(task).then(createdTask => {
-      // todo - we need to notify parent component that new task was added
-      // use @Output for this
+  public createTask(form: FormGroup): void {
+    this.tasksHelper.createNewTask(form.value).then(createdTask => {
       this.stateManagementService.sendTaskCreationEvent(createdTask);
       this.showSuccessMessage();
     });
   }
 
   private showSuccessMessage(): void {
-    const msg = 'Successfully added new task!';
+    const msg: string = 'Successfully added new task!';
     this.msgService.openSnackBar(msg);
   }
 

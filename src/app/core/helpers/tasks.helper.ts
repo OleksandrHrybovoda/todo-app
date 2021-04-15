@@ -8,8 +8,6 @@ export class TasksHelper {
   constructor() { }
 
   public createNewTask(task: Task): Promise<Task> {
-    // todo ideally we pass Task-like object instead of FormGroup
-    console.log(task);
     return new Promise(resolve => {
       const taskItem: Task = {
         id: this.generateId(),
@@ -25,8 +23,6 @@ export class TasksHelper {
   }
 
   private generateId(): number {
-    // todo - use any random number generator
-    // but keep in mind that 'id' will be created by server
     return Math.floor(Math.random() * 100);
   }
 
