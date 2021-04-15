@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TaskComponent } from './task/task.component';
 import { AddNewTaskComponent } from './add-new-task/add-new-task.component';
 import { TasksListComponent } from './tasks-list/tasks-list.component';
+import { DeleteTaskComponent } from './delete-task/delete-task.component';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { TasksListComponent } from './tasks-list/tasks-list.component';
     TasksListComponent,
     TaskComponent,
     AddNewTaskComponent,
+    DeleteTaskComponent,
   ],
 })
 export class ComponentsModule {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { Task } from '../../core/models/task.model';
 
 @Injectable()
@@ -20,6 +20,10 @@ export class TasksHelper {
 
       resolve(taskItem);
     });
+  }
+
+  public removeTask(task: Task) {
+
   }
 
   private generateId(): number {
