@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NavbarComponent } from './navbar.component';
+import { HeaderComponent } from './header/header.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -9,11 +9,11 @@ import { MatButtonModule } from '@angular/material/button';
     MatButtonModule
   ],
   declarations: [
-    NavbarComponent,
+    HeaderComponent,
   ],
   exports: [
-    NavbarComponent,
+    HeaderComponent,
   ]
 })
-export class NavbarModule {
+export class ComponentsNavigationModule {
 }

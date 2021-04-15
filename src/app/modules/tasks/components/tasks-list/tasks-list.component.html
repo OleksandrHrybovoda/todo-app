@@ -1,3 +1,9 @@
+<app-header [pageName]="'Tasks'">
+  <button mat-raised-button color="accent" (click)="openDialogToAddTask()">
+    ADD NEW TASK
+  </button>
+</app-header>
+
 <div class="cards">
 
   <mat-card class="card" *ngFor="let task of tasks; trackBy: trackByItem">

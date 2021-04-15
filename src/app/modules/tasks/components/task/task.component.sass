@@ -18,19 +18,16 @@ $card-color: #000
       color: $card-footer
 
   mat-card-content
-    margin-top: 20px
-    font-size: 17px
-
-  mat-card-actions
-    position: absolute
     display: flex
-    flex-direction: column
-    right: 20px
-    top: 0
+    justify-content: space-between
+    p
+      margin-top: 20px
+      font-size: 17px
+    .card-actions
+      display: flex
+      flex-direction: column
+      button
+        margin-bottom: 10px
 
-    button
-      margin: 0
-      &:nth-child(2)
-        margin-top: 10px
 
 

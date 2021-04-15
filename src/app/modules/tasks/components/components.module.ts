@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TaskComponent } from './task/task.component';
 import { AddNewTaskComponent } from './add-new-task/add-new-task.component';
 import { TasksListComponent } from './tasks-list/tasks-list.component';
+import { ComponentsNavigationModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
@@ -19,7 +20,7 @@ import { TasksListComponent } from './tasks-list/tasks-list.component';
     MatFormFieldModule,
     MatButtonModule,
     MatCardModule,
-
+    ComponentsNavigationModule
   ],
   declarations: [
     TasksListComponent,
