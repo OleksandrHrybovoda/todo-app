@@ -8,7 +8,7 @@ export class StateManagementService {
 
   constructor() { }
 
-  public subscribeToTaskCreationEvent(): Subject<Task> {
+  public getTaskCreationEvent(): Subject<Task> {
     return this.taskCreationSubject;
   }
 

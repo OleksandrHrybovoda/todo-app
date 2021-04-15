@@ -55,7 +55,7 @@ export class TasksListComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToTaskCreation(): void {
-    this.stateManagementService.subscribeToTaskCreationEvent()
+    this.stateManagementService.getTaskCreationEvent()
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (task) => {
