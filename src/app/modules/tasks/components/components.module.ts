@@ -19,6 +19,7 @@ import { TasksListComponent } from './tasks-list/tasks-list.component';
     MatFormFieldModule,
     MatButtonModule,
     MatCardModule,
+
   ],
   declarations: [
     TasksListComponent,

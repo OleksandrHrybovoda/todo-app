@@ -1,5 +1,6 @@
 <mat-card-header>
   <mat-card-title>{{ task.title }}</mat-card-title>
+  <span class="sub-title">created: {{ task.lastUpdated | date: "dd/MM/YYYY hh:mm" }} | updated: {{ task.lastUpdated | date: "dd/MM/YYYY hh:mm" }}</span>
 </mat-card-header>
 
 <mat-card-content>
@@ -13,6 +14,3 @@
   <button mat-raised-button color="warn">Delete</button>
 </mat-card-actions>
 
-<mat-card-footer>
-  <span class="card-footer">{{ task.lastUpdated | date: "dd/MM/YYYY" }}</span>
-</mat-card-footer>

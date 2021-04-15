@@ -7,8 +7,6 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Task } from 'src/app/core/models/task.model';
 import { TasksProvider } from '../../../../services/tasks.provider';
-import { MessagesService } from '../../../../services/messages.service';
-import { AddNewTaskComponent } from '../add-new-task/add-new-task.component';
 import { StateManagementService } from 'src/app/services/state-management.service';
 
 @Component({
@@ -24,16 +22,11 @@ export class TasksListComponent implements OnInit, OnDestroy {
 
   constructor(
     private tasksProvider: TasksProvider,
-    private msgService: MessagesService,
     private stateManagementService: StateManagementService
   ) { }
 
   public ngOnInit(): void {
     this.init();
-  }
-
-  public openDialogToAddTask(): void {
-    this.msgService.openDialog(AddNewTaskComponent);
   }
 
   public trackByItem(index: number, item: Task): number {

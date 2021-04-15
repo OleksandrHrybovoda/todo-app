@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TasksModule } from './modules/tasks/tasks.module';
 import { HelpersModule } from './core/helpers/helpers.module';
 import { ServicesModule } from './services/services.module';
+import { NavbarModule } from './modules/navbar/navbar.module';
 
 @NgModule({
   imports: [
@@ -15,9 +16,10 @@ import { ServicesModule } from './services/services.module';
     HelpersModule,
     ServicesModule,
     TasksModule,
+    NavbarModule
   ],
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   bootstrap: [
     AppComponent
