@@ -15,5 +15,5 @@ import { MatButtonModule } from '@angular/material/button';
     HeaderComponent,
   ]
 })
-export class ComponentsNavigationModule {
+export class SharedComponentsModule {
 }
