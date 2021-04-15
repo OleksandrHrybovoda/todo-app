@@ -7,6 +7,8 @@ import {
   FormControl,
   FormGroup
 } from '@angular/forms';
+import { Task } from 'src/app/core/models/task.model';
+import { StateManagementService } from 'src/app/services/state-management.service';
 import { TasksHelper } from '../../../../core/helpers/tasks.helper';
 import { MessagesService } from '../../../../services/messages.service';
 
@@ -23,7 +25,8 @@ export class AddNewTaskComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private msgService: MessagesService,
-    private tasksHelper: TasksHelper
+    private tasksHelper: TasksHelper,
+    private stateManagementService: StateManagementService
   ) { }
 
   public ngOnInit(): void {
@@ -31,15 +34,14 @@ export class AddNewTaskComponent implements OnInit {
   }
 
   public createTask(form: FormGroup): void {
-    this.tasksHelper.createNewTask(form).then(createdTask => {
-      // todo - we need to notify parent component that new task was added
-      // use @Output for this 
+    this.tasksHelper.createNewTask(form.value).then(createdTask => {
+      this.stateManagementService.sendTaskCreationEvent(createdTask);
       this.showSuccessMessage();
     });
   }
 
   private showSuccessMessage(): void {
-    let msg: string = "Successfully added new task!";
+    const msg: string = 'Successfully added new task!';
     this.msgService.openSnackBar(msg);
   }
 
