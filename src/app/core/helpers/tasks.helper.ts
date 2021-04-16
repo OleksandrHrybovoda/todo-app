@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Task } from '../../core/models/task.model';
 
 @Injectable()
@@ -22,8 +21,10 @@ export class TasksHelper {
     });
   }
 
-  public removeTask(task: Task) {
-
+  public removeTask(task: Task): Promise<Task> {
+    return new Promise(resolve => {
+      resolve(task);
+    });
   }
 
   private generateId(): number {
