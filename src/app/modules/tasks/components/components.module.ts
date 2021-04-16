@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TaskComponent } from './task/task.component';
 import { AddNewTaskComponent } from './add-new-task/add-new-task.component';
 import { TasksListComponent } from './tasks-list/tasks-list.component';
+import { SharedComponentsModule } from 'src/app/components/shared-components.module';
 import { DeleteTaskComponent } from './delete-task/delete-task.component';
 
 @NgModule({
@@ -20,6 +21,7 @@ import { DeleteTaskComponent } from './delete-task/delete-task.component';
     MatFormFieldModule,
     MatButtonModule,
     MatCardModule,
+    SharedComponentsModule
   ],
   declarations: [
     TasksListComponent,
