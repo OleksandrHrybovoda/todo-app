@@ -59,7 +59,16 @@ export class TasksListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (task) => {
-          this.tasks.push(task);
+          switch (task.action) {
+            case 'add':
+              this.tasks.push(task.task);
+              break;
+            case 'remove':
+              this.tasks = this.tasks.filter(taskItem => taskItem.id !== task.task.id);
+              break;
+            default:
+              break;
+          }
         }
       );
   }
