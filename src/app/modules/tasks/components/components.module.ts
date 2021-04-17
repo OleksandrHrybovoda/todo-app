@@ -10,6 +10,7 @@ import { TaskComponent } from './task/task.component';
 import { AddNewTaskComponent } from './add-new-task/add-new-task.component';
 import { TasksListComponent } from './tasks-list/tasks-list.component';
 import { SharedComponentsModule } from 'src/app/components/shared-components.module';
+import { ConfirmComponent } from './confirm/confirm.component';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { SharedComponentsModule } from 'src/app/components/shared-components.mod
     TasksListComponent,
     TaskComponent,
     AddNewTaskComponent,
+    ConfirmComponent,
   ],
 })
 export class ComponentsModule {

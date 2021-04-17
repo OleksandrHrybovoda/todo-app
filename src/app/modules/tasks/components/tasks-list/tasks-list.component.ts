@@ -52,6 +52,7 @@ export class TasksListComponent implements OnInit, OnDestroy {
         this.tasks = tasks;
       });
     this.subscribeToTaskCreation();
+    this.subscribeToTaskRemove();
   }
 
   private subscribeToTaskCreation(): void {
@@ -60,7 +61,23 @@ export class TasksListComponent implements OnInit, OnDestroy {
       .subscribe(
         (task) => {
           this.tasks.push(task);
+          this.showMessage('Successfully added new task!');
         }
       );
+  }
+
+  private subscribeToTaskRemove(): void {
+    this.stateManagementService.getTaskRemoveEvent()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (task) => {
+          this.tasks = this.tasks.filter(taskItem => taskItem.id !== task.id);
+          this.showMessage('Task successfully removed!');
+        }
+      );
+  }
+
+  private showMessage(msg: string): void {
+    this.msgService.openSnackBar(msg);
   }
 }

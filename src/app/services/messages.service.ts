@@ -23,7 +23,7 @@ export class MessagesService {
     duration: number = 2000,
     horizontalPosition: MatSnackBarHorizontalPosition = 'right',
     verticalPosition: MatSnackBarVerticalPosition = 'top',
-    action: string = "",
+    action: string = '',
   ): void {
     this.snackBar.open(message, action, {
       duration: duration,

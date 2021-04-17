@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { Task } from '../../core/models/task.model';
 
 @Injectable()
@@ -19,6 +18,12 @@ export class TasksHelper {
       // todo - here task is sent to server and saved
 
       resolve(taskItem);
+    });
+  }
+
+  public removeTask(task: Task): Promise<Task> {
+    return new Promise(resolve => {
+      resolve(task);
     });
   }
 
