@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import { MessagesService } from 'src/app/services/messages.service';
 import { Task } from '../../../../core/models/task.model';
-import { DeleteTaskComponent } from '../delete-task/delete-task.component';
+import { ConfirmComponent } from '../confirm/confirm.component';
 
 @Component({
   selector: 'app-task',
@@ -18,7 +18,7 @@ export class TaskComponent {
   constructor(private msgService: MessagesService) { }
 
   public openDialogToDeleteTask(): void {
-    this.msgService.openDialog(DeleteTaskComponent, this.task);
+    this.msgService.openDialog(ConfirmComponent);
   }
 
 }

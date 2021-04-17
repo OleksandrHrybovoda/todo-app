@@ -5,7 +5,6 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition
 } from '@angular/material/snack-bar';
-import { Task } from '../core/models/task.model';
 
 @Injectable()
 export class MessagesService {
@@ -15,10 +14,8 @@ export class MessagesService {
     private snackBar: MatSnackBar
   ) { }
 
-  public openDialog(component: any, task?: Task): void {
-    this.dialog.open(component, {
-      data: { task }
-    });
+  public openDialog(component: any): void {
+    this.dialog.open(component);
   }
 
   public openSnackBar(

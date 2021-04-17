@@ -4,19 +4,24 @@ import { Task } from '../core/models/task.model';
 
 @Injectable()
 export class StateManagementService {
-  private taskCreationSubject: Subject<{task: Task, action: string}> = new Subject<{task: Task, action: string}>();
+  private taskCreationSubject: Subject<Task> = new Subject<Task>();
+  private taskDeleteSubject: Subject<Task> = new Subject<Task>();
 
   constructor() { }
 
-  public getTaskCreationEvent(): Subject<{task: Task, action: string}> {
+  public getTaskCreationEvent(): Subject<Task> {
     return this.taskCreationSubject;
   }
 
-  public sendTaskCreationEvent(task: Task, action: string = 'add'): void {
-    this.taskCreationSubject.next({ task, action });
+  public getTaskRemoveEvent(): Subject<Task> {
+    return this.taskDeleteSubject;
   }
 
-  public sendTaskRemoveEvent(task: Task, action: string = 'remove'): void {
-    this.taskCreationSubject.next({ task, action });
+  public sendTaskCreationEvent(task: Task): void {
+    this.taskCreationSubject.next(task);
+  }
+
+  public sendTaskRemoveEvent(task: Task): void {
+    this.taskDeleteSubject.next(task);
   }
 }
