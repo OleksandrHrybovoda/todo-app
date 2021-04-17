@@ -46,35 +46,47 @@ export class TasksListComponent implements OnInit, OnDestroy {
   }
 
   private init(): void {
+    this.prepareTasksToShow();
+    this.subscribeToTaskCreation();
+    this.subscribeToTaskRemoval();
+  }
+
+  private prepareTasksToShow(): void {
     this.tasksProvider.getTasks()
       .pipe(takeUntil(this.destroy$))
       .subscribe(tasks => {
         this.tasks = tasks;
       });
-    this.subscribeToTaskCreation();
-    this.subscribeToTaskRemove();
   }
 
   private subscribeToTaskCreation(): void {
     this.stateManagementService.getTaskCreationEvent()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        (task) => {
-          this.tasks.push(task);
-          this.showMessage('Successfully added new task!');
-        }
-      );
+      .subscribe(task => {
+        this.addNewTaskToList(task);
+
+        const msg: string = 'Successfully added new task!';
+        this.showMessage(msg);
+      });
   }
 
-  private subscribeToTaskRemove(): void {
-    this.stateManagementService.getTaskRemoveEvent()
+  private addNewTaskToList(task: Task): void {
+    this.tasks.push(task);
+  }
+
+  private subscribeToTaskRemoval(): void {
+    this.stateManagementService.getTaskRemovalEvent()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        (task) => {
-          this.tasks = this.tasks.filter(taskItem => taskItem.id !== task.id);
-          this.showMessage('Task successfully removed!');
-        }
-      );
+      .subscribe(task => {
+        this.deleteTaskFromList(task);
+
+        const msg: string = 'Successfully removed task!';
+        this.showMessage(msg);
+      });
+  }
+
+  private deleteTaskFromList(task: Task): void {
+    this.tasks = this.tasks.filter(taskItem => taskItem.id !== task.id);
   }
 
   private showMessage(msg: string): void {

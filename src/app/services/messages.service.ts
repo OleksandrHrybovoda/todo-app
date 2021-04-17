@@ -1,10 +1,17 @@
+import { ComponentType } from '@angular/cdk/portal';
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogConfig,
+  MatDialogRef
+} from '@angular/material/dialog';
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition
 } from '@angular/material/snack-bar';
+import { ConfirmComponent } from '../components/confirm/confirm.component';
+import { ConfirmDialogData } from '../components/confirm/confirm.models';
 
 @Injectable()
 export class MessagesService {
@@ -14,8 +21,25 @@ export class MessagesService {
     private snackBar: MatSnackBar
   ) { }
 
-  public openDialog(component: any): void {
-    this.dialog.open(component);
+  public openDialog<T, R>(component: ComponentType<T>, data?: any): MatDialogRef<T, R> {
+    const dialogConfig: MatDialogConfig = new MatDialogConfig();
+
+    dialogConfig.data = data;
+
+    return this.dialog.open(component, dialogConfig);
+  }
+
+  public confirm(title: string, message: string, confirmButtonText?: string): Promise<boolean> {
+    const data: ConfirmDialogData = {
+      title: title,
+      message: message,
+      confirmButtonText: confirmButtonText,
+    } as ConfirmDialogData;
+
+    const dialogRef: MatDialogRef<ConfirmComponent, string> =
+      this.openDialog<ConfirmComponent, string>(ConfirmComponent, data);
+
+    return dialogRef.afterClosed().toPromise().then(res => res === "true");
   }
 
   public openSnackBar(
