@@ -49,6 +49,7 @@ export class TasksListComponent implements OnInit, OnDestroy {
     this.prepareTasksToShow();
     this.subscribeToTaskCreation();
     this.subscribeToTaskRemoval();
+    this.subscribeToTaskUpdate();
   }
 
   private prepareTasksToShow(): void {
@@ -87,6 +88,22 @@ export class TasksListComponent implements OnInit, OnDestroy {
 
   private deleteTaskFromList(task: Task): void {
     this.tasks = this.tasks.filter(taskItem => taskItem.id !== task.id);
+  }
+
+  private subscribeToTaskUpdate(): void {
+    this.stateManagementService.getTaskUpdateEvent()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(task => {
+        this.updateTaskFromList(task);
+
+        const msg: string = 'Task successfully updated!';
+        this.showMessage(msg);
+      });
+  }
+
+  private updateTaskFromList(task: Task): void {
+    const elementsIndex = this.tasks.findIndex(element => element.id === task.id );
+    this.tasks[elementsIndex] = task;
   }
 
   private showMessage(msg: string): void {

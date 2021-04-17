@@ -29,17 +29,17 @@ export class MessagesService {
     return this.dialog.open(component, dialogConfig);
   }
 
-  public confirm(title: string, message: string, confirmButtonText?: string): Promise<boolean> {
-    const data: ConfirmDialogData = {
-      title: title,
-      message: message,
-      confirmButtonText: confirmButtonText,
-    } as ConfirmDialogData;
+  public async confirm(title: string, message: string, confirmButtonText?: string): Promise<boolean> {
+    const data: ConfirmDialogData = new ConfirmDialogData();
+    data.title = title;
+    data.message = message;
+    data.confirmButtonText = confirmButtonText;
 
     const dialogRef: MatDialogRef<ConfirmComponent, string> =
       this.openDialog<ConfirmComponent, string>(ConfirmComponent, data);
 
-    return dialogRef.afterClosed().toPromise().then(res => res === "true");
+    const res = await dialogRef.afterClosed().toPromise();
+    return res === 'true';
   }
 
   public openSnackBar(

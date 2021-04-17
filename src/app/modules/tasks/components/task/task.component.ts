@@ -5,6 +5,7 @@ import {
 import { MessagesService } from 'src/app/services/messages.service';
 import { Task } from '../../../../core/models/task.model';
 import { StateManagementService } from '../../../../services/state-management.service';
+import { UpdateTaskComponent } from '../update-task/update-task.component';
 
 @Component({
   selector: 'app-task',
@@ -25,13 +26,17 @@ export class TaskComponent {
     const message: string = 'Are you sure you want to delete task ?';
     const action: string = 'DELETE';
 
-    let deletionConfirmed = await this.msgService.confirm(title, message, action);
+    const deletionConfirmed = await this.msgService.confirm(title, message, action);
 
     if (!deletionConfirmed) {
       return;
     }
 
     this.stateManagementService.sendTaskRemovalEvent(this.task);
+  }
+
+  public onEditButtonClick(): void {
+    this.msgService.openDialog(UpdateTaskComponent, this.task);
   }
 
 }

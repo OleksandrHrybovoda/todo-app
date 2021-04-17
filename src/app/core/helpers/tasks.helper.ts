@@ -21,9 +21,14 @@ export class TasksHelper {
     });
   }
 
-  public removeTask(task: Task): Promise<Task> {
+  public updateTask(task: Task): Promise<Task> {
     return new Promise(resolve => {
-      resolve(task);
+      const taskItem: Task = {
+        ...task,
+        lastUpdatedDate: Date.now()
+      };
+
+      resolve(taskItem);
     });
   }
 

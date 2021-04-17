@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>Edit task</h2>
+
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="editTaskForm">
+    <mat-form-field class="field-control">
+      <mat-label>Task</mat-label>
+      <input matInput [formControl]="title" required />
+    </mat-form-field>
+
+    <mat-form-field class="field-control">
+      <mat-label>Description</mat-label>
+      <textarea matInput [formControl]="description" required></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button
+          [mat-dialog-close]="true"
+          cdkFocusInitial
+          [disabled]="editTaskForm.invalid"
+          color="primary"
+          (click)="updateTask(editTaskForm)">
+    Edit
+  </button>
+</mat-dialog-actions>
