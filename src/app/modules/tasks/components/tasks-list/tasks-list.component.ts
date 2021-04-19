@@ -8,8 +8,8 @@ import { takeUntil } from 'rxjs/operators';
 import { Task } from 'src/app/core/models/task.model';
 import { TasksProvider } from '../../../../services/tasks.provider';
 import { StateManagementService } from 'src/app/services/state-management.service';
-import { AddNewTaskComponent } from '../add-new-task/add-new-task.component';
 import { MessagesService } from 'src/app/services/messages.service';
+import { AddEditFormTaskComponent } from 'src/app/components/add-edit-form-task/add-edit-form-task.component';
 
 @Component({
   selector: 'app-tasks-list',
@@ -42,7 +42,7 @@ export class TasksListComponent implements OnInit, OnDestroy {
   }
 
   public openDialogToAddTask(): void {
-    this.msgService.openDialog(AddNewTaskComponent);
+    this.msgService.openDialog(AddEditFormTaskComponent);
   }
 
   private init(): void {
@@ -91,7 +91,7 @@ export class TasksListComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToTaskUpdate(): void {
-    this.stateManagementService.getTaskUpdateEvent()
+    this.stateManagementService.getTaskEditEvent()
       .pipe(takeUntil(this.destroy$))
       .subscribe(task => {
         this.updateTaskFromList(task);

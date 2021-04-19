@@ -7,10 +7,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TaskComponent } from './task/task.component';
-import { AddNewTaskComponent } from './add-new-task/add-new-task.component';
 import { TasksListComponent } from './tasks-list/tasks-list.component';
 import { SharedComponentsModule } from '../../../components/shared-components.module';
-import { UpdateTaskComponent } from './update-task/update-task.component';
 
 @NgModule({
   imports: [
@@ -25,9 +23,7 @@ import { UpdateTaskComponent } from './update-task/update-task.component';
   ],
   declarations: [
     TasksListComponent,
-    TaskComponent,
-    AddNewTaskComponent,
-    UpdateTaskComponent,
+    TaskComponent
   ],
 })
 export class ComponentsModule {

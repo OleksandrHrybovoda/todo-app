@@ -6,7 +6,7 @@ import { Task } from '../core/models/task.model';
 export class StateManagementService {
   private taskCreationSubject: Subject<Task> = new Subject<Task>();
   private taskRemovalSubject: Subject<Task> = new Subject<Task>();
-  private taskUpdateSubject: Subject<Task> = new Subject<Task>();
+  private taskEditSubject: Subject<Task> = new Subject<Task>();
 
   constructor() { }
 
@@ -18,8 +18,8 @@ export class StateManagementService {
     return this.taskRemovalSubject;
   }
 
-  public getTaskUpdateEvent(): Subject<Task> {
-    return this.taskUpdateSubject;
+  public getTaskEditEvent(): Subject<Task> {
+    return this.taskEditSubject;
   }
 
   public sendTaskCreationEvent(task: Task): void {
@@ -30,7 +30,7 @@ export class StateManagementService {
     this.taskRemovalSubject.next(task);
   }
 
-  public sendTaskUpdateEvent(task: Task): void {
-    this.taskUpdateSubject.next(task);
+  public sendTaskEditEvent(task: Task): void {
+    this.taskEditSubject.next(task);
   }
 }
