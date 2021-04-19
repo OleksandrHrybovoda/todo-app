@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TaskComponent } from './task/task.component';
 import { TasksListComponent } from './tasks-list/tasks-list.component';
 import { SharedComponentsModule } from '../../../components/shared-components.module';
+import { AddEditTaskFormComponent } from 'src/app/components/add-edit-form-task/add-edit-form-task.component';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { SharedComponentsModule } from '../../../components/shared-components.mo
   ],
   declarations: [
     TasksListComponent,
-    TaskComponent
+    TaskComponent,
+    AddEditTaskFormComponent
   ],
 })
 export class ComponentsModule {

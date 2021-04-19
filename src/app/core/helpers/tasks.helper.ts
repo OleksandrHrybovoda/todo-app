@@ -21,7 +21,7 @@ export class TasksHelper {
     });
   }
 
-  public editTask(task: Task): Promise<Task> {
+  public updateTask(task: Task): Promise<Task> {
     return new Promise(resolve => {
       const taskItem: Task = {
         ...task,

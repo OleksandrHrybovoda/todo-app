@@ -10,17 +10,17 @@ import { StateManagementService } from 'src/app/services/state-management.servic
   templateUrl: './add-edit-form-task.component.html',
   styleUrls: ['./add-edit-form-task.component.sass']
 })
-export class AddEditFormTaskComponent implements OnInit {
+export class AddEditTaskFormComponent implements OnInit {
   addEditTaskForm: FormGroup;
   titleForm: string;
   title: FormControl;
   description: FormControl;
+  buttonText: string;
 
   constructor(private fb: FormBuilder,
               private tasksHelper: TasksHelper,
               private stateManagementService: StateManagementService,
               @Inject(MAT_DIALOG_DATA) private data?: Task) {
-    this.titleForm = this.data ? 'Edit' : 'Create';
   }
 
   ngOnInit(): void {
@@ -28,14 +28,14 @@ export class AddEditFormTaskComponent implements OnInit {
   }
 
   public addEditTask(form: FormGroup): void {
-    this.data ? this.editTask(form) : this.createTask(form);
+    this.isEditMode() ? this.editTask(form) : this.createTask(form);
   }
 
   private editTask(form: FormGroup): void {
     this.data.title = form.value.title;
     this.data.description = form.value.description;
-    this.tasksHelper.editTask(form.value).then(upadtedTask => {
-      this.stateManagementService.sendTaskEditEvent(upadtedTask);
+    this.tasksHelper.updateTask(form.value).then(upadtedTask => {
+      this.stateManagementService.sendTaskUpdateEvent(upadtedTask);
     });
   }
 
@@ -47,21 +47,31 @@ export class AddEditFormTaskComponent implements OnInit {
 
   private init(): void {
     this.initForm();
+    this.setTitle();
   }
 
   private initForm(): void {
-    if (this.data) {
-      this.title = new FormControl(this.data.title);
-      this.description = new FormControl(this.data.description);
+    let title: string = '';
+    let description: string = '';
+    if (this.isEditMode()) {
+      title = this.data.title;
+      description = this.data.description;
     }
-    if (!this.data) {
-      this.title = new FormControl('');
-      this.description = new FormControl('');
-    }
+    this.title = new FormControl(title);
+    this.description = new FormControl(description);
     this.addEditTaskForm = this.fb.group({
       title: this.title,
       description: this.description,
     });
+  }
+
+  private setTitle(): void {
+    this.titleForm = this.isEditMode() ? 'Edit task' : 'Create task';
+    this.buttonText = this.isEditMode() ? 'Edit' : 'Create';
+  }
+
+  private isEditMode(): boolean {
+    return this.data !== undefined;
   }
 
 }

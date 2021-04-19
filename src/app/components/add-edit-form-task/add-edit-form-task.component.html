@@ -1,4 +1,4 @@
-<app-dialog-wrapper [title]="titleForm + ' task'">
+<app-dialog-wrapper [title]="titleForm">
   <form [formGroup]="addEditTaskForm" class="form-group">
     <mat-form-field class="field-control">
       <mat-label>Task</mat-label>
@@ -18,6 +18,6 @@
           [disabled]="addEditTaskForm.invalid"
           color="primary"
           (click)="addEditTask(addEditTaskForm)">
-    {{ titleForm }}
+    {{ buttonText }}
   </button>
 </app-dialog-wrapper>
