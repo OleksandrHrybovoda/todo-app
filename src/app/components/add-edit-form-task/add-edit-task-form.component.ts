@@ -6,9 +6,9 @@ import { Task } from 'src/app/core/models/task.model';
 import { StateManagementService } from 'src/app/services/state-management.service';
 
 @Component({
-  selector: 'app-add-edit-form-task',
-  templateUrl: './add-edit-form-task.component.html',
-  styleUrls: ['./add-edit-form-task.component.sass']
+  selector: 'app-add-edit-task-form',
+  templateUrl: './add-edit-task-form.component.html',
+  styleUrls: ['./add-edit-task-form.component.sass']
 })
 export class AddEditTaskFormComponent implements OnInit {
   addEditTaskForm: FormGroup;
@@ -34,8 +34,8 @@ export class AddEditTaskFormComponent implements OnInit {
   private editTask(form: FormGroup): void {
     this.data.title = form.value.title;
     this.data.description = form.value.description;
-    this.tasksHelper.updateTask(form.value).then(upadtedTask => {
-      this.stateManagementService.sendTaskUpdateEvent(upadtedTask);
+    this.tasksHelper.updateTask(form.value).then(updatedTask => {
+      this.stateManagementService.sendTaskUpdateEvent(updatedTask);
     });
   }
 

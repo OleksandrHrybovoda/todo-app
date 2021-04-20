@@ -9,7 +9,7 @@ import { Task } from 'src/app/core/models/task.model';
 import { TasksProvider } from '../../../../services/tasks.provider';
 import { StateManagementService } from 'src/app/services/state-management.service';
 import { MessagesService } from 'src/app/services/messages.service';
-import { AddEditTaskFormComponent } from 'src/app/components/add-edit-form-task/add-edit-form-task.component';
+import { AddEditTaskFormComponent } from 'src/app/components/add-edit-form-task/add-edit-task-form.component';
 
 @Component({
   selector: 'app-tasks-list',
