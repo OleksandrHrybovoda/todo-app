@@ -2,6 +2,11 @@
   <button mat-raised-button>ADD NEW USER</button>
 </app-header>
 
+<mat-form-field>
+  <mat-label>Filter</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+</mat-form-field>
+
 <app-table-wrapper [dataSource]="users" [columns]="displayedColumns">
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef>ID</th>
