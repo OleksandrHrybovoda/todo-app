@@ -8,8 +8,8 @@ import { takeUntil } from 'rxjs/operators';
 import { Task } from 'src/app/core/models/task.model';
 import { TasksProvider } from '../../../../services/tasks.provider';
 import { StateManagementService } from 'src/app/services/state-management.service';
-import { AddNewTaskComponent } from '../add-new-task/add-new-task.component';
 import { MessagesService } from 'src/app/services/messages.service';
+import { AddEditTaskFormComponent } from 'src/app/components/add-edit-form-task/add-edit-task-form.component';
 
 @Component({
   selector: 'app-tasks-list',
@@ -42,13 +42,14 @@ export class TasksListComponent implements OnInit, OnDestroy {
   }
 
   public openDialogToAddTask(): void {
-    this.msgService.openDialog(AddNewTaskComponent);
+    this.msgService.openDialog(AddEditTaskFormComponent);
   }
 
   private init(): void {
     this.prepareTasksToShow();
     this.subscribeToTaskCreation();
     this.subscribeToTaskRemoval();
+    this.subscribeToTaskUpdate();
   }
 
   private prepareTasksToShow(): void {
@@ -87,6 +88,22 @@ export class TasksListComponent implements OnInit, OnDestroy {
 
   private deleteTaskFromList(task: Task): void {
     this.tasks = this.tasks.filter(taskItem => taskItem.id !== task.id);
+  }
+
+  private subscribeToTaskUpdate(): void {
+    this.stateManagementService.getTaskUpdateEvent()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(task => {
+        this.updateTaskInList(task);
+
+        const msg: string = 'Task successfully updated!';
+        this.showMessage(msg);
+      });
+  }
+
+  private updateTaskInList(task: Task): void {
+    const elementsIndex = this.tasks.findIndex(element => element.id === task.id );
+    this.tasks[elementsIndex] = task;
   }
 
   private showMessage(msg: string): void {

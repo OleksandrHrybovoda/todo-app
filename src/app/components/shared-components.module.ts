@@ -4,6 +4,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { ConfirmComponent } from './confirm/confirm.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { DialogWrapperComponent } from './dialog-wrapper/dialog-wrapper.component';
 
 @NgModule({
   imports: [
@@ -14,10 +15,12 @@ import { MatDialogModule } from '@angular/material/dialog';
   declarations: [
     HeaderComponent,
     ConfirmComponent,
+    DialogWrapperComponent,
   ],
   exports: [
     HeaderComponent,
     ConfirmComponent,
+    DialogWrapperComponent
   ]
 })
 export class SharedComponentsModule {

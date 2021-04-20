@@ -2,6 +2,7 @@ import {
   Component,
   Input
 } from '@angular/core';
+import { AddEditTaskFormComponent } from 'src/app/components/add-edit-form-task/add-edit-task-form.component';
 import { MessagesService } from 'src/app/services/messages.service';
 import { Task } from '../../../../core/models/task.model';
 import { StateManagementService } from '../../../../services/state-management.service';
@@ -25,13 +26,17 @@ export class TaskComponent {
     const message: string = 'Are you sure you want to delete task ?';
     const action: string = 'DELETE';
 
-    let deletionConfirmed = await this.msgService.confirm(title, message, action);
+    const deletionConfirmed = await this.msgService.confirm(title, message, action);
 
     if (!deletionConfirmed) {
       return;
     }
 
     this.stateManagementService.sendTaskRemovalEvent(this.task);
+  }
+
+  public onEditButtonClick(): void {
+    this.msgService.openDialog(AddEditTaskFormComponent, this.task);
   }
 
 }
