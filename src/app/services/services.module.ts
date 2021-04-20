@@ -4,6 +4,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MessagesService } from './messages.service';
 import { StateManagementService } from './state-management.service';
 import { TasksProvider } from './tasks.provider';
+import { UsersProvider } from './users.provider';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import { TasksProvider } from './tasks.provider';
   providers: [
     MessagesService,
     TasksProvider,
+    UsersProvider,
     StateManagementService
   ]
 })
