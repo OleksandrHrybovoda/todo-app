@@ -58,7 +58,7 @@ const users: User[] = [{
 }];
 
 @Injectable()
-export class USersProvider {
+export class UsersProvider {
 
   private usersMocks: BehaviorSubject<User[]> = new BehaviorSubject<User[]>(users);
 
