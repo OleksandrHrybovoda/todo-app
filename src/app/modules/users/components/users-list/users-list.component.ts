@@ -3,6 +3,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { User } from 'src/app/core/models/user.model';
 import { UsersProvider } from 'src/app/services/users.provider';
 
 @Component({
@@ -11,8 +12,9 @@ import { UsersProvider } from 'src/app/services/users.provider';
   styleUrls: ['./users-list.component.sass']
 })
 export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
-  public users = new MatTableDataSource();
   @ViewChild('sort') sort: MatSort;
+
+  public users: MatTableDataSource<User> = new MatTableDataSource();
   public displayedColumns: string[] = ['id', 'firstName', 'lastName', 'shortcut', 'age', 'gender', 'email', 'login'];
 
   private readonly destroy$ = new Subject();
