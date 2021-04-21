@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -10,18 +11,11 @@ import { UsersProvider } from 'src/app/services/users.provider';
   templateUrl: './users-list.component.html',
   styleUrls: ['./users-list.component.sass'],
 })
-export class UsersListComponent implements OnInit, OnDestroy {
+export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild('sort') sort: MatSort;
+
   public users: MatTableDataSource<User> = new MatTableDataSource();
-  public displayedColumns: string[] = [
-    'id',
-    'firstName',
-    'lastName',
-    'shortcut',
-    'age',
-    'gender',
-    'email',
-    'login',
-  ];
+  public displayedColumns: string[] = ['id', 'firstName', 'lastName', 'shortcut', 'age', 'gender', 'email', 'login'];
 
   private readonly destroy$ = new Subject();
 
@@ -36,6 +30,10 @@ export class UsersListComponent implements OnInit, OnDestroy {
     this.users.filter = filterValue.trim().toLowerCase();
   }
 
+  public ngAfterViewInit(): void {
+    this.users.sort = this.sort;
+  }
+
   private init(): void {
     this.prepareUsersToShow();
     this.activateFilterPredicate();
@@ -43,7 +41,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
   public activateFilterPredicate(): void {
     this.users.filterPredicate = (data: User, filterValue: string): boolean => {
-      const filter = filterValue.trim().toLocaleLowerCase();
+      const filter: string = filterValue.trim().toLocaleLowerCase();
       const result: boolean = (
         this.searchTerm(data.firstName, filter) ||
         this.searchTerm(data.lastName, filter) ||
