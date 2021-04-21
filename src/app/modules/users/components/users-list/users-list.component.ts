@@ -9,7 +9,7 @@ import { UsersProvider } from 'src/app/services/users.provider';
 @Component({
   selector: 'app-users-list',
   templateUrl: './users-list.component.html',
-  styleUrls: ['./users-list.component.sass']
+  styleUrls: ['./users-list.component.sass'],
 })
 export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('sort') sort: MatSort;
@@ -19,10 +19,15 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private readonly destroy$ = new Subject();
 
-  constructor(private usersProvider: UsersProvider) { }
+  constructor(private usersProvider: UsersProvider) {}
 
   public ngOnInit(): void {
     this.init();
+  }
+
+  public applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.users.filter = filterValue.trim().toLowerCase();
   }
 
   public ngAfterViewInit(): void {
@@ -31,12 +36,31 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private init(): void {
     this.prepareUsersToShow();
+    this.activateFilterPredicate();
+  }
+
+  public activateFilterPredicate(): void {
+    this.users.filterPredicate = (data: User, filterValue: string): boolean => {
+      const filter: string = filterValue.trim().toLocaleLowerCase();
+      const result: boolean = (
+        this.searchTerm(data.firstName, filter) ||
+        this.searchTerm(data.lastName, filter) ||
+        this.searchTerm(data.id.toString(), filter)
+      );
+
+      return result;
+    };
+  }
+
+  private searchTerm(value: string, filter: string): boolean {
+    return value.trim().toLowerCase().indexOf(filter) !== -1;
   }
 
   private prepareUsersToShow(): void {
-    this.usersProvider.getUsers()
+    this.usersProvider
+      .getUsers()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(users => {
+      .subscribe((users) => {
         this.users = new MatTableDataSource(users);
       });
   }
@@ -45,5 +69,4 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.destroy$.next();
     this.destroy$.complete();
   }
-
 }
