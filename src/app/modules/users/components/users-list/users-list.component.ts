@@ -8,15 +8,24 @@ import { UsersProvider } from 'src/app/services/users.provider';
 @Component({
   selector: 'app-users-list',
   templateUrl: './users-list.component.html',
-  styleUrls: ['./users-list.component.sass']
+  styleUrls: ['./users-list.component.sass'],
 })
 export class UsersListComponent implements OnInit, OnDestroy {
-  public users = new MatTableDataSource();
-  public displayedColumns: string[] = ['id', 'firstName', 'lastName', 'shortcut', 'age', 'gender', 'email', 'login'];
+  public users: MatTableDataSource<User> = new MatTableDataSource();
+  public displayedColumns: string[] = [
+    'id',
+    'firstName',
+    'lastName',
+    'shortcut',
+    'age',
+    'gender',
+    'email',
+    'login',
+  ];
 
   private readonly destroy$ = new Subject();
 
-  constructor(private usersProvider: UsersProvider) { }
+  constructor(private usersProvider: UsersProvider) {}
 
   public ngOnInit(): void {
     this.init();
@@ -34,20 +43,26 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
   public activateFilterPredicate(): void {
     this.users.filterPredicate = (data: User, filterValue: string): boolean => {
-      return data.firstName
-        .trim()
-        .toLocaleLowerCase().indexOf(filterValue.trim().toLocaleLowerCase()) >= 0 || data.lastName
-        .trim()
-        .toLocaleLowerCase().indexOf(filterValue.trim().toLocaleLowerCase()) >= 0 || data.id.toString()
-        .trim()
-        .toLocaleLowerCase().indexOf(filterValue.trim().toLocaleLowerCase()) >= 0;
+      const filter = filterValue.trim().toLocaleLowerCase();
+      const result: boolean = (
+        this.searchTerm(data.firstName, filter) ||
+        this.searchTerm(data.lastName, filter) ||
+        this.searchTerm(data.id.toString(), filter)
+      );
+
+      return result;
     };
   }
 
+  private searchTerm(value: string, filter: string): boolean {
+    return value.trim().toLowerCase().indexOf(filter) !== -1;
+  }
+
   private prepareUsersToShow(): void {
-    this.usersProvider.getUsers()
+    this.usersProvider
+      .getUsers()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(users => {
+      .subscribe((users) => {
         this.users = new MatTableDataSource(users);
       });
   }
@@ -56,5 +71,4 @@ export class UsersListComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
-
 }
