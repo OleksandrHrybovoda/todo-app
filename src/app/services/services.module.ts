@@ -4,6 +4,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MessagesService } from './messages.service';
 import { StateManagementService } from './state-management.service';
 import { TasksProvider } from './tasks.provider';
+import { UserStateManagementService } from './user-state-management.service';
 import { UsersProvider } from './users.provider';
 
 @NgModule({
@@ -15,7 +16,8 @@ import { UsersProvider } from './users.provider';
     MessagesService,
     TasksProvider,
     UsersProvider,
-    StateManagementService
+    StateManagementService,
+    UserStateManagementService
   ]
 })
 export class ServicesModule { }

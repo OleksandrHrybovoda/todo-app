@@ -3,7 +3,10 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { AddEditFormUserComponent } from 'src/app/components/add-edit-form-user/add-edit-form-user.component';
 import { User } from 'src/app/core/models/user.model';
+import { MessagesService } from 'src/app/services/messages.service';
+import { UserStateManagementService } from 'src/app/services/user-state-management.service';
 import { UsersProvider } from 'src/app/services/users.provider';
 
 @Component({
@@ -15,14 +18,32 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('sort') sort: MatSort;
 
   public users: MatTableDataSource<User> = new MatTableDataSource();
-  public displayedColumns: string[] = ['id', 'firstName', 'lastName', 'shortcut', 'age', 'gender', 'email', 'login'];
+  public displayedColumns: string[] = ['id', 'firstName', 'lastName', 'shortcut', 'age', 'gender', 'email', 'login', 'actions'];
 
   private readonly destroy$ = new Subject();
 
-  constructor(private usersProvider: UsersProvider) {}
+  constructor(private usersProvider: UsersProvider,
+              private msgService: MessagesService,
+              private userStateManagementService: UserStateManagementService) {}
 
   public ngOnInit(): void {
     this.init();
+  }
+
+  private subscribeToUserCreation(): void {
+    this.userStateManagementService.getUserCreationEvent()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(user => {
+        this.addNewUserToList(user);
+
+        const msg: string = 'Successfully added new user!';
+        this.showMessage(msg);
+      });
+  }
+
+  private addNewUserToList(user: User): void {
+    this.users.data.push(user);
+    this.users.filter = '';
   }
 
   public applyFilter(event: Event): void {
@@ -34,9 +55,14 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.users.sort = this.sort;
   }
 
+  public openDialogToAddUser(): void {
+    this.msgService.openDialog(AddEditFormUserComponent);
+  }
+
   private init(): void {
     this.prepareUsersToShow();
     this.activateFilterPredicate();
+    this.subscribeToUserCreation();
   }
 
   public activateFilterPredicate(): void {
@@ -63,6 +89,10 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe((users) => {
         this.users = new MatTableDataSource(users);
       });
+  }
+
+  private showMessage(msg: string): void {
+    this.msgService.openSnackBar(msg);
   }
 
   public ngOnDestroy(): void {
