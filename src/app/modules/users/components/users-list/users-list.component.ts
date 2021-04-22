@@ -46,6 +46,36 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.users.filter = '';
   }
 
+  private subscribeToUserRemoval(): void {
+    this.userStateManagementService.getUserRemovalEvent()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(user => {
+        this.deleteUserFromList(user);
+
+        const msg: string = 'Successfully removed user!';
+        this.showMessage(msg);
+      });
+  }
+
+  private deleteUserFromList(user: User): void {
+    this.users.data = this.users.data.filter(userItem => userItem.id !== user.id);
+    this.users.filter = '';
+  }
+
+  public async onDeleteButtonClick(user: User): Promise<void> {
+    const title: string = 'Delete user';
+    const message: string = 'Are you sure you want to delete user ?';
+    const action: string = 'DELETE';
+
+    const deletionConfirmed = await this.msgService.confirm(title, message, action);
+
+    if (!deletionConfirmed) {
+      return;
+    }
+
+    this.userStateManagementService.sendUserRemovalEvent(user);
+  }
+
   public applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.users.filter = filterValue.trim().toLowerCase();
@@ -63,6 +93,7 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.prepareUsersToShow();
     this.activateFilterPredicate();
     this.subscribeToUserCreation();
+    this.subscribeToUserRemoval();
   }
 
   public activateFilterPredicate(): void {

@@ -7,6 +7,7 @@ import { User } from '../core/models/user.model';
 })
 export class UserStateManagementService {
   private userCreationSubject: Subject<User> = new Subject<User>();
+  private userRemovalSubject: Subject<User> = new Subject<User>();
 
   constructor() { }
 
@@ -14,7 +15,15 @@ export class UserStateManagementService {
     return this.userCreationSubject;
   }
 
+  public getUserRemovalEvent(): Subject<User> {
+    return this.userRemovalSubject;
+  }
+
   public sendUserCreationEvent(user: User): void {
     this.userCreationSubject.next(user);
+  }
+
+  public sendUserRemovalEvent(user: User): void {
+    this.userRemovalSubject.next(user);
   }
 }
