@@ -62,11 +62,10 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.users.filter = '';
   }
 
-  public async onDeleteButtonClick(id: number): Promise<void> {
+  public async onDeleteButtonClick(user: User): Promise<void> {
     const title: string = 'Delete user';
     const message: string = 'Are you sure you want to delete user ?';
     const action: string = 'DELETE';
-    const user: User = this.users.data.filter(userItem => userItem.id === id)[0];
 
     const deletionConfirmed = await this.msgService.confirm(title, message, action);
 
