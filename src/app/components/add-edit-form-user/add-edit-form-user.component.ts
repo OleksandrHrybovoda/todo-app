@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { UsersHelper } from 'src/app/core/helpers/users.helper';
+import { AuthService } from 'src/app/services/auth.service';
 import { UserStateManagementService } from 'src/app/services/user-state-management.service';
 
 @Component({
@@ -24,7 +25,8 @@ export class AddEditFormUserComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private userHelper: UsersHelper,
-              private userStateManagementService: UserStateManagementService) { }
+              private userStateManagementService: UserStateManagementService,
+              private authService: AuthService) { }
 
   public ngOnInit(): void {
     this.init();
@@ -73,21 +75,8 @@ export class AddEditFormUserComponent implements OnInit {
     this.createUser(form);
   }
 
-  public generateStrongPassword(): void {
-    const specials: string = '!@#$%^&*()_+{}:"<>?\|[];\',./`~';
-    const lowercase: string = 'abcdefghijklmnopqrstuvwxyz';
-    const uppercase: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const numbers: string = '0123456789';
-    let password: string = '';
-    const length: number = 15;
-
-    const all: string = specials + lowercase + uppercase + numbers;
-
-    for (let index = 0; index < length; index++) {
-      password += all[Math.floor(Math.random() * all.length)];
-    }
-
-    this.password.setValue(password);
+  public generatePassword(): void {
+    this.password.setValue(this.authService.generateStrongPassword(15));
   }
 
   private createUser(form: FormGroup): void {
