@@ -18,6 +18,16 @@ export class UsersHelper {
     });
   }
 
+  public updateUser(user: User): Promise<User> {
+    return new Promise(resolve => {
+      const userItem: User = {
+        ...user,
+      };
+
+      resolve(userItem);
+    });
+  }
+
   private generateId(): number {
     return Math.floor(Math.random() * 100);
   }
