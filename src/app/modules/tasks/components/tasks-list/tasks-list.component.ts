@@ -10,13 +10,14 @@ import { TasksProvider } from '../../../../services/tasks.provider';
 import { StateManagementService } from 'src/app/services/state-management.service';
 import { MessagesService } from 'src/app/services/messages.service';
 import { AddEditTaskFormComponent } from 'src/app/components/add-edit-form-task/add-edit-task-form.component';
+import { ShowMessageComponent } from 'src/app/components/show-message/show-message.component';
 
 @Component({
   selector: 'app-tasks-list',
   templateUrl: './tasks-list.component.html',
   styleUrls: ['./tasks-list.component.sass'],
 })
-export class TasksListComponent implements OnInit, OnDestroy {
+export class TasksListComponent extends ShowMessageComponent implements OnInit, OnDestroy {
 
   public tasks: Task[];
 
@@ -25,8 +26,10 @@ export class TasksListComponent implements OnInit, OnDestroy {
   constructor(
     private tasksProvider: TasksProvider,
     private stateManagementService: StateManagementService,
-    private msgService: MessagesService
-  ) { }
+    public msgService: MessagesService
+  ) {
+    super(msgService);
+  }
 
   public ngOnInit(): void {
     this.init();
@@ -106,7 +109,4 @@ export class TasksListComponent implements OnInit, OnDestroy {
     this.tasks[elementsIndex] = task;
   }
 
-  private showMessage(msg: string): void {
-    this.msgService.openSnackBar(msg);
-  }
 }

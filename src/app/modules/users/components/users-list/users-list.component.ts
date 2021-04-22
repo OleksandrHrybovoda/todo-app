@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AddEditFormUserComponent } from 'src/app/components/add-edit-form-user/add-edit-form-user.component';
+import { ShowMessageComponent } from 'src/app/components/show-message/show-message.component';
 import { User } from 'src/app/core/models/user.model';
 import { MessagesService } from 'src/app/services/messages.service';
 import { UserStateManagementService } from 'src/app/services/user-state-management.service';
@@ -14,7 +15,7 @@ import { UsersProvider } from 'src/app/services/users.provider';
   templateUrl: './users-list.component.html',
   styleUrls: ['./users-list.component.sass'],
 })
-export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
+export class UsersListComponent extends ShowMessageComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('sort') sort: MatSort;
 
   public users: MatTableDataSource<User> = new MatTableDataSource();
@@ -23,8 +24,10 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
   private readonly destroy$ = new Subject();
 
   constructor(private usersProvider: UsersProvider,
-              private msgService: MessagesService,
-              private userStateManagementService: UserStateManagementService) {}
+              public msgService: MessagesService,
+              private userStateManagementService: UserStateManagementService) {
+                super(msgService);
+              }
 
   public ngOnInit(): void {
     this.init();
@@ -37,6 +40,7 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
         this.addNewUserToList(user);
 
         const msg: string = 'Successfully added new user!';
+
         this.showMessage(msg);
       });
   }
@@ -120,10 +124,6 @@ export class UsersListComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe((users) => {
         this.users = new MatTableDataSource(users);
       });
-  }
-
-  private showMessage(msg: string): void {
-    this.msgService.openSnackBar(msg);
   }
 
   public ngOnDestroy(): void {

@@ -7,6 +7,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { DialogWrapperComponent } from './dialog-wrapper/dialog-wrapper.component';
 import { TableWrapperComponent } from './table-wrapper/table-wrapper.component';
 import { MatTableModule } from '@angular/material/table';
+import { ShowMessageComponent } from './show-message/show-message.component';
 
 @NgModule({
   imports: [
@@ -20,12 +21,13 @@ import { MatTableModule } from '@angular/material/table';
     ConfirmComponent,
     DialogWrapperComponent,
     TableWrapperComponent,
+    ShowMessageComponent,
   ],
   exports: [
     HeaderComponent,
     ConfirmComponent,
     DialogWrapperComponent,
-    TableWrapperComponent
+    TableWrapperComponent,
   ]
 })
 export class SharedComponentsModule {
