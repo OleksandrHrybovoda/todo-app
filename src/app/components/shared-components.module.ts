@@ -7,7 +7,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { DialogWrapperComponent } from './dialog-wrapper/dialog-wrapper.component';
 import { TableWrapperComponent } from './table-wrapper/table-wrapper.component';
 import { MatTableModule } from '@angular/material/table';
-import { ShowMessageComponent } from './show-message/show-message.component';
+import { EntitiesListBaseClass } from './entities-list/entities-list-base-class.component';
 
 @NgModule({
   imports: [
@@ -21,7 +21,7 @@ import { ShowMessageComponent } from './show-message/show-message.component';
     ConfirmComponent,
     DialogWrapperComponent,
     TableWrapperComponent,
-    ShowMessageComponent,
+    EntitiesListBaseClass,
   ],
   exports: [
     HeaderComponent,

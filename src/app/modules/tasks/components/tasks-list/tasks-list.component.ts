@@ -10,14 +10,14 @@ import { TasksProvider } from '../../../../services/tasks.provider';
 import { StateManagementService } from 'src/app/services/state-management.service';
 import { MessagesService } from 'src/app/services/messages.service';
 import { AddEditTaskFormComponent } from 'src/app/components/add-edit-form-task/add-edit-task-form.component';
-import { ShowMessageComponent } from 'src/app/components/show-message/show-message.component';
+import { EntitiesListBaseClass } from 'src/app/components/entities-list/entities-list-base-class.component';
 
 @Component({
   selector: 'app-tasks-list',
   templateUrl: './tasks-list.component.html',
   styleUrls: ['./tasks-list.component.sass'],
 })
-export class TasksListComponent extends ShowMessageComponent implements OnInit, OnDestroy {
+export class TasksListComponent extends EntitiesListBaseClass implements OnInit, OnDestroy {
 
   public tasks: Task[];
 
@@ -26,7 +26,7 @@ export class TasksListComponent extends ShowMessageComponent implements OnInit, 
   constructor(
     private tasksProvider: TasksProvider,
     private stateManagementService: StateManagementService,
-    public msgService: MessagesService
+    msgService: MessagesService
   ) {
     super(msgService);
   }

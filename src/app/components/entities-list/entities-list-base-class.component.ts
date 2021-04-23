@@ -2,12 +2,9 @@ import { Component } from '@angular/core';
 import { MessagesService } from 'src/app/services/messages.service';
 
 @Component({
-  selector: 'app-show-message',
-  templateUrl: './show-message.component.html',
-  styleUrls: ['./show-message.component.sass']
+  template: '',
 })
-export class ShowMessageComponent {
-  msg: string;
+export class EntitiesListBaseClass {
 
   constructor(public msgService: MessagesService) { }
 
