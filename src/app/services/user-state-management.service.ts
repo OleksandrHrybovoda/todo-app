@@ -8,11 +8,16 @@ import { User } from '../core/models/user.model';
 export class UserStateManagementService {
   private userCreationSubject: Subject<User> = new Subject<User>();
   private userRemovalSubject: Subject<User> = new Subject<User>();
+  private userUpdateSubject: Subject<User> = new Subject<User>();
 
   constructor() { }
 
   public getUserCreationEvent(): Subject<User> {
     return this.userCreationSubject;
+  }
+
+  public getUserUpdateEvent(): Subject<User> {
+    return this.userUpdateSubject;
   }
 
   public getUserRemovalEvent(): Subject<User> {
@@ -21,6 +26,10 @@ export class UserStateManagementService {
 
   public sendUserCreationEvent(user: User): void {
     this.userCreationSubject.next(user);
+  }
+
+  public sendUserUpdateEvent(user: User): void {
+    this.userUpdateSubject.next(user);
   }
 
   public sendUserRemovalEvent(user: User): void {

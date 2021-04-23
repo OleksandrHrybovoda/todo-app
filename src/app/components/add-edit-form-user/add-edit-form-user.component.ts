@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UsersHelper } from 'src/app/core/helpers/users.helper';
+import { User } from 'src/app/core/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserStateManagementService } from 'src/app/services/user-state-management.service';
 
@@ -26,7 +28,9 @@ export class AddEditFormUserComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private userHelper: UsersHelper,
               private userStateManagementService: UserStateManagementService,
-              private authService: AuthService) { }
+              private authService: AuthService,
+              private usersHelper: UsersHelper,
+              @Inject(MAT_DIALOG_DATA) private user?: User) { }
 
   public ngOnInit(): void {
     this.init();
@@ -38,14 +42,30 @@ export class AddEditFormUserComponent implements OnInit {
   }
 
   private initForm(): void {
-    this.firstName = new FormControl('', Validators.required);
-    this.lastName = new FormControl('', Validators.required);
-    this.shortcut = new FormControl('', Validators.required);
-    this.age = new FormControl('', [Validators.required, Validators.min(1)]);
-    this.gender = new FormControl('', Validators.required);
-    this.email = new FormControl('', [Validators.required, Validators.email]);
-    this.login = new FormControl('', Validators.required);
-    this.password = new FormControl('', [Validators.required, Validators.minLength(3)]);
+    let firstName = '';
+    let lastName = '';
+    let shortcut = '';
+    let age = null;
+    let gender = '';
+    let email = '';
+    let login = '';
+    if (this.isEditMode()) {
+      firstName = this.user.firstName;
+      lastName = this.user.lastName;
+      shortcut = this.user.shortcut;
+      age = this.user.age;
+      gender = this.user.gender;
+      email = this.user.email;
+      login = this.user.login;
+    }
+    this.firstName = new FormControl(firstName, Validators.required);
+    this.lastName = new FormControl(lastName, Validators.required);
+    this.shortcut = new FormControl(shortcut, Validators.required);
+    this.age = new FormControl(age, [Validators.required, Validators.min(1)]);
+    this.gender = new FormControl(gender, Validators.required);
+    this.email = new FormControl(email, [Validators.required, Validators.email]);
+    this.login = new FormControl(login, Validators.required);
+    this.password = new FormControl('', Validators.minLength(3));
     this.addEditUserForm = this.fb.group({
       firstName: this.firstName,
       lastName: this.lastName,
@@ -67,22 +87,36 @@ export class AddEditFormUserComponent implements OnInit {
   }
 
   private setTitle(): void {
-    this.titleForm = 'Create user';
-    this.buttonText = 'Create';
+    this.titleForm = this.isEditMode() ? 'Edit user' : 'Create user';
+    this.buttonText = this.isEditMode() ? 'Edit' : 'Create';
   }
 
   public addEditUser(form: FormGroup): void {
-    this.createUser(form);
+    this.isEditMode() ? this.editUser(form) : this.createUser(form);
   }
 
   public generatePassword(): void {
     this.password.setValue(this.authService.generateStrongPassword(15));
   }
 
+  private editUser(form: FormGroup): void {
+    this.user = {
+      id: this.user.id,
+      ...form.value
+    };
+    this.usersHelper.updateUser(this.user).then(updatedUser => {
+      this.userStateManagementService.sendUserUpdateEvent(updatedUser);
+    });
+  }
+
   private createUser(form: FormGroup): void {
     this.userHelper.createNewUser(form.value).then(createdUser => {
       this.userStateManagementService.sendUserCreationEvent(createdUser);
     });
+  }
+
+  private isEditMode(): boolean {
+    return this.user !== undefined;
   }
 
 }
