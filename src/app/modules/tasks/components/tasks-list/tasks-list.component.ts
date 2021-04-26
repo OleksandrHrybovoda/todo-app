@@ -44,6 +44,21 @@ export class TasksListComponent extends EntitiesListBaseClass implements OnInit,
     this.destroy$.complete();
   }
 
+  public showMoreTasks(): void {
+    for (let index = 0; index < 10; index++) {
+      const id = this.tasks.length + 1;
+      this.tasks.push({
+        id,
+        title: `Task ${id}`,
+        description: `Simple Task ${id}`,
+        lastUpdated: Date.now(),
+        lastUpdatedDate: Date.now(),
+      });
+    }
+    const msg: string = '10 Tasks successfully fetched.';
+    this.showMessage(msg);
+  }
+
   public openDialogToAddTask(): void {
     this.msgService.openDialog(AddEditTaskFormComponent);
   }
