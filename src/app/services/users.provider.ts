@@ -55,6 +55,16 @@ const users: User[] = [{
   email: 'katya@gmail.com',
   login: 'katya18',
   isAdmin: false
+}, {
+  id: 6,
+  firstName: 'Roman',
+  lastName: 'Chrome',
+  shortcut: 'Hello, my name is Roman',
+  age: 25,
+  gender: 'm',
+  email: 'roman@gmail.com',
+  login: 'roman25',
+  isAdmin: false
 }];
 
 @Injectable()
