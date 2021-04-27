@@ -76,7 +76,6 @@ export class TasksListComponent extends EntitiesListBaseClass implements OnInit,
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (tasks) => {
-          console.log(tasks);
           this.tasks = tasks;
         },
         () => {

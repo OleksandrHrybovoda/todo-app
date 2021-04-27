@@ -31,8 +31,4 @@ export class TasksHelper {
     });
   }
 
-  private generateId(): number {
-    return Math.floor(Math.random() * 100);
-  }
-
 }
