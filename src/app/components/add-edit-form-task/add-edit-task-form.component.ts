@@ -33,7 +33,7 @@ export class AddEditTaskFormComponent implements OnInit {
 
   private editTask(form: FormGroup): void {
     this.data.title = form.value.title;
-    this.data.description = form.value.description;
+    this.data.desc = form.value.description;
     this.tasksHelper.updateTask(form.value).then(updatedTask => {
       this.stateManagementService.sendTaskUpdateEvent(updatedTask);
     });
@@ -55,7 +55,7 @@ export class AddEditTaskFormComponent implements OnInit {
     let description: string = '';
     if (this.isEditMode()) {
       title = this.data.title;
-      description = this.data.description;
+      description = this.data.desc;
     }
     this.title = new FormControl(title);
     this.description = new FormControl(description);

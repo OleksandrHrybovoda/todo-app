@@ -9,10 +9,9 @@ export class TasksHelper {
   public createNewTask(task: Task): Promise<Task> {
     return new Promise(resolve => {
       const taskItem: Task = {
-        id: this.generateId(),
         ...task,
-        lastUpdated: Date.now(),
-        lastUpdatedDate: Date.now()
+        created_date: Date.now(),
+        last_update_date: Date.now()
       };
 
       // todo - here task is sent to server and saved
@@ -25,7 +24,7 @@ export class TasksHelper {
     return new Promise(resolve => {
       const taskItem: Task = {
         ...task,
-        lastUpdatedDate: Date.now()
+        last_update_date: Date.now()
       };
 
       resolve(taskItem);

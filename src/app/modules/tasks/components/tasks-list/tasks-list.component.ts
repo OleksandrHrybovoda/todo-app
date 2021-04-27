@@ -11,6 +11,7 @@ import { StateManagementService } from 'src/app/services/state-management.servic
 import { MessagesService } from 'src/app/services/messages.service';
 import { AddEditTaskFormComponent } from 'src/app/components/add-edit-form-task/add-edit-task-form.component';
 import { EntitiesListBaseClass } from 'src/app/components/entities-list/entities-list-base-class.component';
+import { TasksApiService } from 'src/app/services/tasks-api.service';
 
 @Component({
   selector: 'app-tasks-list',
@@ -24,9 +25,9 @@ export class TasksListComponent extends EntitiesListBaseClass implements OnInit,
   private readonly destroy$ = new Subject();
 
   constructor(
-    private tasksProvider: TasksProvider,
     private stateManagementService: StateManagementService,
-    msgService: MessagesService
+    msgService: MessagesService,
+    private tasksApiService: TasksApiService
   ) {
     super(msgService);
   }
@@ -36,7 +37,7 @@ export class TasksListComponent extends EntitiesListBaseClass implements OnInit,
   }
 
   public trackByItem(index: number, item: Task): number {
-    return item.id;
+    return item._id;
   }
 
   public ngOnDestroy(): void {
@@ -48,11 +49,11 @@ export class TasksListComponent extends EntitiesListBaseClass implements OnInit,
     for (let index = 0; index < 10; index++) {
       const id = this.tasks.length + 1;
       this.tasks.push({
-        id,
+        _id: id,
         title: `Task ${id}`,
-        description: `Simple Task ${id}`,
-        lastUpdated: Date.now(),
-        lastUpdatedDate: Date.now(),
+        desc: `Simple Task ${id}`,
+        created_date: Date.now(),
+        last_update_date: Date.now(),
       });
     }
     const msg: string = '10 Tasks successfully fetched.';
@@ -71,11 +72,17 @@ export class TasksListComponent extends EntitiesListBaseClass implements OnInit,
   }
 
   private prepareTasksToShow(): void {
-    this.tasksProvider.getTasks()
+    this.tasksApiService.getTasks()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(tasks => {
-        this.tasks = tasks;
-      });
+      .subscribe(
+        (tasks) => {
+          console.log(tasks);
+          this.tasks = tasks;
+        },
+        () => {
+          const msg: string = 'Something went wrong!';
+          this.showMessage(msg);
+        });
   }
 
   private subscribeToTaskCreation(): void {
@@ -105,7 +112,7 @@ export class TasksListComponent extends EntitiesListBaseClass implements OnInit,
   }
 
   private deleteTaskFromList(task: Task): void {
-    this.tasks = this.tasks.filter(taskItem => taskItem.id !== task.id);
+    this.tasks = this.tasks.filter(taskItem => taskItem._id !== task._id);
   }
 
   private subscribeToTaskUpdate(): void {
@@ -120,7 +127,7 @@ export class TasksListComponent extends EntitiesListBaseClass implements OnInit,
   }
 
   private updateTaskInList(task: Task): void {
-    const elementsIndex = this.tasks.findIndex(element => element.id === task.id );
+    const elementsIndex = this.tasks.findIndex(element => element._id === task._id );
     this.tasks[elementsIndex] = task;
   }
 

@@ -1,7 +1,7 @@
 export class Task {
-  id: number;
+  _id: number;
   title: string;
-  description: string;
-  lastUpdated: number;
-  lastUpdatedDate: number;
+  desc: string;
+  created_date: number;
+  last_update_date: number;
 }
