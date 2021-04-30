@@ -9,10 +9,7 @@ export class TasksHelper {
   public createNewTask(task: Task): Promise<Task> {
     return new Promise(resolve => {
       const taskItem: Task = {
-        id: this.generateId(),
-        ...task,
-        lastUpdated: Date.now(),
-        lastUpdatedDate: Date.now()
+        ...task
       };
 
       // todo - here task is sent to server and saved
@@ -24,16 +21,11 @@ export class TasksHelper {
   public updateTask(task: Task): Promise<Task> {
     return new Promise(resolve => {
       const taskItem: Task = {
-        ...task,
-        lastUpdatedDate: Date.now()
+        ...task
       };
 
       resolve(taskItem);
     });
-  }
-
-  private generateId(): number {
-    return Math.floor(Math.random() * 100);
   }
 
 }

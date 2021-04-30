@@ -4,6 +4,9 @@ import {
   Subject
 } from 'rxjs';
 import { Task } from '../core/models/task.model';
+import { MessagesService } from './messages.service';
+import { ResponseMapperService } from './response-mapper.service';
+import { TasksApiService } from './tasks-api.service';
 
 const tasks: Task[] = [{
   id: 1,
@@ -72,9 +75,23 @@ export class TasksProvider {
 
   private tasksMocks: BehaviorSubject<Task[]> = new BehaviorSubject<Task[]>(tasks);
 
-  constructor() { }
+  constructor(private tasksApiService: TasksApiService,
+              private msgService: MessagesService,
+              private responseMapper: ResponseMapperService) { }
 
   public getTasks(): Subject<Task[]> {
     return this.tasksMocks;
+  }
+
+  public getTasksFromServer() {
+    this.tasksApiService.getTasks()
+    .subscribe(
+      (res) => {
+        this.responseMapper.createDataInstance(res);
+      },
+      (err) => {
+        this.msgService.openSnackBar(err);
+      }
+    );
   }
 }

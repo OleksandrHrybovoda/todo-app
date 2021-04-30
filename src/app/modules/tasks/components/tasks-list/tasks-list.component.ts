@@ -24,9 +24,9 @@ export class TasksListComponent extends EntitiesListBaseClass implements OnInit,
   private readonly destroy$ = new Subject();
 
   constructor(
-    private tasksProvider: TasksProvider,
     private stateManagementService: StateManagementService,
-    msgService: MessagesService
+    msgService: MessagesService,
+    private tasksProvider: TasksProvider,
   ) {
     super(msgService);
   }
@@ -71,11 +71,7 @@ export class TasksListComponent extends EntitiesListBaseClass implements OnInit,
   }
 
   private prepareTasksToShow(): void {
-    this.tasksProvider.getTasks()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(tasks => {
-        this.tasks = tasks;
-      });
+    this.tasksProvider.getTasksFromServer();
   }
 
   private subscribeToTaskCreation(): void {
