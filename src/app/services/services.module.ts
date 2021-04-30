@@ -4,7 +4,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService } from './auth.service';
 import { MessagesService } from './messages.service';
-import { ResponseMapperService } from './response-mapper.service';
 import { StateManagementService } from './state-management.service';
 import { TasksApiService } from './tasks-api.service';
 import { TasksProvider } from './tasks.provider';
@@ -27,7 +26,6 @@ import { UsersProvider } from './users.provider';
     AuthService,
     TasksApiService,
     UsersApiService,
-    ResponseMapperService
   ]
 })
 export class ServicesModule { }

@@ -35,7 +35,7 @@ export class TasksListComponent extends EntitiesListBaseClass implements OnInit,
     this.init();
   }
 
-  public trackByItem(index: number, item: Task): number {
+  public trackByItem(index: number, item: Task): string {
     return item.id;
   }
 
@@ -46,13 +46,13 @@ export class TasksListComponent extends EntitiesListBaseClass implements OnInit,
 
   public showMoreTasks(): void {
     for (let index = 0; index < 10; index++) {
-      const id = this.tasks.length + 1;
+      const id = this.tasks.length + 1 + "";
       this.tasks.push({
         id,
         title: `Task ${id}`,
         description: `Simple Task ${id}`,
-        lastUpdated: Date.now(),
-        lastUpdatedDate: Date.now(),
+        creationDate: `${Date.now()}`,
+        lastUpdatedDate: `${Date.now()}`,
       });
     }
     const msg: string = '10 Tasks successfully fetched.';
@@ -71,7 +71,9 @@ export class TasksListComponent extends EntitiesListBaseClass implements OnInit,
   }
 
   private prepareTasksToShow(): void {
-    this.tasksProvider.getTasksFromServer();
+    this.tasksProvider.getTasks().subscribe(tasks => {
+      this.tasks = tasks;
+    });
   }
 
   private subscribeToTaskCreation(): void {
@@ -116,7 +118,7 @@ export class TasksListComponent extends EntitiesListBaseClass implements OnInit,
   }
 
   private updateTaskInList(task: Task): void {
-    const elementsIndex = this.tasks.findIndex(element => element.id === task.id );
+    const elementsIndex = this.tasks.findIndex(element => element.id === task.id);
     this.tasks[elementsIndex] = task;
   }
 

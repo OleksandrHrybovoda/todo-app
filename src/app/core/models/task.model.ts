@@ -1,7 +1,16 @@
 export class Task {
-  id: number;
+  id: string;
   title: string;
   description: string;
-  lastUpdated: number;
-  lastUpdatedDate: number;
+  creationDate: string;
+  lastUpdatedDate: string;
+}
+
+export class TaskResponse {
+  _v: string;
+  _id: string;
+  title: string;
+  desc: string;
+  created_date: string;
+  last_update_date: string;
 }
