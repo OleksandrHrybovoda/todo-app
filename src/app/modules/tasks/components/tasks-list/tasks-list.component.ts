@@ -20,8 +20,8 @@ import { EntitiesListBaseClass } from 'src/app/components/entities-list/entities
 export class TasksListComponent extends EntitiesListBaseClass implements OnInit, OnDestroy {
 
   public tasks: Task[];
-  public limit: number = 10;
-  public offset: number = 0;
+  private limit: number = 10;
+  private offset: number = 0;
 
   private readonly destroy$ = new Subject();
 
