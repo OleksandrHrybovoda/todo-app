@@ -20,6 +20,8 @@ import { EntitiesListBaseClass } from 'src/app/components/entities-list/entities
 export class TasksListComponent extends EntitiesListBaseClass implements OnInit, OnDestroy {
 
   public tasks: Task[];
+  public limit: number = 10;
+  public offset: number = 0;
 
   private readonly destroy$ = new Subject();
 
@@ -45,18 +47,8 @@ export class TasksListComponent extends EntitiesListBaseClass implements OnInit,
   }
 
   public showMoreTasks(): void {
-    for (let index = 0; index < 10; index++) {
-      const id = this.tasks.length + 1 + "";
-      this.tasks.push({
-        id,
-        title: `Task ${id}`,
-        description: `Simple Task ${id}`,
-        creationDate: `${Date.now()}`,
-        lastUpdatedDate: `${Date.now()}`,
-      });
-    }
-    const msg: string = '10 Tasks successfully fetched.';
-    this.showMessage(msg);
+    this.limit += 10;
+    this.prepareTasksToShow(this.limit, this.offset);
   }
 
   public openDialogToAddTask(): void {
@@ -70,10 +62,21 @@ export class TasksListComponent extends EntitiesListBaseClass implements OnInit,
     this.subscribeToTaskUpdate();
   }
 
-  private prepareTasksToShow(): void {
-    this.tasksProvider.getTasks().subscribe(tasks => {
-      this.tasks = tasks;
-    });
+  private prepareTasksToShow(limit?: number, offset?: number): void {
+    this.tasksProvider.getTasks(limit, offset)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (tasks) => {
+          this.tasks = tasks;
+          if (this.limit > 10) {
+            const msg: string = '10 Tasks successfully fetched.';
+            this.showMessage(msg);
+          }
+        },
+        (err) => {
+          const msg: string = err.error.message;
+          this.showMessage(msg);
+        });
   }
 
   private subscribeToTaskCreation(): void {
