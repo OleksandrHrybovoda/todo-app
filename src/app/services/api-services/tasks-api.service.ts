@@ -37,4 +37,10 @@ export class TasksApiService {
     return this.taskMapper.mapSingleEntity(source);
   }
 
+  public deleteTask(taskId: string): Observable<string> {
+    const request = `${this.endpoint}/task/${taskId}`;
+    const source = this.http.delete<string>(request);
+    return source;
+  }
+
 }

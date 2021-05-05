@@ -4,6 +4,7 @@ import {
 } from '@angular/core';
 import { AddEditTaskFormComponent } from 'src/app/components/add-edit-form-task/add-edit-task-form.component';
 import { MessagesService } from 'src/app/services/messages.service';
+import { TasksProvider } from 'src/app/services/tasks.provider';
 import { Task } from '../../../../core/models/task.model';
 import { StateManagementService } from '../../../../services/state-management.service';
 
@@ -18,7 +19,8 @@ export class TaskComponent {
 
   constructor(
     private msgService: MessagesService,
-    private stateManagementService: StateManagementService
+    private stateManagementService: StateManagementService,
+    private tasksProvider: TasksProvider
   ) { }
 
   public async onDeleteButtonClick(): Promise<void> {
@@ -32,7 +34,9 @@ export class TaskComponent {
       return;
     }
 
-    this.stateManagementService.sendTaskRemovalEvent(this.task);
+    this.tasksProvider.deleteTask(this.task.id).subscribe(() => {
+      this.stateManagementService.sendTaskRemovalEvent(this.task);
+    });
   }
 
   public onEditButtonClick(): void {
