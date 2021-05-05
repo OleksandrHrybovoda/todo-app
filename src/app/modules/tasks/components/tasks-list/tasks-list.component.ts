@@ -20,8 +20,8 @@ import { EntitiesListBaseClass } from 'src/app/components/entities-list/entities
 export class TasksListComponent extends EntitiesListBaseClass implements OnInit, OnDestroy {
 
   public tasks: Task[];
-  private limit: number = 0;
-  private offset: number = 10;
+  private limit: number = 10;
+  private offset: number = 0;
 
   private readonly destroy$ = new Subject();
 
@@ -47,7 +47,7 @@ export class TasksListComponent extends EntitiesListBaseClass implements OnInit,
   }
 
   public showMoreTasks(): void {
-    this.limit += 10;
+    this.offset += 10;
     this.prepareTasksToShow(this.limit, this.offset);
   }
 
