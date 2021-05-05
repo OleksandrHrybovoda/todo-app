@@ -13,8 +13,9 @@ export class TasksHelper {
         ...task
       };
 
-      this.tasksProvider.createTask(taskItem);
-      resolve(taskItem);
+      this.tasksProvider.createTask(taskItem).subscribe((fetchedTask) => {
+        resolve(fetchedTask);
+      });
     });
   }
 
