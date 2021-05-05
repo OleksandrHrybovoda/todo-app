@@ -81,6 +81,7 @@ export class TasksListComponent extends EntitiesListBaseClass implements OnInit,
     this.stateManagementService.getTaskCreationEvent()
       .pipe(takeUntil(this.destroy$))
       .subscribe(task => {
+        console.log(task);
         this.addNewTaskToList(task);
 
         const msg: string = 'Successfully added new task!';

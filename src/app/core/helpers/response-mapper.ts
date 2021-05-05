@@ -26,13 +26,19 @@ export class ResponseMapper<T, K> {
     );
   }
 
+  public mapSingleEntity(responseSource: Observable<K>): Observable<T> {
+    return responseSource.pipe(
+      map(entity => this.mapEntity(entity))
+    );
+  }
+
   public mapEntity(responseEntity: K): T {
-    let entity: T = this.ctor.getNew();
+    const entity: T = this.ctor.getNew();
 
     Object.keys(this.fields).forEach(keyT => {
       const keyK = this.fields[keyT];
 
-      if (typeof keyK === "string") {
+      if (typeof keyK === 'string') {
         entity[keyT] = responseEntity[keyK];
       } else {
         keyK(entity, responseEntity, keyT);

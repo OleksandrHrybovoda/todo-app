@@ -30,4 +30,10 @@ export class TasksApiService {
     return this.taskMapper.mapEntities(source);
   }
 
+  public createTask(task: Task): Observable<Task> {
+    const request = `${this.endpoint}/createTask`;
+    const source = this.http.post<TaskResponse>(request, task);
+    return this.taskMapper.mapSingleEntity(source);
+  }
+
 }

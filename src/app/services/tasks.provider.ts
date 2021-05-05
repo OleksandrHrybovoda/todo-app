@@ -82,4 +82,8 @@ export class TasksProvider {
   public getTasks(limit?: number, offset?: number): Observable<Task[]> {
     return this.tasksApiService.getTasks(limit, offset);
   }
+
+  public createTask(task: Task): Observable<Task> {
+    return this.tasksApiService.createTask(task);
+  }
 }

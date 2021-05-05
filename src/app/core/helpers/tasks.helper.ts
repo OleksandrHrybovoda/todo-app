@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
+import { TasksProvider } from 'src/app/services/tasks.provider';
 import { Task } from '../../core/models/task.model';
 
 @Injectable()
 export class TasksHelper {
 
-  constructor() { }
+  constructor(private tasksProvider: TasksProvider) { }
 
   public createNewTask(task: Task): Promise<Task> {
     return new Promise(resolve => {
@@ -12,8 +13,7 @@ export class TasksHelper {
         ...task
       };
 
-      // todo - here task is sent to server and saved
-
+      this.tasksProvider.createTask(taskItem);
       resolve(taskItem);
     });
   }
