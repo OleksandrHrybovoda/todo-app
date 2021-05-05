@@ -25,7 +25,8 @@ export class TasksApiService {
   }
 
   public getTasks(limit: number = 10, offset: number = 0): Observable<Task[]> {
-    const source = this.http.get<TaskResponse[]>(`${this.endpoint}/tasks?limit=${limit}&offset=${offset}`);
+    const request = `${this.endpoint}/tasks?limit=${limit}&offset=${offset}`;
+    const source = this.http.get<TaskResponse[]>(request);
     return this.taskMapper.mapEntities(source);
   }
 

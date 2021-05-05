@@ -20,8 +20,8 @@ import { EntitiesListBaseClass } from 'src/app/components/entities-list/entities
 export class TasksListComponent extends EntitiesListBaseClass implements OnInit, OnDestroy {
 
   public tasks: Task[];
-  private limit: number = 10;
-  private offset: number = 0;
+  private limit: number = 0;
+  private offset: number = 10;
 
   private readonly destroy$ = new Subject();
 
@@ -68,10 +68,8 @@ export class TasksListComponent extends EntitiesListBaseClass implements OnInit,
       .subscribe(
         (tasks) => {
           this.tasks = tasks;
-          if (this.limit > 10) {
-            const msg: string = '10 Tasks successfully fetched.';
-            this.showMessage(msg);
-          }
+          const msg: string = `${this.tasks.length} Tasks successfully fetched.`;
+          this.showMessage(msg);
         },
         (err) => {
           const msg: string = err.error.message;
