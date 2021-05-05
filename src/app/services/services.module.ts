@@ -5,10 +5,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService } from './auth.service';
 import { MessagesService } from './messages.service';
 import { StateManagementService } from './state-management.service';
-import { TasksApiService } from './tasks-api.service';
+import { TasksApiService } from './api-services/tasks-api.service';
 import { TasksProvider } from './tasks.provider';
 import { UserStateManagementService } from './user-state-management.service';
-import { UsersApiService } from './users-api.service';
+import { UsersApiService } from './api-services/users-api.service';
 import { UsersProvider } from './users.provider';
 
 @NgModule({
