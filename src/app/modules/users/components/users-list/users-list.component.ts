@@ -99,7 +99,9 @@ export class UsersListComponent extends EntitiesListBaseClass implements OnInit,
       return;
     }
 
-    this.userStateManagementService.sendUserRemovalEvent(user);
+    this.usersProvider.deleteUser(user.id).subscribe(() => {
+      this.userStateManagementService.sendUserRemovalEvent(user);
+    });
   }
 
   public onEditButtonClick(user: User): void {
