@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import {
   BehaviorSubject,
+  Observable,
   Subject
 } from 'rxjs';
 import { User } from '../core/models/user.model';
+import { UsersApiService } from './api-services/users-api.service';
 
 const users: User[] = [{
   id: 1,
@@ -72,9 +74,13 @@ export class UsersProvider {
 
   private usersMocks: BehaviorSubject<User[]> = new BehaviorSubject<User[]>(users);
 
-  constructor() { }
+  constructor(private usersApiService: UsersApiService) { }
 
-  public getUsers(): Subject<User[]> {
+  public getUsersMocks(): Subject<User[]> {
     return this.usersMocks;
+  }
+
+  public getUsers(page: number, size: number): Observable<User[]> {
+    return this.usersApiService.getUsers(page, size);
   }
 }
