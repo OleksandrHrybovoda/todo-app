@@ -9,23 +9,14 @@ export class Ctor<T> {
   }
 }
 
-export class CtorEntity<K> {
-  constructor(private type: new () => K) { }
-
-  public getNew(): K {
-    return new this.type();
-  }
-}
-
 export type FieldsMap<K, T> = {
   [key: string]: string | ((entity: T, entityResponse: K, key: string) => void)
 };
 
-export class ResponseMapper<T, K> {
+export class EntityMapper<T, K> {
 
   constructor(
     private ctor: Ctor<T>,
-    private ctorEntity: CtorEntity<K>,
     private fields: FieldsMap<K, T>
   ) { }
 
@@ -57,19 +48,5 @@ export class ResponseMapper<T, K> {
     return entity;
   }
 
-  public mapRequestEntity(entity: T): K {
-    const requestEntity: K = this.ctorEntity.getNew();
-
-    Object.keys(this.fields).forEach(keyT => {
-      const keyK = this.fields[keyT];
-
-      if (typeof keyK === 'string') {
-        requestEntity[keyK] = entity[keyT];
-      } else {
-        keyK(entity, requestEntity, keyT);
-      }
-    });
-
-    return requestEntity;
-  }
 }
+

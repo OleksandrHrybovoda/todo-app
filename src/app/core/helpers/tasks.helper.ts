@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { TasksProvider } from 'src/app/services/tasks.provider';
 import { Task } from '../../core/models/task.model';
 
@@ -7,16 +8,12 @@ export class TasksHelper {
 
   constructor(private tasksProvider: TasksProvider) { }
 
-  public createNewTask(task: Task): Promise<Task> {
-    return new Promise(resolve => {
-      const taskItem: Task = {
-        ...task
-      };
+  public createNewTask(task: Task): Observable<Task> {
+    const taskItem: Task = {
+      ...task
+    };
 
-      this.tasksProvider.createTask(taskItem).subscribe((fetchedTask) => {
-        resolve(fetchedTask);
-      });
-    });
+    return this.tasksProvider.createTask(taskItem);
   }
 
   public updateTask(task: Task): Promise<Task> {

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Ctor, CtorEntity, FieldsMap, ResponseMapper } from '../../core/helpers/response-mapper';
+import { Ctor, FieldsMap, EntityMapper } from '../../core/helpers/entity-mapper';
 import { Task, TaskResponse } from '../../core/models/task.model';
 
 @Injectable()
@@ -18,10 +18,10 @@ export class TasksApiService {
     'lastUpdatedDate': 'last_update_date',
   };
 
-  private taskMapper: ResponseMapper<Task, TaskResponse>;
+  private taskMapper: EntityMapper<Task, TaskResponse>;
 
   constructor(private http: HttpClient) {
-    this.taskMapper = new ResponseMapper(new Ctor(Task), new CtorEntity(TaskResponse), this.fieldsMap);
+    this.taskMapper = new EntityMapper(new Ctor(Task), this.fieldsMap);
   }
 
   public getTasks(limit: number = 10, offset: number = 0): Observable<Task[]> {
@@ -32,8 +32,7 @@ export class TasksApiService {
 
   public createTask(task: Task): Observable<Task> {
     const request = `${this.endpoint}/createTask`;
-    const taskItem = this.taskMapper.mapRequestEntity(task);
-    const source = this.http.post<TaskResponse>(request, taskItem);
+    const source = this.http.post<TaskResponse>(request, task);
     return this.taskMapper.mapSingleEntity(source);
   }
 
