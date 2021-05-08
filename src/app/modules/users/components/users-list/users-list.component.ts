@@ -22,7 +22,7 @@ export class UsersListComponent extends EntitiesListBaseClass implements OnInit,
 
   public users: MatTableDataSource<User> = new MatTableDataSource();
   public length: number;
-  public pageSize: number = 5;
+  public pageSize: number = 20;
   public currentPage: number = 0;
   public pageEvent: PageEvent;
   public pageSizeOptions: number[] = [5, 10, 25, 100];
