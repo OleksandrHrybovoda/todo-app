@@ -13,8 +13,8 @@ export class UsersApiService extends ApiBaseClass {
   }
 
   public getUsers(page: number, size: number): Observable<User[]> {
-    const request = `${this.endpoint}/users?page=${page}&size=${size}`;
-    const source = this.http.get<User[]>(request);
+    const request: string = `${this.endpoint}/users?page=${page}&size=${size}`;
+    const source: Observable<User[]> = this.http.get<User[]>(request);
     return source;
   }
 }
