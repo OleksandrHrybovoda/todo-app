@@ -24,7 +24,6 @@ export class UsersListComponent extends EntitiesListBaseClass implements OnInit,
   public length: number;
   public pageSize: number = 20;
   public currentPage: number = 0;
-  public pageEvent: PageEvent;
   public pageSizeOptions: number[] = [5, 10, 25, 100];
   public displayedColumns: string[] = ['id', 'firstName', 'lastName', 'shortcut', 'age', 'gender', 'email', 'login', 'actions'];
 
@@ -41,8 +40,7 @@ export class UsersListComponent extends EntitiesListBaseClass implements OnInit,
   }
 
   public pageEventHandler(event: PageEvent): void {
-    this.pageEvent = event;
-    this.prepareUsersToShow(this.pageEvent.pageIndex, this.pageEvent.pageSize);
+    this.prepareUsersToShow(event.pageIndex, event.pageSize);
   }
 
   private subscribeToUserCreation(): void {
