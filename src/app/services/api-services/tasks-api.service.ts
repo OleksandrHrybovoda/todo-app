@@ -1,14 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { ApiBaseClass } from 'src/app/components/api-base-class/api-base-class.comonent';
 import { Ctor, FieldsMap, ResponseMapper } from '../../core/helpers/response-mapper';
 import { Task, TaskResponse } from '../../core/models/task.model';
 
 @Injectable()
-export class TasksApiService {
-
-  private endpoint = environment.api;
+export class TasksApiService extends ApiBaseClass {
 
   private fieldsMap: FieldsMap<TaskResponse, Task> = {
     'id': '_id',
@@ -21,6 +19,7 @@ export class TasksApiService {
   private taskMapper: ResponseMapper<Task, TaskResponse>;
 
   constructor(private http: HttpClient) {
+    super();
     this.taskMapper = new ResponseMapper(new Ctor(Task), this.fieldsMap);
   }
 

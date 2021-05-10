@@ -1,18 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { ApiBaseClass } from 'src/app/components/api-base-class/api-base-class.comonent';
 
 @Injectable()
-export class UsersApiService {
+export class UsersApiService extends ApiBaseClass {
 
-  private endpoint = environment.api;
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    super();
+  }
 
   public deleteUser(userId: number): Observable<string> {
-    const request = `${this.endpoint}/user/${userId}`;
-    const source = this.http.delete<string>(request);
+    const request: string = `${this.endpoint}/user/${userId}`;
+    const source: Observable<string> = this.http.delete<string>(request);
     return source;
   }
 }

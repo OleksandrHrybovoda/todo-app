@@ -76,7 +76,7 @@ export class UsersProvider {
 
   constructor(private usersApiService: UsersApiService) { }
 
-  public getUsers(): Subject<User[]> {
+  public getUsers(): Observable<User[]> {
     return this.usersMocks;
   }
 
