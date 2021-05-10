@@ -23,6 +23,7 @@ export class UsersListComponent extends EntitiesListBaseClass implements OnInit,
   public users: MatTableDataSource<User> = new MatTableDataSource();
   public length: number;
   public pageSize: number = 20;
+  public currentPage: number = 0;
   public pageEvent: PageEvent;
   public pageSizeOptions: number[] = [5, 10, 25, 100];
   public displayedColumns: string[] = ['id', 'firstName', 'lastName', 'shortcut', 'age', 'gender', 'email', 'login', 'actions'];
@@ -37,6 +38,10 @@ export class UsersListComponent extends EntitiesListBaseClass implements OnInit,
 
   public ngOnInit(): void {
     this.init();
+  }
+
+  public pageEventHandler(event: PageEvent): void {
+    this.pageEvent = event;
   }
 
   private subscribeToUserCreation(): void {
@@ -127,7 +132,7 @@ export class UsersListComponent extends EntitiesListBaseClass implements OnInit,
   }
 
   private init(): void {
-    this.prepareUsersToShow();
+    this.prepareUsersToShow(this.currentPage, this.pageSize);
     this.activateFilterPredicate();
     this.subscribeToUserCreation();
     this.subscribeToUserRemoval();
@@ -151,9 +156,9 @@ export class UsersListComponent extends EntitiesListBaseClass implements OnInit,
     return value.trim().toLowerCase().indexOf(filter) !== -1;
   }
 
-  private prepareUsersToShow(): void {
+  private prepareUsersToShow(page: number, size: number): void {
     this.usersProvider
-      .getUsers()
+      .getUsers(page, size)
       .pipe(takeUntil(this.destroy$))
       .subscribe((users) => {
         this.length = this.users.data.length;

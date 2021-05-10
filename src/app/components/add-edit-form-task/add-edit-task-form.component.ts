@@ -40,7 +40,7 @@ export class AddEditTaskFormComponent implements OnInit {
   }
 
   private createTask(form: FormGroup): void {
-    this.tasksHelper.createNewTask(form.value).then(createdTask => {
+    this.tasksHelper.createNewTask(form.value).subscribe(createdTask => {
       this.stateManagementService.sendTaskCreationEvent(createdTask);
     });
   }

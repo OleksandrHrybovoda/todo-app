@@ -1,21 +1,19 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { TasksProvider } from 'src/app/services/tasks.provider';
 import { Task } from '../../core/models/task.model';
 
 @Injectable()
 export class TasksHelper {
 
-  constructor() { }
+  constructor(private tasksProvider: TasksProvider) { }
 
-  public createNewTask(task: Task): Promise<Task> {
-    return new Promise(resolve => {
-      const taskItem: Task = {
-        ...task
-      };
+  public createNewTask(task: Task): Observable<Task> {
+    const taskItem: Task = {
+      ...task
+    };
 
-      // todo - here task is sent to server and saved
-
-      resolve(taskItem);
-    });
+    return this.tasksProvider.createTask(taskItem);
   }
 
   public updateTask(task: Task): Promise<Task> {

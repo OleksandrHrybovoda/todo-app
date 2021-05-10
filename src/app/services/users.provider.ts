@@ -76,11 +76,12 @@ export class UsersProvider {
 
   constructor(private usersApiService: UsersApiService) { }
 
-  public getUsers(): Observable<User[]> {
+  public getUsersMocks(): Observable<User[]> {
     return this.usersMocks;
   }
 
-  public deleteUser(userId: number): Observable<string> {
+ public deleteUser(userId: number): Observable<string> {
     return this.usersApiService.deleteUser(userId);
-  }
-}
+  } public getUsers(page: number, size: number): Observable<User[]> {
+    return this.usersApiService.getUsers(page, size);
+  }}
