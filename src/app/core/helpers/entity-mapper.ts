@@ -9,43 +9,43 @@ export class Ctor<T> {
   }
 }
 
-export type FieldsMap<K, T> = {
-  [key: string]: string | ((entity: T, entityResponse: K, key: string) => void)
+export type FieldsMap<T> = {
+  [key: string]: string | ((entity: T, key: string) => void)
 };
 
-export class EntityMapper<T, K> {
+export class EntityMapper<T> {
 
   constructor(
     private ctor: Ctor<T>,
-    private fields: FieldsMap<K, T>
+    private fields: FieldsMap<T>
   ) { }
 
-  public mapEntities(responseSource: Observable<K[]>): Observable<T[]> {
-    return responseSource.pipe(
+  public mapEntities(entitySource: Observable<object[]>): Observable<T[]> {
+    return entitySource.pipe(
       map(entities => entities.map(entity => this.mapEntity(entity)))
     );
   }
 
-  public mapSingleEntity(responseSource: Observable<K>): Observable<T> {
-    return responseSource.pipe(
+  public mapSingleEntity(entitySource: Observable<object>): Observable<T> {
+    return entitySource.pipe(
       map(entity => this.mapEntity(entity))
     );
   }
 
-  public mapEntity(responseEntity: K): T {
-    const entity: T = this.ctor.getNew();
+  public mapEntity(baseEntity: object): T {
+    const entityItem: T = this.ctor.getNew();
 
     Object.keys(this.fields).forEach(keyT => {
       const keyK = this.fields[keyT];
 
       if (typeof keyK === 'string') {
-        entity[keyT] = responseEntity[keyK];
+        entityItem[keyT] = baseEntity[keyK];
       } else {
-        keyK(entity, responseEntity, keyT);
+        keyK(entityItem, keyT);
       }
     });
 
-    return entity;
+    return entityItem;
   }
 
 }
