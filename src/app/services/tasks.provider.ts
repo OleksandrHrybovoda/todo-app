@@ -83,6 +83,10 @@ export class TasksProvider {
     return this.tasksApiService.getTasks(limit, offset);
   }
 
+  public createTask(task: Task): Observable<Task> {
+    return this.tasksApiService.createTask(task);
+  }
+
   public deleteTask(taskId: string): Observable<string> {
     return this.tasksApiService.deleteTask(taskId);
   }
