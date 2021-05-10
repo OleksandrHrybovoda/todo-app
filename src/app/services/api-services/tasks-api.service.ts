@@ -2,13 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiBaseClass } from 'src/app/components/api-base-class/api-base-class.component';
-import { Ctor, FieldsMap, ResponseMapper } from '../../core/helpers/response-mapper';
-import { Task, TaskResponse } from '../../core/models/task.model';
+import { Ctor, FieldsMap, EntityMapper } from '../../core/helpers/entity-mapper';
+import { Task } from '../../core/models/task.model';
 
 @Injectable()
 export class TasksApiService extends ApiBaseClass {
 
-  private fieldsMap: FieldsMap<TaskResponse, Task> = {
+  private fieldsResponseMap: FieldsMap<Task> = {
     'id': '_id',
     'title': 'title',
     'description': 'desc',
@@ -16,17 +16,34 @@ export class TasksApiService extends ApiBaseClass {
     'lastUpdatedDate': 'last_update_date',
   };
 
-  private taskMapper: ResponseMapper<Task, TaskResponse>;
+  private fieldRequestsMap: FieldsMap<Task> = {
+    'id': 'id',
+    'title': 'title',
+    'descr': 'description',
+    'creationDate': 'creationDate',
+    'lastUpdatedDate': 'lastUpdatedDate',
+  };
+
+  private taskResponseMapper: EntityMapper<Task>;
+  private taskRequestMapper: EntityMapper<Task>;
 
   constructor(private http: HttpClient) {
-    super();
-    this.taskMapper = new ResponseMapper(new Ctor(Task), this.fieldsMap);
+ super();
+    this.taskResponseMapper = new EntityMapper(new Ctor(Task), this.fieldsResponseMap);
+    this.taskRequestMapper = new EntityMapper(new Ctor(Task), this.fieldRequestsMap);
   }
 
   public getTasks(limit: number = 10, offset: number = 0): Observable<Task[]> {
     const request: string = `${this.endpoint}/tasks?limit=${limit}&offset=${offset}`;
     const source: Observable<TaskResponse[]> = this.http.get<TaskResponse[]>(request);
     return this.taskMapper.mapEntities(source);
+  }
+
+  public createTask(task: Task): Observable<Task> {
+    const request = `${this.endpoint}/createTask`;
+    const taskItem = this.taskRequestMapper.mapEntity(task);
+    const source = this.http.post<Task>(request, taskItem);
+    return this.taskResponseMapper.mapSingleEntity(source);
   }
 
   public deleteTask(taskId: string): Observable<string> {

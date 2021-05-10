@@ -80,7 +80,8 @@ export class UsersProvider {
     return this.usersMocks;
   }
 
-  public getUsers(page: number, size: number): Observable<User[]> {
+ public deleteUser(userId: number): Observable<string> {
+    return this.usersApiService.deleteUser(userId);
+  } public getUsers(page: number, size: number): Observable<User[]> {
     return this.usersApiService.getUsers(page, size);
-  }
-}
+  }}
