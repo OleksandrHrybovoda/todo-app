@@ -24,14 +24,14 @@ export class TasksApiService extends ApiBaseClass {
   }
 
   public getTasks(limit: number = 10, offset: number = 0): Observable<Task[]> {
-    const request = `${this.endpoint}/tasks?limit=${limit}&offset=${offset}`;
-    const source = this.http.get<TaskResponse[]>(request);
+    const request: string = `${this.endpoint}/tasks?limit=${limit}&offset=${offset}`;
+    const source: Observable<TaskResponse[]> = this.http.get<TaskResponse[]>(request);
     return this.taskMapper.mapEntities(source);
   }
 
   public deleteTask(taskId: string): Observable<string> {
-    const request = `${this.endpoint}/task/${taskId}`;
-    const source = this.http.delete<string>(request);
+    const request: string = `${this.endpoint}/task/${taskId}`;
+    const source: Observable<string> = this.http.delete<string>(request);
     return source;
   }
 
