@@ -1,16 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiBaseClass } from 'src/app/components/api-base-class/api-base-class.comonent';
+import { ApiBaseClass } from 'src/app/components/api-base-class/api-base-class.component';
+import { User } from 'src/app/core/models/user.model';
 
 @Injectable()
 export class UsersApiService extends ApiBaseClass {
 
   constructor(private http: HttpClient) {
     super();
-  }
-
-    return source;
   }
 
  public getUsers(page: number, size: number): Observable<User[]> {

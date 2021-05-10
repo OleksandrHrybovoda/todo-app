@@ -35,8 +35,8 @@ export class TasksApiService extends ApiBaseClass {
 
   public getTasks(limit: number = 10, offset: number = 0): Observable<Task[]> {
     const request: string = `${this.endpoint}/tasks?limit=${limit}&offset=${offset}`;
-    const source: Observable<TaskResponse[]> = this.http.get<TaskResponse[]>(request);
-    return this.taskMapper.mapEntities(source);
+    const source: Observable<Task[]> = this.http.get<Task[]>(request);
+    return this.taskResponseMapper.mapEntities(source);
   }
 
   public createTask(task: Task): Observable<Task> {

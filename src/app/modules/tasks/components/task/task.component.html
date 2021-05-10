@@ -1,6 +1,6 @@
 <mat-card-header>
   <mat-card-title>{{ task.title }}</mat-card-title>
-  <span class="sub-title">created: {{ task.creationDate }} | updated: {{ task.lastUpdatedDate }}</span>
+  <span class="sub-title">created: {{ task.creationDate | date: 'YYYY/MM/dd' }} | updated: {{ task.lastUpdatedDate | date: 'YYYY/MM/dd' }}</span>
 </mat-card-header>
 
 <mat-card-content>

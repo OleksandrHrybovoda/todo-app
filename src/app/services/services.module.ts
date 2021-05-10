@@ -10,7 +10,7 @@ import { TasksProvider } from './tasks.provider';
 import { UserStateManagementService } from './user-state-management.service';
 import { UsersApiService } from './api-services/users-api.service';
 import { UsersProvider } from './users.provider';
-import { ApiBaseClass } from '../components/api-base-class/api-base-class.comonent';
+import { ApiBaseClass } from '../components/api-base-class/api-base-class.component';
 
 @NgModule({
   imports: [
