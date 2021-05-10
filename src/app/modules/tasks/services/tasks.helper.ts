@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { TasksProvider } from 'src/app/services/tasks.provider';
-import { Task } from '../../core/models/task.model';
+import { Task } from '../models/task.model';
+import { TasksProvider } from './tasks.provider';
 
 @Injectable()
 export class TasksHelper {

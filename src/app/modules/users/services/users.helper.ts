@@ -18,6 +18,7 @@ export class UsersHelper {
     });
   }
 
+  // todo - return observable 
   public updateUser(user: User): Promise<User> {
     return new Promise(resolve => {
       const userItem: User = {

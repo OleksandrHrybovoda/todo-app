@@ -8,11 +8,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
-import { AddEditFormUserComponent } from 'src/app/components/add-edit-form-user/add-edit-form-user.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
+import { UserFormComponent } from './user-form/user-form.component';
 
 @NgModule({
   imports: [
@@ -31,8 +31,8 @@ import { MatIconModule } from '@angular/material/icon';
   ],
   declarations: [
     UsersListComponent,
-    AddEditFormUserComponent
+    UserFormComponent,
   ],
 })
-export class UsersComponentsModule {
+export class ComponentsModule {
 }

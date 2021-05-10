@@ -1,13 +1,6 @@
-import { Injectable } from '@angular/core';
-import {
-  BehaviorSubject,
-  Observable,
-  Subject
-} from 'rxjs';
-import { User } from '../core/models/user.model';
-import { UsersApiService } from './api-services/users-api.service';
+import { User } from "../models/user.model";
 
-const users: User[] = [{
+export const usersMocks: User[] = [{
   id: 1,
   firstName: 'Alex',
   lastName: 'Gryb',
@@ -68,20 +61,3 @@ const users: User[] = [{
   login: 'roman25',
   isAdmin: false
 }];
-
-@Injectable()
-export class UsersProvider {
-
-  private usersMocks: BehaviorSubject<User[]> = new BehaviorSubject<User[]>(users);
-
-  constructor(private usersApiService: UsersApiService) { }
-
-  public getUsersMocks(): Observable<User[]> {
-    return this.usersMocks;
-  }
-
- public deleteUser(userId: number): Observable<string> {
-    return this.usersApiService.deleteUser(userId);
-  } public getUsers(page: number, size: number): Observable<User[]> {
-    return this.usersApiService.getUsers(page, size);
-  }}

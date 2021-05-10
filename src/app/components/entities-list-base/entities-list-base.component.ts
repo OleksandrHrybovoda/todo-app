@@ -4,7 +4,7 @@ import { MessagesService } from 'src/app/services/messages.service';
 @Component({
   template: '',
 })
-export class EntitiesListBaseClass {
+export class EntitiesListBase {
 
   constructor(public msgService: MessagesService) { }
 

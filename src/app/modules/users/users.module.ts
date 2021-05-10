@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
-import { UsersComponentsModule } from './components/users-components.module';
+import { ComponentsModule } from './components/users-components.module';
+import { ServicesModule } from './services/services.module';
 import { UsersRoutingModule } from './users-routing.modules';
 
 @NgModule({
   imports: [
     UsersRoutingModule,
-    UsersComponentsModule
+    ComponentsModule,
+    ServicesModule,
   ],
 })
 export class UsersModule {

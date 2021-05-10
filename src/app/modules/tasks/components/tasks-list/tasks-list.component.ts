@@ -5,29 +5,29 @@ import {
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Task } from 'src/app/core/models/task.model';
-import { TasksProvider } from '../../../../services/tasks.provider';
-import { StateManagementService } from 'src/app/services/state-management.service';
 import { MessagesService } from 'src/app/services/messages.service';
-import { AddEditTaskFormComponent } from 'src/app/components/add-edit-form-task/add-edit-task-form.component';
-import { EntitiesListBaseClass } from 'src/app/components/entities-list/entities-list-base-class.component';
+import { EntitiesListBase } from '../../../../components/entities-list-base/entities-list-base.component';
+import { Task } from '../../models/task.model';
+import { TaskStateManagementService } from '../../services/task-state-management.service';
+import { TasksProvider } from '../../services/tasks.provider';
+import { TaskFormComponent } from '../task-form/task-form.component';
 
 @Component({
   selector: 'app-tasks-list',
   templateUrl: './tasks-list.component.html',
   styleUrls: ['./tasks-list.component.sass'],
 })
-export class TasksListComponent extends EntitiesListBaseClass implements OnInit, OnDestroy {
+export class TasksListComponent extends EntitiesListBase implements OnInit, OnDestroy {
 
-  public tasks: Task[];
+  public tasks: Task[] = [];
+
   private limit: number = 10;
-  private offset: number = 0;
 
   private readonly destroy$ = new Subject();
 
   constructor(
-    private stateManagementService: StateManagementService,
     msgService: MessagesService,
+    private stateManagementService: TaskStateManagementService,
     private tasksProvider: TasksProvider,
   ) {
     super(msgService);
@@ -47,12 +47,11 @@ export class TasksListComponent extends EntitiesListBaseClass implements OnInit,
   }
 
   public showMoreTasks(): void {
-    this.offset += 10;
-    this.prepareTasksToShow(this.limit, this.offset);
+    this.prepareTasksToShow();
   }
 
   public openDialogToAddTask(): void {
-    this.msgService.openDialog(AddEditTaskFormComponent);
+    this.msgService.openDialog(TaskFormComponent);
   }
 
   private init(): void {
@@ -62,19 +61,21 @@ export class TasksListComponent extends EntitiesListBaseClass implements OnInit,
     this.subscribeToTaskUpdate();
   }
 
-  private prepareTasksToShow(limit?: number, offset?: number): void {
-    this.tasksProvider.getTasks(limit, offset)
+  private prepareTasksToShow(): void {
+    this.tasksProvider.getTasks(this.limit, this.tasks.length)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
-        (tasks) => {
-          this.tasks = tasks;
-          const msg: string = `${this.tasks.length} Tasks successfully fetched.`;
+        tasks => {
+          this.tasks = this.tasks.concat(tasks);
+
+          const msg: string = `${tasks.length} tasks successfully fetched.`;
           this.showMessage(msg);
         },
         (err) => {
           const msg: string = err.error.message;
           this.showMessage(msg);
-        });
+        }
+      );
   }
 
   private subscribeToTaskCreation(): void {
