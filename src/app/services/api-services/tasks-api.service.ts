@@ -28,7 +28,7 @@ export class TasksApiService extends ApiBaseClass {
   private taskRequestMapper: EntityMapper<Task>;
 
   constructor(private http: HttpClient) {
- super();
+    super();
     this.taskResponseMapper = new EntityMapper(new Ctor(Task), this.fieldsResponseMap);
     this.taskRequestMapper = new EntityMapper(new Ctor(Task), this.fieldRequestsMap);
   }
