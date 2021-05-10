@@ -42,7 +42,6 @@ export class UsersListComponent extends EntitiesListBaseClass implements OnInit,
 
   public pageEventHandler(event: PageEvent): void {
     this.pageEvent = event;
-    console.log(event);
   }
 
   private subscribeToUserCreation(): void {
