@@ -56,6 +56,15 @@ export class TasksApiService extends ApiService {
     return this.entityMapper.mapEntity(source, this.taskResponseFields, this.taskCtor);
   }
 
+  public editTask(task: Task): Observable<Task> {
+    const request: string = `${this.endpoint}/task/${task.id}`;
+    const taskToSend: any = this.entityMapper.createEntity(task, this.taskCreateUpdateFields);
+
+    const source: Observable<any> = this.http.post<any>(request, taskToSend);
+
+    return this.entityMapper.mapEntity(source, this.taskResponseFields, this.taskCtor);
+  }
+
   public deleteTask(taskId: string): Observable<string> {
     const request: string = `${this.endpoint}/task/${taskId}`;
 

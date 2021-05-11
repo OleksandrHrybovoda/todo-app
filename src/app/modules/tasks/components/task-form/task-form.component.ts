@@ -5,7 +5,6 @@ import {
 } from '@angular/core';
 import {
   FormBuilder,
-  FormControl,
   FormGroup
 } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -22,12 +21,9 @@ export class TaskFormComponent implements OnInit {
 
   taskForm: FormGroup;
 
-  titleForm: string; // todo - rename to title  
+  title: string;
   buttonText: string;
 
-  title: FormControl;
-  description: FormControl;
-  
   constructor(
     private fb: FormBuilder,
     private tasksHelper: TasksHelper,
@@ -44,7 +40,11 @@ export class TaskFormComponent implements OnInit {
   }
 
   private editTask(): void {
-    this.tasksHelper.updateTask(this.taskForm.value).then(updatedTask => {
+    const task: Task = {
+      id: this.data.id,
+      ...this.taskForm.value
+    };
+    this.tasksHelper.updateTask(task).subscribe(updatedTask => {
       this.stateManagementService.sendTaskUpdateEvent(updatedTask);
     });
   }
@@ -69,20 +69,14 @@ export class TaskFormComponent implements OnInit {
       description = this.data.description;
     }
 
-    // todo - probably no need for this.title and this.description
-    // check 
-
-    this.title = new FormControl(title);
-    this.description = new FormControl(description);
-
     this.taskForm = this.fb.group({
-      title: this.title,
-      description: this.description,
+      title,
+      description,
     });
   }
 
   private setTitle(): void {
-    this.titleForm = this.isEditMode() ? 'Edit task' : 'Create task';
+    this.title = this.isEditMode() ? 'Edit task' : 'Create task';
     this.buttonText = this.isEditMode() ? 'Edit' : 'Create';
   }
 
