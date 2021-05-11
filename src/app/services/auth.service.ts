@@ -5,7 +5,7 @@ export class AuthService {
 
   constructor() { }
 
-  public generateStrongPassword(length: number): string {
+  public generatePassword(length: number): string {
     const specials: string = '!@#$%^&*()_+{}:"<>?\|[];\',./`~';
     const lowercase: string = 'abcdefghijklmnopqrstuvwxyz';
     const uppercase: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';

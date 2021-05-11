@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { User } from '../core/models/user.model';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserStateManagementService {
+
   private userCreationSubject: Subject<User> = new Subject<User>();
   private userRemovalSubject: Subject<User> = new Subject<User>();
   private userUpdateSubject: Subject<User> = new Subject<User>();

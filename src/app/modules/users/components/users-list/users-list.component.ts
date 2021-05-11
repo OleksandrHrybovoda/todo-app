@@ -4,19 +4,20 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AddEditFormUserComponent } from 'src/app/components/add-edit-form-user/add-edit-form-user.component';
-import { EntitiesListBaseClass } from 'src/app/components/entities-list/entities-list-base-class.component';
-import { User } from 'src/app/core/models/user.model';
 import { MessagesService } from 'src/app/services/messages.service';
-import { UserStateManagementService } from 'src/app/services/user-state-management.service';
-import { UsersProvider } from 'src/app/services/users.provider';
+import { EntitiesListBase } from '../../../../components/entities-list-base/entities-list-base.component';
+import { User } from '../../models/user.model';
+import { UserStateManagementService } from '../../services/user-state-management.service';
+import { UsersProvider } from '../../services/users.provider';
+import { UserFormComponent } from '../user-form/user-form.component';
 
 @Component({
   selector: 'app-users-list',
   templateUrl: './users-list.component.html',
   styleUrls: ['./users-list.component.sass'],
 })
-export class UsersListComponent extends EntitiesListBaseClass implements OnInit, OnDestroy, AfterViewInit {
+export class UsersListComponent extends EntitiesListBase implements OnInit, OnDestroy, AfterViewInit {
+
   @ViewChild('sort') sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -25,15 +26,28 @@ export class UsersListComponent extends EntitiesListBaseClass implements OnInit,
   public pageSize: number = 20;
   public currentPage: number = 0;
   public pageSizeOptions: number[] = [5, 10, 25, 100];
-  public displayedColumns: string[] = ['id', 'firstName', 'lastName', 'shortcut', 'age', 'gender', 'email', 'login', 'actions'];
+
+  public displayedColumns: string[] = [
+    'id',
+    'firstName',
+    'lastName',
+    'shortcut',
+    'age',
+    'gender',
+    'email',
+    'login',
+    'actions'
+  ];
 
   private readonly destroy$ = new Subject();
 
-  constructor(private usersProvider: UsersProvider,
-              msgService: MessagesService,
-              private userStateManagementService: UserStateManagementService) {
-                super(msgService);
-              }
+  constructor(
+    msgService: MessagesService,
+    private usersProvider: UsersProvider,
+    private userStateManagementService: UserStateManagementService
+  ) {
+    super(msgService);
+  }
 
   public ngOnInit(): void {
     this.init();
@@ -87,7 +101,7 @@ export class UsersListComponent extends EntitiesListBaseClass implements OnInit,
   }
 
   private updateUserInList(user: User): void {
-    const elementsIndex = this.users.data.findIndex(element => element.id === user.id );
+    const elementsIndex = this.users.data.findIndex(element => element.id === user.id);
     this.users.data[elementsIndex] = user;
     this.users.filter = '';
   }
@@ -104,12 +118,12 @@ export class UsersListComponent extends EntitiesListBaseClass implements OnInit,
     }
 
     this.usersProvider.deleteUser(user.id).subscribe(() => {
-    this.userStateManagementService.sendUserRemovalEvent(user);
+      this.userStateManagementService.sendUserRemovalEvent(user);
     });
   }
 
   public onEditButtonClick(user: User): void {
-    this.msgService.openDialog(AddEditFormUserComponent, user);
+    this.msgService.openDialog(UserFormComponent, user);
   }
 
   public applyFilter(event: Event): void {
@@ -127,7 +141,7 @@ export class UsersListComponent extends EntitiesListBaseClass implements OnInit,
   }
 
   public openDialogToAddUser(): void {
-    this.msgService.openDialog(AddEditFormUserComponent);
+    this.msgService.openDialog(UserFormComponent);
   }
 
   private init(): void {

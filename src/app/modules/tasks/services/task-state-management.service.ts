@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Task } from '../core/models/task.model';
+import { Task } from '../models/task.model';
 
 @Injectable()
-export class StateManagementService {
+export class TaskStateManagementService {
+
   private taskCreationSubject: Subject<Task> = new Subject<Task>();
   private taskRemovalSubject: Subject<Task> = new Subject<Task>();
   private taskUpdateSubject: Subject<Task> = new Subject<Task>();

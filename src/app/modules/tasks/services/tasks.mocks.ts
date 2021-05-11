@@ -1,12 +1,6 @@
-import { Injectable } from '@angular/core';
-import {
-  BehaviorSubject,
-  Observable
-} from 'rxjs';
-import { Task } from '../core/models/task.model';
-import { TasksApiService } from './api-services/tasks-api.service';
+import { Task } from "../models/task.model";
 
-const tasks: Task[] = [{
+export const tasksMocks: Task[] = [{
   id: '1',
   title: 'Task 1',
   description: 'Simple Task 1',
@@ -67,27 +61,3 @@ const tasks: Task[] = [{
   creationDate: '1618048954',
   lastUpdatedDate: '1618048954',
 }];
-
-@Injectable()
-export class TasksProvider {
-
-  private tasksMocks: BehaviorSubject<Task[]> = new BehaviorSubject<Task[]>(tasks);
-
-  constructor(private tasksApiService: TasksApiService) { }
-
-  public getTasksMocks(): Observable<Task[]> {
-    return this.tasksMocks.asObservable();
-  }
-
-  public getTasks(limit?: number, offset?: number): Observable<Task[]> {
-    return this.tasksApiService.getTasks(limit, offset);
-  }
-
-  public createTask(task: Task): Observable<Task> {
-    return this.tasksApiService.createTask(task);
-  }
-
-  public deleteTask(taskId: string): Observable<string> {
-    return this.tasksApiService.deleteTask(taskId);
-  }
-}

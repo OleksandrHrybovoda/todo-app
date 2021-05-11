@@ -2,11 +2,11 @@ import {
   Component,
   Input
 } from '@angular/core';
-import { AddEditTaskFormComponent } from 'src/app/components/add-edit-form-task/add-edit-task-form.component';
 import { MessagesService } from 'src/app/services/messages.service';
-import { TasksProvider } from 'src/app/services/tasks.provider';
-import { Task } from '../../../../core/models/task.model';
-import { StateManagementService } from '../../../../services/state-management.service';
+import { Task } from '../../models/task.model';
+import { TaskStateManagementService } from '../../services/task-state-management.service';
+import { TasksProvider } from '../../services/tasks.provider';
+import { TaskFormComponent } from '../task-form/task-form.component';
 
 @Component({
   selector: 'app-task',
@@ -19,7 +19,7 @@ export class TaskComponent {
 
   constructor(
     private msgService: MessagesService,
-    private stateManagementService: StateManagementService,
+    private stateManagementService: TaskStateManagementService,
     private tasksProvider: TasksProvider
   ) { }
 
@@ -40,7 +40,7 @@ export class TaskComponent {
   }
 
   public onEditButtonClick(): void {
-    this.msgService.openDialog(AddEditTaskFormComponent, this.task);
+    this.msgService.openDialog(TaskFormComponent, this.task);
   }
 
 }
