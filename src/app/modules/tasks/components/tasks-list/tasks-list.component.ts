@@ -56,24 +56,27 @@ export class TasksListComponent extends EntitiesListBase implements OnInit, OnDe
   }
 
   private init(): void {
-    this.prepareTasksToShow();
+    this.prepareTasksToShow(false);
     this.subscribeToTaskCreation();
     this.subscribeToTaskRemoval();
     this.subscribeToTaskUpdate();
   }
 
-  private prepareTasksToShow(): void {
+  private prepareTasksToShow(showMsg: boolean = true): void {
     this.tasksProvider.getTasks(this.page, this.size)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         tasks => {
           this.tasks = this.tasks.concat(tasks);
 
-          if (this.page > 0) {
+          if (showMsg) {
             const msg: string = `${tasks.length} tasks successfully fetched.`;
             this.showMessage(msg);
           }
-          this.page++;
+
+          if (tasks.length > 0) {
+            this.page++;
+          }
         },
         (err) => {
           const msg: string = err.error.message;

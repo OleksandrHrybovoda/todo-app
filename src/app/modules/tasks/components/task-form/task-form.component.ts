@@ -44,6 +44,7 @@ export class TaskFormComponent implements OnInit {
       id: this.data.id,
       ...this.taskForm.value
     };
+
     this.tasksHelper.updateTask(task).subscribe(updatedTask => {
       this.stateManagementService.sendTaskUpdateEvent(updatedTask);
     });

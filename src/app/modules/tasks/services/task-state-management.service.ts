@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Task } from '../models/task.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class TaskStateManagementService {
 
   private taskCreationSubject: Subject<Task> = new Subject<Task>();
