@@ -26,6 +26,10 @@ export class TasksProvider {
     return this.tasksApiService.createTask(task);
   }
 
+  public editTask(task: Task): Observable<Task> {
+    return this.tasksApiService.editTask(task);
+  }
+
   public deleteTask(taskId: string): Observable<string> {
     return this.tasksApiService.deleteTask(taskId);
   }

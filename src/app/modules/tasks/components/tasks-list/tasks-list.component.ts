@@ -66,7 +66,7 @@ export class TasksListComponent extends EntitiesListBase implements OnInit, OnDe
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         tasks => {
-          this.tasks = this.tasks.concat(tasks);
+          this.tasks = tasks;
 
           const msg: string = `${tasks.length} tasks successfully fetched.`;
           this.showMessage(msg);

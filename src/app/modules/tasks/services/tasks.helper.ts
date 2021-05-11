@@ -16,14 +16,12 @@ export class TasksHelper {
     return this.tasksProvider.createTask(taskItem);
   }
 
-  public updateTask(task: Task): Promise<Task> {
-    return new Promise(resolve => {
-      const taskItem: Task = {
-        ...task
-      };
+  public updateTask(task: Task): Observable<Task> {
+    const taskItem: Task = {
+      ...task
+    };
 
-      resolve(taskItem);
-    });
+    return this.tasksProvider.editTask(taskItem);
   }
 
 }
