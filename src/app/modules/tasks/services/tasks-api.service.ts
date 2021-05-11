@@ -39,8 +39,8 @@ export class TasksApiService extends ApiService {
     this.taskCtor = new Ctor(Task);
   }
 
-  public getTasks(limit: number = 10, offset: number = 0): Observable<Task[]> {
-    const request: string = `${this.endpoint}/tasks?limit=${limit}&offset=${offset}`;
+  public getTasks(page: number, size: number): Observable<Task[]> {
+    const request: string = `${this.endpoint}/tasks?page=${page}&size=${size}`;
 
     const source: Observable<any[]> = this.http.get<any[]>(request);
 

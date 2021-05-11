@@ -18,8 +18,8 @@ export class TasksProvider {
     return this.tasksMocks.asObservable();
   }
 
-  public getTasks(limit?: number, offset?: number): Observable<Task[]> {
-    return this.tasksApiService.getTasks(limit, offset);
+  public getTasks(page: number, size: number): Observable<Task[]> {
+    return this.tasksApiService.getTasks(page, size);
   }
 
   public createTask(task: Task): Observable<Task> {
