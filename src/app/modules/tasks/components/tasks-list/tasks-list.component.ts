@@ -21,8 +21,8 @@ export class TasksListComponent extends EntitiesListBase implements OnInit, OnDe
 
   public tasks: Task[] = [];
 
-  private limit: number = 10;
-  private offset: number = 0;
+  private page: number = 0;
+  private size: number = 10;
 
   private readonly destroy$ = new Subject();
 
@@ -63,15 +63,17 @@ export class TasksListComponent extends EntitiesListBase implements OnInit, OnDe
   }
 
   private prepareTasksToShow(): void {
-    this.tasksProvider.getTasks(this.limit, this.limit)
+    this.tasksProvider.getTasks(this.page, this.size)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         tasks => {
-          this.tasks = tasks;
-          this.limit += 10;
+          this.tasks = this.tasks.concat(tasks);
 
-          const msg: string = `${tasks.length} tasks successfully fetched.`;
-          this.showMessage(msg);
+          if (this.page > 0) {
+            const msg: string = `${tasks.length} tasks successfully fetched.`;
+            this.showMessage(msg);
+          }
+          this.page++;
         },
         (err) => {
           const msg: string = err.error.message;
