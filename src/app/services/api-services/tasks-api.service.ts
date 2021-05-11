@@ -41,7 +41,14 @@ export class TasksApiService extends ApiBaseClass {
 
   public createTask(task: Task): Observable<Task> {
     const request = `${this.endpoint}/createTask`;
-    const taskItem = this.taskRequestMapper.mapEntity(task);
+    const taskItem: Task = this.taskRequestMapper.mapEntity(task);
+    const source = this.http.post<Task>(request, taskItem);
+    return this.taskResponseMapper.mapSingleEntity(source);
+  }
+
+  public editTask(task: Task, taskId: string): Observable<Task> {
+    const request = `${this.endpoint}/task/${taskId}`;
+    const taskItem: Task = this.taskRequestMapper.mapEntity(task);
     const source = this.http.post<Task>(request, taskItem);
     return this.taskResponseMapper.mapSingleEntity(source);
   }
