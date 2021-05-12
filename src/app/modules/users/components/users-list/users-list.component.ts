@@ -54,7 +54,9 @@ export class UsersListComponent extends EntitiesListBase implements OnInit, OnDe
   }
 
   public pageEventHandler(event: PageEvent): void {
-    this.prepareUsersToShow(event.pageIndex, event.pageSize);
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.prepareUsersToShow();
   }
 
   private subscribeToUserCreation(): void {
@@ -145,7 +147,7 @@ export class UsersListComponent extends EntitiesListBase implements OnInit, OnDe
   }
 
   private init(): void {
-    this.prepareUsersToShow(this.currentPage, this.pageSize);
+    this.prepareUsersToShow();
     this.activateFilterPredicate();
     this.subscribeToUserCreation();
     this.subscribeToUserRemoval();
@@ -169,9 +171,9 @@ export class UsersListComponent extends EntitiesListBase implements OnInit, OnDe
     return value.trim().toLowerCase().indexOf(filter) !== -1;
   }
 
-  private prepareUsersToShow(page: number, size: number): void {
+  private prepareUsersToShow(): void {
     this.usersProvider
-      .getUsers(page, size)
+      .getUsers(this.currentPage, this.pageSize)
       .pipe(takeUntil(this.destroy$))
       .subscribe((users) => {
         this.length = this.users.data.length;
