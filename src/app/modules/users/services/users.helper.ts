@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
+import { UsersProvider } from './users.provider';
 
 @Injectable()
 export class UsersHelper {
 
-  constructor() { }
+  constructor(private usersProvider: UsersProvider) { }
 
-  public createNewUser(user: User): Promise<User> {
-    return new Promise(resolve => {
+  public createNewUser(user: User): Observable<User> {
       const userItem: User = {
         id: this.generateId(),
         ...user,
         isAdmin: false
       };
 
-      resolve(userItem);
-    });
+      return this.usersProvider.createUser(userItem);
   }
 
   // todo - return observable

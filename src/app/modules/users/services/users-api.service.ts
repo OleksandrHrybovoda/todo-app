@@ -19,6 +19,20 @@ export class UsersApiService extends ApiService {
     'gender': 'gender',
     'email': 'email',
     'login': 'login',
+    'password': 'pwd',
+    'isAdmin': 'isAdmin'
+  };
+
+  private userCreateUpdateFields: FieldsMap = {
+    '_id': 'id',
+    'First_Name': 'firstName',
+    'lastName': 'lastName',
+    'shortcut': 'shortcut',
+    'age': 'age',
+    'gender': 'gender',
+    'email': 'email',
+    'logIN': 'login',
+    'pwd': 'password',
     'isAdmin': 'isAdmin'
   };
 
@@ -34,6 +48,16 @@ export class UsersApiService extends ApiService {
     const source: Observable<User[]> = this.http.get<User[]>(url);
 
     return this.entityMapper.mapEntities(source, this.userResponseFields, this.userCtor);
+  }
+
+  public createUser(user: User): Observable<User> {
+    const request: string = `${this.endpoint}/createUser`;
+
+    const userToSend: any = this.entityMapper.createEntity(user, this.userCreateUpdateFields);
+
+    const source: Observable<User> = this.http.post<User>(request, userToSend);
+
+    return this.entityMapper.mapEntity(source, this.userResponseFields, this.userCtor);
   }
 
   public deleteUser(userId: number): Observable<string> {

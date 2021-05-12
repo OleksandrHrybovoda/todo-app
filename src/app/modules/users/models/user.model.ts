@@ -7,5 +7,6 @@ export class User {
   gender: string;
   email: string;
   login: string;
+  password: string;
   isAdmin: boolean;
 }

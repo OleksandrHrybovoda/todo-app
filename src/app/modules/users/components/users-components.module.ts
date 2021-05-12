@@ -17,7 +17,6 @@ import { UserFormComponent } from './user-form/user-form.component';
 @NgModule({
   imports: [
     CommonModule,
-    SharedComponentsModule,
     MatTableModule,
     MatDialogModule,
     ReactiveFormsModule,
@@ -27,7 +26,8 @@ import { UserFormComponent } from './user-form/user-form.component';
     MatIconModule,
     MatPaginatorModule,
     MatSortModule,
-    MatButtonModule
+    MatButtonModule,
+    SharedComponentsModule
   ],
   declarations: [
     UsersListComponent,
