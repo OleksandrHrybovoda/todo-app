@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { AddEntitiesComponent } from 'src/app/components/add-entities/add-entities.component';
 import { MessagesService } from 'src/app/services/messages.service';
 import { EntitiesListBase } from '../../../../components/entities-list-base/entities-list-base.component';
 import { User } from '../../models/user.model';
@@ -106,6 +107,24 @@ export class UsersListComponent extends EntitiesListBase implements OnInit, OnDe
     this.users.filter = '';
   }
 
+  public async deleteAllUsers(): Promise<void> {
+    const title: string = 'Delete all users';
+    const message: string = 'Are you sure you want to delete all the users ?';
+    const action: string = 'DELETE';
+
+    const deletionConfirmed = await this.msgService.confirm(title, message, action);
+
+    if (!deletionConfirmed) {
+      return;
+    }
+
+    for (const iterator of this.users.data) {
+      this.usersProvider.deleteUser(iterator.id).subscribe(() => {
+        this.userStateManagementService.sendUserRemovalEvent(iterator);
+      });
+    }
+  }
+
   public async onDeleteButtonClick(user: User): Promise<void> {
     const title: string = 'Delete user';
     const message: string = 'Are you sure you want to delete user ?';
@@ -142,6 +161,41 @@ export class UsersListComponent extends EntitiesListBase implements OnInit, OnDe
 
   public openDialogToAddUser(): void {
     this.msgService.openDialog(UserFormComponent);
+  }
+
+  public openDialogToAddUsers(): void {
+    const data = {
+      title: 'users',
+      confirmButtonText: 'Add users',
+      amount: null
+    };
+    const dialogRef = this.msgService.openDialog(AddEntitiesComponent, data);
+
+    dialogRef.afterClosed().subscribe(result => {
+      data.amount = result;
+      if (data.amount) {
+        this.generateNewUsers(data.amount);
+      }
+    });
+  }
+
+  private generateNewUsers(amount: number): void {
+    for (let index = 0; index < amount; index++) {
+      const user = {
+        id: index + 1,
+        firstName: `First name ${index + 1}`,
+        lastName: `Last name ${index + 1}`,
+        shortcut: `Shortcut ${index + 1}`,
+        age: 5 * (index + 4),
+        gender: 'm',
+        email: `${index}@mail.com`,
+        login: `Login ${1}`,
+        isAdmin: false
+      };
+      this.addNewUserToList(user);
+    }
+    const msg: string = 'Successfully added users!';
+    this.showMessage(msg);
   }
 
   private init(): void {

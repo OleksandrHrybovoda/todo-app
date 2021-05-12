@@ -1,4 +1,6 @@
-<app-header [pageName]="'Users'">
+<app-header [pageName]="'Users'" class="header">
+  <button mat-raised-button (click)="deleteAllUsers()">DELETE ALL USERS</button>
+  <button mat-raised-button (click)="openDialogToAddUsers()">ADD USERS</button>
   <button mat-raised-button (click)="openDialogToAddUser()">ADD NEW USER</button>
 </app-header>
 
