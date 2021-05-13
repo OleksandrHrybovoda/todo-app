@@ -5,6 +5,7 @@ import {
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { AddEntitiesComponent } from 'src/app/components/add-entities/add-entities.component';
 import { MessagesService } from 'src/app/services/messages.service';
 import { EntitiesListBase } from '../../../../components/entities-list-base/entities-list-base.component';
 import { Task } from '../../models/task.model';
@@ -55,11 +56,60 @@ export class TasksListComponent extends EntitiesListBase implements OnInit, OnDe
     this.msgService.openDialog(TaskFormComponent);
   }
 
+  public openDialogToAddTasks(): void {
+    const data = {
+      title: 'tasks',
+      confirmButtonText: 'Add tasks',
+      amount: null
+    };
+    const dialogRef = this.msgService.openDialog(AddEntitiesComponent, data);
+
+    dialogRef.afterClosed().subscribe(result => {
+      data.amount = result;
+      if (data.amount) {
+        this.generateNewTasks(data.amount);
+      }
+    });
+  }
+
+  private generateNewTasks(amount: number): void {
+    for (let index = 0; index < amount; index++) {
+      const task = {
+        id: index.toString(),
+        title: `Task ${index + 1}`,
+        description: `description ${index + 1}`,
+        creationDate: new Date().toString(),
+        lastUpdatedDate: new Date().toString()
+      };
+      this.addNewTaskToList(task);
+    }
+    const msg: string = 'Successfully added tasks!';
+    this.showMessage(msg);
+  }
+
   private init(): void {
     this.prepareTasksToShow(false);
     this.subscribeToTaskCreation();
     this.subscribeToTaskRemoval();
     this.subscribeToTaskUpdate();
+  }
+
+  public async deleteAllTasks(): Promise<void> {
+    const title: string = 'Delete all tasks';
+    const message: string = 'Are you sure you want to delete all the tasks ?';
+    const action: string = 'DELETE';
+
+    const deletionConfirmed = await this.msgService.confirm(title, message, action);
+
+    if (!deletionConfirmed) {
+      return;
+    }
+
+    for (const iterator of this.tasks) {
+      this.tasksProvider.deleteTask(iterator.id).subscribe(() => {
+        this.stateManagementService.sendTaskRemovalEvent(iterator);
+      });
+    }
   }
 
   private prepareTasksToShow(showMsg: boolean = true): void {
