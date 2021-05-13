@@ -11,8 +11,4 @@ export class AddEntitiesComponent {
   constructor(public dialogRef: MatDialogRef<AddEntitiesComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any) { }
 
-  public cancel(): void {
-    this.dialogRef.close();
-  }
-
 }
