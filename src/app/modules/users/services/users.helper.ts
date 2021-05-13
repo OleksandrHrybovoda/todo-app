@@ -18,15 +18,12 @@ export class UsersHelper {
       return this.usersProvider.createUser(userItem);
   }
 
-  // todo - return observable
-  public updateUser(user: User): Promise<User> {
-    return new Promise(resolve => {
-      const userItem: User = {
-        ...user,
-      };
+  public updateUser(user: User): Observable<User> {
+    const userItem: User = {
+      ...user,
+    };
 
-      resolve(userItem);
-    });
+    return this.usersProvider.editUser(userItem);
   }
 
   private generateId(): number {
