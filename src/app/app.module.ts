@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TasksModule } from './modules/tasks/tasks.module';
 import { ServicesModule } from './services/services.module';
 import { MatSelectModule } from '@angular/material/select';
+import { UsersModule } from './modules/users/users.module';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatSelectModule,
     ServicesModule,
     TasksModule,
+    UsersModule
   ],
   declarations: [
     AppComponent

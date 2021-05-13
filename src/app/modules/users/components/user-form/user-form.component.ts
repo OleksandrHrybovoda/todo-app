@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from '../../models/user.model';
 import { UserStateManagementService } from '../../services/user-state-management.service';
+import { UsersApiService } from '../../services/users-api.service';
 import { UsersHelper } from '../../services/users.helper';
 
 @Component({
@@ -32,6 +33,7 @@ export class UserFormComponent implements OnInit {
     private fb: FormBuilder,
     private userHelper: UsersHelper,
     private userStateManagementService: UserStateManagementService,
+    private usersApiService: UsersApiService,
     private authService: AuthService,
     private usersHelper: UsersHelper,
     @Inject(MAT_DIALOG_DATA) private user?: User
@@ -118,7 +120,7 @@ export class UserFormComponent implements OnInit {
   }
 
   private createUser(): void {
-    this.userHelper.createNewUser(this.userForm.value).then(createdUser => {
+    this.userHelper.createNewUser(this.userForm.value).subscribe(createdUser => {
       this.userStateManagementService.sendUserCreationEvent(createdUser);
     });
   }

@@ -9,6 +9,7 @@ export const usersMocks: User[] = [{
   gender: 'm',
   email: 'gribmail@gmail.com',
   login: 'alex1998',
+  password: '',
   isAdmin: true
 }, {
   id: 2,
@@ -19,6 +20,7 @@ export const usersMocks: User[] = [{
   gender: 'f',
   email: 'oksana@gmail.com',
   login: 'oksana16',
+  password: '',
   isAdmin: false
 }, {
   id: 3,
@@ -29,6 +31,7 @@ export const usersMocks: User[] = [{
   gender: 'm',
   email: 'tors@gmail.com',
   login: 'tors26',
+  password: '',
   isAdmin: false
 }, {
   id: 4,
@@ -39,6 +42,7 @@ export const usersMocks: User[] = [{
   gender: 'm',
   email: 'krom@gmail.com',
   login: 'krom18',
+  password: '',
   isAdmin: false
 }, {
   id: 5,
@@ -49,6 +53,7 @@ export const usersMocks: User[] = [{
   gender: 'f',
   email: 'katya@gmail.com',
   login: 'katya18',
+  password: '',
   isAdmin: false
 }, {
   id: 6,
@@ -59,5 +64,6 @@ export const usersMocks: User[] = [{
   gender: 'm',
   email: 'roman@gmail.com',
   login: 'roman25',
+  password: '',
   isAdmin: false
 }];
