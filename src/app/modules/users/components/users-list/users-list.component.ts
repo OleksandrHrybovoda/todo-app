@@ -192,6 +192,7 @@ export class UsersListComponent extends EntitiesListBase implements OnInit, OnDe
         gender: 'm',
         email: `${index}@mail.com`,
         login: `Login ${1}`,
+        password: '',
         isAdmin: false
       };
       this.addNewUserToList(user);

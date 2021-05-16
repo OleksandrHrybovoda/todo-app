@@ -26,6 +26,10 @@ export class UsersProvider {
     return this.usersApiService.createUser(user);
   }
 
+  public editUser(user: User): Observable<User> {
+    return this.usersApiService.editUser(user);
+  }
+
   public deleteUser(userId: number): Observable<string> {
     return this.usersApiService.deleteUser(userId);
   }

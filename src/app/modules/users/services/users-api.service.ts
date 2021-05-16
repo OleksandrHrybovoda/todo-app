@@ -60,6 +60,16 @@ export class UsersApiService extends ApiService {
     return this.entityMapper.mapEntity(source, this.userResponseFields, this.userCtor);
   }
 
+  public editUser(user: User): Observable<User> {
+    const request: string = `${this.endpoint}/user/${user.id}`;
+
+    const userToSend: any = this.entityMapper.createEntity(user, this.userCreateUpdateFields);
+
+    const source: Observable<User> = this.http.post<User>(request, userToSend);
+
+    return this.entityMapper.mapEntity(source, this.userResponseFields, this.userCtor);
+  }
+
   public deleteUser(userId: number): Observable<string> {
     const url: string = `${this.endpoint}/user/${userId}`;
     return this.http.delete<string>(url);

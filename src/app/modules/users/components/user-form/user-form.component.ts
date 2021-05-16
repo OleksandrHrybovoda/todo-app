@@ -114,7 +114,7 @@ export class UserFormComponent implements OnInit {
       id: this.user.id,
       ...this.userForm.value
     };
-    this.usersHelper.updateUser(this.user).then(updatedUser => {
+    this.usersHelper.updateUser(this.user).subscribe(updatedUser => {
       this.userStateManagementService.sendUserUpdateEvent(updatedUser);
     });
   }
