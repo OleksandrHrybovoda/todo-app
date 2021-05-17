@@ -21,8 +21,6 @@ export class UserFormComponent implements OnInit {
   buttonText: string;
   hidePassword: boolean = true;
 
-  email: FormControl;
-
   constructor(
     private fb: FormBuilder,
     private userHelper: UsersHelper,
@@ -116,11 +114,11 @@ export class UserFormComponent implements OnInit {
   }
 
   public getEmailErrorMessage(): string {
-    if (this.email.hasError('required')) {
+    if (this.userForm.get('email').hasError('required')) {
       return 'You must enter a value';
     }
 
-    return this.email.hasError('email') ? 'Not a valid email' : '';
+    return this.userForm.get('email').hasError('email') ? 'Not a valid email' : '';
   }
 
   private setTitle(): void {
