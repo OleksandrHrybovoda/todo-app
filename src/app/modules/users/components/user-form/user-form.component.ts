@@ -9,6 +9,7 @@ import { UserStateManagementService } from '../../services/user-state-management
 import { UsersHelper } from '../../services/users.helper';
 import { combineLatest, forkJoin, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { UsersProvider } from '../../services/users.provider';
 
 @Component({
   selector: 'user-form',
@@ -22,17 +23,17 @@ export class UserFormComponent implements OnInit, OnDestroy {
   titleForm: string;
   buttonText: string;
   hidePassword: boolean = true;
-  isFormDirty: boolean = false;
+  shortcut: string;
 
   private readonly destroy$ = new Subject();
 
   constructor(
     private fb: FormBuilder,
-    private userHelper: UsersHelper,
     private userStateManagementService: UserStateManagementService,
     private authService: AuthService,
     private msgService: MessagesService,
     private usersHelper: UsersHelper,
+    private usersProvider: UsersProvider,
     public matDialogRef: MatDialogRef<UserFormComponent>,
     @Inject(MAT_DIALOG_DATA) private user?: User
   ) { }
@@ -45,65 +46,62 @@ export class UserFormComponent implements OnInit, OnDestroy {
     this.initForm();
     this.setTitle();
     if (!this.isEditMode()) {
-      this.initFormFieldsEvents();
+      this.initShortcutFeature();
     }
-    this.initFullFormEvents();
   }
 
-  private initFormFieldsEvents(): void {
+  private initShortcutFeature(): void {
     const firstNameObservable = this.userForm.get('firstName').valueChanges;
     const lastNameObservable = this.userForm.get('lastName').valueChanges;
-    let index: number = 1;
 
-    const joinStream = combineLatest([firstNameObservable, lastNameObservable]);
-    joinStream
+    combineLatest([firstNameObservable, lastNameObservable])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([firstName, lastName]) => {
         if (firstName && lastName) {
-          const shortcut: string = `${firstName[0].toUpperCase()}${lastName[0].toUpperCase()}`;
-          const isUnique: Observable<boolean> = this.checkIsShortcutUnique(shortcut);
-          isUnique.subscribe(value => {
-            if (value) {
-              this.userForm.patchValue({
-                shortcut
-              });
-            } else {
-              const potentialShortcut: string = `${shortcut}${index}`;
-              if (index <= 10) {
-                this.checkIsShortcutUnique(potentialShortcut);
-                index++;
-              }
-            }
-          });
+          this.getPotentialShortcut(firstName, lastName);
         }
       });
   }
 
-  private initFullFormEvents(): void {
-    this.userForm.valueChanges.subscribe(values => {
-      for (const key in values) {
-        if (values[key] !== null && values[key] !== '') {
-            this.isFormDirty = true;
+  private getPotentialShortcut(firstName: string, lastName: string): void {
+    const shortcut: string = `${firstName[0].toUpperCase()}${lastName[0].toUpperCase()}`;
+    const index = 1;
+    this.checkIsShortcutUnique(shortcut, index);
+  }
+
+  private checkIsShortcutUnique(shortcut: string, index: number): void {
+    this.usersProvider.isShortcutUnique(shortcut).subscribe(isShortcutUnique => {
+      if (isShortcutUnique) {
+        this.shortcut = shortcut;
+      } else {
+        if (index > 10) {
+          return null;
         }
+        const potentialShortcut: string = `${shortcut}${index}`;
+        index++;
+        this.checkIsShortcutUnique(potentialShortcut, index);
       }
     });
   }
 
-  public checkIsShortcutUnique(shortcut: string): Observable<boolean> {
-    const subject = new Subject<boolean>();
-
-    this.userHelper.checkIsShortcutUnique(shortcut).subscribe(isShortcutUnique => {
-      return subject.next(isShortcutUnique);
+  public setProposalShortcut(): void {
+    this.userForm.patchValue({
+      shortcut: this.shortcut
     });
-
-    return subject.asObservable();
   }
 
-  public onCancelClick(): void {
-    (this.isFormDirty && !this.isEditMode()) ? this.onDeactivate() : this.matDialogRef.close();
+  public async onCancelClick(): Promise<void> {
+    if (this.userForm.dirty) {
+      const confirmed = await this.confirmExit();
+      if (!confirmed) {
+       return;
+      }
+    }
+
+    this.matDialogRef.close();
   }
 
-  private async onDeactivate(): Promise<void> {
+  private async confirmExit(): Promise<boolean> {
     const title = 'Are you sure you want to leave?';
     const message = 'You have unsaved changes. Are you sure you want to leave this page? Unsaved changes will be lost.';
     const confirmButtonText = 'Leave';
@@ -112,11 +110,9 @@ export class UserFormComponent implements OnInit, OnDestroy {
       message,
       confirmButtonText
     });
-    const response = await dialogRef.afterClosed().toPromise();
+    const response: any = await dialogRef.afterClosed().toPromise();
 
-    if (response) {
-      this.matDialogRef.close();
-    }
+    return response;
   }
 
   private initForm(): void {
@@ -179,7 +175,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   private createUser(): void {
-    this.userHelper.createNewUser(this.userForm.value).subscribe(createdUser => {
+    this.usersHelper.createNewUser(this.userForm.value).subscribe(createdUser => {
       this.userStateManagementService.sendUserCreationEvent(createdUser);
     });
   }

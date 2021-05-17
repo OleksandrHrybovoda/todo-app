@@ -12,9 +12,10 @@
       </mat-form-field>
     </div>
 
-    <mat-form-field class="field-control">
+    <mat-form-field class="field-control" [hintLabel]="shortcut ? 'Proposal' : null">
       <mat-label>Shortcut</mat-label>
       <input matInput formControlName="shortcut">
+      <mat-hint align="end" class="hint" (click)="setProposalShortcut()">{{ shortcut }}</mat-hint>
     </mat-form-field>
 
     <mat-form-field class="field-control">

@@ -26,10 +26,6 @@ export class UsersHelper {
     return this.usersProvider.editUser(userItem);
   }
 
-  public checkIsShortcutUnique(shortcut: string): Observable<boolean> {
-    return this.usersProvider.isShortcutUnique(shortcut);
-  }
-
   private generateId(): number {
     return Math.floor(Math.random() * 100);
   }
