@@ -22,7 +22,7 @@ export class UsersListComponent extends EntitiesListBase implements OnInit, OnDe
   @ViewChild('sort') sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  public users: MatTableDataSource<User> = new MatTableDataSource();
+  public users: MatTableDataSource<User> = new MatTableDataSource<User>();
   public length: number;
   public pageSize: number = 20;
   public currentPage: number = 0;
@@ -232,7 +232,7 @@ export class UsersListComponent extends EntitiesListBase implements OnInit, OnDe
       .pipe(takeUntil(this.destroy$))
       .subscribe((users) => {
         this.length = this.users.data.length;
-        this.users = new MatTableDataSource(users);
+        this.users.data = users;
       });
   }
 
