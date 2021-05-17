@@ -1,10 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ConfirmComponent } from 'src/app/components/confirm/confirm.component';
 import { AuthService } from 'src/app/services/auth.service';
+import { MessagesService } from 'src/app/services/messages.service';
 import { User } from '../../models/user.model';
 import { UserStateManagementService } from '../../services/user-state-management.service';
-import { UsersApiService } from '../../services/users-api.service';
 import { UsersHelper } from '../../services/users.helper';
 
 @Component({
@@ -20,22 +21,16 @@ export class UserFormComponent implements OnInit {
   buttonText: string;
   hidePassword: boolean = true;
 
-  firstName: FormControl;
-  lastName: FormControl;
-  shortcut: FormControl;
-  age: FormControl;
-  gender: FormControl;
   email: FormControl;
-  login: FormControl;
-  password: FormControl;
 
   constructor(
     private fb: FormBuilder,
     private userHelper: UsersHelper,
     private userStateManagementService: UserStateManagementService,
-    private usersApiService: UsersApiService,
     private authService: AuthService,
+    private msgService: MessagesService,
     private usersHelper: UsersHelper,
+    public matDialogRef: MatDialogRef<UserFormComponent>,
     @Inject(MAT_DIALOG_DATA) private user?: User
   ) { }
 
@@ -46,13 +41,56 @@ export class UserFormComponent implements OnInit {
   private init(): void {
     this.initForm();
     this.setTitle();
+    this.checkFormChanges();
+  }
+
+  private checkFormChanges(): void {
+    this.userForm.get('firstName').valueChanges.subscribe(firstName => {
+      this.userForm.get('lastName').valueChanges.subscribe(lastName => {
+        if (firstName && lastName) {
+          const shortcut = `${firstName[0].toUpperCase()}${lastName[0].toUpperCase()}`;
+          this.checkIsShortcutUnique(shortcut);
+        }
+      });
+    });
+  }
+
+  public checkIsShortcutUnique(shortcut: string, index?: number): void {
+    this.userHelper.checkIsShortcutUnique(shortcut).subscribe(isUnique => {
+      if (isUnique) {
+        this.userForm.patchValue({
+          shortcut
+        });
+      }
+      if (!isUnique) {
+        let i = 1 || index;
+        shortcut += i;
+        this.checkIsShortcutUnique(shortcut, i++);
+        shortcut = shortcut.slice(0, -1);
+      }
+    });
+  }
+
+  public async canDeactivate(): Promise<void> {
+    const title = 'Are you sure you want to leave?';
+    const message = 'You have unsaved changes. Are you sure you want to leave this page? Unsaved changes will be lost.';
+    const confirmButtonText = 'Leave';
+    const dialogRef = this.msgService.openDialog(ConfirmComponent, {
+      title,
+      message,
+      confirmButtonText
+    });
+    const response = await dialogRef.afterClosed().toPromise();
+
+    if (response) {
+      this.matDialogRef.close();
+    }
   }
 
   private initForm(): void {
     let firstName = '';
     let lastName = '';
     let shortcut = '';
-    let age = null;
     let gender = 'u';
     let email = '';
     let login = '';
@@ -61,30 +99,19 @@ export class UserFormComponent implements OnInit {
       firstName = this.user.firstName;
       lastName = this.user.lastName;
       shortcut = this.user.shortcut;
-      age = this.user.age;
       gender = this.user.gender;
       email = this.user.email;
       login = this.user.login;
     }
 
-    this.firstName = new FormControl(firstName, Validators.required);
-    this.lastName = new FormControl(lastName, Validators.required);
-    this.shortcut = new FormControl(shortcut, Validators.required);
-    this.age = new FormControl(age, [Validators.required, Validators.min(1)]);
-    this.gender = new FormControl(gender, Validators.required);
-    this.email = new FormControl(email, [Validators.required, Validators.email]);
-    this.login = new FormControl(login, Validators.required);
-    this.password = new FormControl('', Validators.minLength(3));
-
     this.userForm = this.fb.group({
-      firstName: this.firstName,
-      lastName: this.lastName,
-      shortcut: this.shortcut,
-      age: this.age,
-      gender: this.gender,
-      email: this.email,
-      login: this.login,
-      password: this.password
+      firstName: firstName,
+      lastName: lastName,
+      shortcut: shortcut,
+      gender: gender,
+      email: email,
+      login: login,
+      password: ''
     });
   }
 
@@ -106,7 +133,7 @@ export class UserFormComponent implements OnInit {
   }
 
   public generatePassword(): void {
-    this.password.setValue(this.authService.generatePassword(15));
+    this.userForm.patchValue({ password: this.authService.generatePassword(15) });
   }
 
   private editUser(): void {
@@ -125,7 +152,7 @@ export class UserFormComponent implements OnInit {
     });
   }
 
-  private isEditMode(): boolean {
+  public isEditMode(): boolean {
     return this.user !== undefined;
   }
 

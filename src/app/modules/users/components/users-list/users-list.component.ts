@@ -144,7 +144,8 @@ export class UsersListComponent extends EntitiesListBase implements OnInit, OnDe
   }
 
   public onEditButtonClick(user: User): void {
-    this.msgService.openDialog(UserFormComponent, user);
+    const dialogRef = this.msgService.openDialog(UserFormComponent, user);
+    dialogRef.disableClose = true;
   }
 
   public applyFilter(event: Event): void {
@@ -162,7 +163,8 @@ export class UsersListComponent extends EntitiesListBase implements OnInit, OnDe
   }
 
   public openDialogToAddUser(): void {
-    this.msgService.openDialog(UserFormComponent);
+    const dialogRef = this.msgService.openDialog(UserFormComponent);
+    dialogRef.disableClose = true;
   }
 
   public openDialogToAddUsers(): void {

@@ -74,4 +74,9 @@ export class UsersApiService extends ApiService {
     const url: string = `${this.endpoint}/user/${userId}`;
     return this.http.delete<string>(url);
   }
+
+  public isShortcutUnique(shortcut: string): Observable<boolean> {
+    const url: string = `${this.endpoint}/isShortcutUnique`;
+    return this.http.post<boolean>(url, shortcut);
+  }
 }
