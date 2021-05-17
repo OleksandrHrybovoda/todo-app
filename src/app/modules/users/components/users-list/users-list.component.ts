@@ -157,8 +157,10 @@ export class UsersListComponent extends EntitiesListBase implements OnInit, OnDe
   }
 
   public ngAfterViewInit(): void {
-    this.users.sort = this.sort;
-    this.users.paginator = this.paginator;
+    setTimeout(() => {
+      this.users.sort = this.sort;
+      this.users.paginator = this.paginator;
+    });
   }
 
   public openDialogToAddUser(): void {
