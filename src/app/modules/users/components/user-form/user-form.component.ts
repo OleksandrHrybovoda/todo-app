@@ -53,7 +53,7 @@ export class UserFormComponent implements OnInit {
     let lastName = '';
     let shortcut = '';
     let age = null;
-    let gender = '';
+    let gender = 'u';
     let email = '';
     let login = '';
 
