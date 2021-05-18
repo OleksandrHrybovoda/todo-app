@@ -26,6 +26,12 @@ export class UsersHelper {
     return this.usersProvider.editUser(userItem);
   }
 
+  public getPotentialShortcut(firstName: string, lastName: string): Observable<boolean> {
+    const shortcut: string = `${firstName[0].toUpperCase()}${lastName[0].toUpperCase()}`;
+
+    return this.usersProvider.isShortcutUnique(shortcut);
+  }
+
   private generateId(): number {
     return Math.floor(Math.random() * 100);
   }

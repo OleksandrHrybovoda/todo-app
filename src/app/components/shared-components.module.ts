@@ -21,6 +21,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatDialogModule,
     MatTableModule,
     FormsModule,
+    MatFormFieldModule,
     MatInputModule
   ],
   declarations: [

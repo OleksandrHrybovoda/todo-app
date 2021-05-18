@@ -11,8 +11,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
-import { UserFormComponent } from './user-form/user-form.component';
 import { SharedComponentsModule } from 'src/app/components/shared-components.module';
+import { UserFormComponent } from './user-form/user-form.component';
 
 @NgModule({
   imports: [

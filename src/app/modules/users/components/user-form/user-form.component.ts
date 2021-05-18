@@ -7,8 +7,8 @@ import { MessagesService } from 'src/app/services/messages.service';
 import { User } from '../../models/user.model';
 import { UserStateManagementService } from '../../services/user-state-management.service';
 import { UsersHelper } from '../../services/users.helper';
-import { combineLatest, forkJoin, Observable, Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { combineLatest, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { UsersProvider } from '../../services/users.provider';
 
 @Component({
@@ -34,7 +34,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
     private msgService: MessagesService,
     private usersHelper: UsersHelper,
     private usersProvider: UsersProvider,
-    public matDialogRef: MatDialogRef<UserFormComponent>,
+    private matDialogRef: MatDialogRef<UserFormComponent>,
     @Inject(MAT_DIALOG_DATA) private user?: User
   ) { }
 
@@ -58,30 +58,31 @@ export class UserFormComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(([firstName, lastName]) => {
         if (firstName && lastName) {
-          this.getPotentialShortcut(firstName, lastName);
+          this.setPotentialShortcut(firstName, lastName);
         }
       });
   }
 
-  private getPotentialShortcut(firstName: string, lastName: string): void {
+  private setPotentialShortcut(firstName: string, lastName: string, index?: number): void {
     const shortcut: string = `${firstName[0].toUpperCase()}${lastName[0].toUpperCase()}`;
-    const index = 1;
-    this.checkIsShortcutUnique(shortcut, index);
+    let iter = 1 && index;
+    this.usersProvider.isShortcutUnique(shortcut).subscribe(isUnique => {
+      this.shortcut = this.checkIsShortcutUnique(isUnique, shortcut, iter);
+      console.log(shortcut);
+    });
   }
 
-  private checkIsShortcutUnique(shortcut: string, index: number): void {
-    this.usersProvider.isShortcutUnique(shortcut).subscribe(isShortcutUnique => {
-      if (isShortcutUnique) {
-        this.shortcut = shortcut;
-      } else {
-        if (index > 10) {
-          return null;
-        }
-        const potentialShortcut: string = `${shortcut}${index}`;
-        index++;
-        this.checkIsShortcutUnique(potentialShortcut, index);
+  private checkIsShortcutUnique(isUnique: boolean, shortcut: string, index: number): string | null {
+    if (isUnique) {
+      return shortcut;
+    } else {
+      if (index > 10) {
+        return null;
       }
-    });
+      const potentialShortcut: string = `${shortcut}${index}`;
+      index++;
+      this.setPotentialShortcut(potentialShortcut[0], potentialShortcut[1], index);
+    }
   }
 
   public setProposalShortcut(): void {
