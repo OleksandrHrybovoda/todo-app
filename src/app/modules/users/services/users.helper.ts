@@ -26,24 +26,25 @@ export class UsersHelper {
     return this.usersProvider.editUser(userItem);
   }
 
-  public async getPotentialShortcut(firstName: string, lastName: string): Promise<string | void> {
-    let shortcut: string | void = `${firstName}${lastName}`;
+  public async getPotentialShortcut(firstName: string, lastName: string, iterator = 1): Promise<string | null> {
+    let shortcut: string = `${firstName.toUpperCase()}${lastName.toUpperCase()}`;
 
     shortcut = await this.usersProvider.isShortcutUnique(shortcut).then(isUnique => {
-      return this.checkIsShortcutUnique(isUnique, shortcut);
+      return this.checkIsShortcutUnique(isUnique, shortcut, iterator);
     });
 
     return shortcut;
   }
 
-  private checkIsShortcutUnique(isUnique: boolean, shortcut: string | void): string | void {
+  private checkIsShortcutUnique(isUnique: boolean, shortcut: string, iterator: number): string | null {
     if (isUnique) {
       return shortcut;
     } else {
-      for (let index = 0; index <= 10; index++) {
-        const potentialShortcut: string = `${shortcut}${index}`;
-        this.getPotentialShortcut(potentialShortcut[0], potentialShortcut[1]);
+      if (iterator > 10) {
+        return null;
       }
+      const potentialShortcut: string = `${shortcut}${iterator}`;
+      this.getPotentialShortcut(potentialShortcut[0], potentialShortcut[1], ++iterator);
     }
   }
 

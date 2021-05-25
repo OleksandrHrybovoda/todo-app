@@ -58,7 +58,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(([firstName, lastName]) => {
         if (firstName && lastName) {
-          this.usersHelper.getPotentialShortcut(firstName[0].toUpperCase(), lastName[0].toUpperCase()).then(shortcut => {
+          this.usersHelper.getPotentialShortcut(firstName[0], lastName[0]).then(shortcut => {
             this.shortcut = shortcut;
           });
         }
