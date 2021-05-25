@@ -34,7 +34,7 @@ export class UsersProvider {
     return this.usersApiService.deleteUser(userId);
   }
 
-  public isShortcutUnique(shortcut: string): Observable<boolean> {
+  public isShortcutUnique(shortcut: string): Promise<boolean> {
     return this.usersApiService.isShortcutUnique(shortcut);
   }
 

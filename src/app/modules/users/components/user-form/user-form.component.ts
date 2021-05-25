@@ -23,7 +23,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   titleForm: string;
   buttonText: string;
   hidePassword: boolean = true;
-  shortcut: string;
+  shortcut: string | void;
 
   private readonly destroy$ = new Subject();
 
@@ -58,31 +58,11 @@ export class UserFormComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(([firstName, lastName]) => {
         if (firstName && lastName) {
-          this.setPotentialShortcut(firstName, lastName);
+          this.usersHelper.getPotentialShortcut(firstName[0].toUpperCase(), lastName[0].toUpperCase()).then(shortcut => {
+            this.shortcut = shortcut;
+          });
         }
       });
-  }
-
-  private setPotentialShortcut(firstName: string, lastName: string, index?: number): void {
-    const shortcut: string = `${firstName[0].toUpperCase()}${lastName[0].toUpperCase()}`;
-    let iter = 1 && index;
-    this.usersProvider.isShortcutUnique(shortcut).subscribe(isUnique => {
-      this.shortcut = this.checkIsShortcutUnique(isUnique, shortcut, iter);
-      console.log(shortcut);
-    });
-  }
-
-  private checkIsShortcutUnique(isUnique: boolean, shortcut: string, index: number): string | null {
-    if (isUnique) {
-      return shortcut;
-    } else {
-      if (index > 10) {
-        return null;
-      }
-      const potentialShortcut: string = `${shortcut}${index}`;
-      index++;
-      this.setPotentialShortcut(potentialShortcut[0], potentialShortcut[1], index);
-    }
   }
 
   public setProposalShortcut(): void {
@@ -106,14 +86,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
     const title = 'Are you sure you want to leave?';
     const message = 'You have unsaved changes. Are you sure you want to leave this page? Unsaved changes will be lost.';
     const confirmButtonText = 'Leave';
-    const dialogRef = this.msgService.openDialog(ConfirmComponent, {
-      title,
-      message,
-      confirmButtonText
-    });
-    const response: any = await dialogRef.afterClosed().toPromise();
 
-    return response;
+    return this.msgService.confirm(title, message, confirmButtonText);
   }
 
   private initForm(): void {

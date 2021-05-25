@@ -26,10 +26,25 @@ export class UsersHelper {
     return this.usersProvider.editUser(userItem);
   }
 
-  public getPotentialShortcut(firstName: string, lastName: string): Observable<boolean> {
-    const shortcut: string = `${firstName[0].toUpperCase()}${lastName[0].toUpperCase()}`;
+  public async getPotentialShortcut(firstName: string, lastName: string): Promise<string | void> {
+    let shortcut: string | void = `${firstName}${lastName}`;
 
-    return this.usersProvider.isShortcutUnique(shortcut);
+    shortcut = await this.usersProvider.isShortcutUnique(shortcut).then(isUnique => {
+      return this.checkIsShortcutUnique(isUnique, shortcut);
+    });
+
+    return shortcut;
+  }
+
+  private checkIsShortcutUnique(isUnique: boolean, shortcut: string | void): string | void {
+    if (isUnique) {
+      return shortcut;
+    } else {
+      for (let index = 0; index <= 10; index++) {
+        const potentialShortcut: string = `${shortcut}${index}`;
+        this.getPotentialShortcut(potentialShortcut[0], potentialShortcut[1]);
+      }
+    }
   }
 
   private generateId(): number {

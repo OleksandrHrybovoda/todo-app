@@ -75,8 +75,15 @@ export class UsersApiService extends ApiService {
     return this.http.delete<string>(url);
   }
 
-  public isShortcutUnique(shortcut: string): Observable<boolean> {
-    const url: string = `${this.endpoint}/isShortcutUnique`;
-    return this.http.post<boolean>(url, shortcut);
+  public isShortcutUnique(shortcut: string): Promise<boolean> {
+    const promise: Promise<boolean> = new Promise((resolve, reject) => {
+      const url: string = `${this.endpoint}/isShortcutUnique`;
+      this.http.post<boolean>(url, shortcut)
+        .toPromise()
+        .then(res => {
+          resolve(res);
+        });
+    });
+    return promise;
   }
 }
