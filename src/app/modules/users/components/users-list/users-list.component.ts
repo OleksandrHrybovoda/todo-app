@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AddEntitiesComponent } from 'src/app/components/add-entities/add-entities.component';
+import { GenerateData } from 'src/app/models/generate-data.model';
 import { MessagesService } from 'src/app/services/messages.service';
 import { EntitiesListBase } from '../../../../components/entities-list-base/entities-list-base.component';
 import { User } from '../../models/user.model';
@@ -166,14 +167,13 @@ export class UsersListComponent extends EntitiesListBase implements OnInit, OnDe
   }
 
   public openDialogToAddUsers(): void {
-    const data = {
+    const data: GenerateData = {
       title: 'users',
-      confirmButtonText: 'Add users',
       amount: null
     };
     const dialogRef = this.msgService.openDialog(AddEntitiesComponent, data);
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result: number) => {
       data.amount = result;
       if (data.amount) {
         this.generateNewUsers(data.amount);
