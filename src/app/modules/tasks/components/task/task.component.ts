@@ -40,7 +40,8 @@ export class TaskComponent {
   }
 
   public onEditButtonClick(): void {
-    this.msgService.openDialog(TaskFormComponent, this.task);
+    const width = '400px';
+    this.msgService.openDialog(TaskFormComponent, this.task, width);
   }
 
 }

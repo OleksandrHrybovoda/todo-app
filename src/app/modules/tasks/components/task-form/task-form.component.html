@@ -7,17 +7,18 @@
 
     <mat-form-field class="field-control">
       <mat-label>Description</mat-label>
-      <textarea matInput formControlName="description" required></textarea>
+      <textarea matInput rows="5" formControlName="description" required></textarea>
     </mat-form-field>
   </form>
 
-  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button mat-dialog-close>CANCEL</button>
   <button mat-raised-button
           [mat-dialog-close]="true"
           cdkFocusInitial
           [disabled]="taskForm.invalid"
           color="primary"
+          class="action-button"
           (click)="submit()">
-    {{ buttonText }}
+    {{ buttonText | uppercase }}
   </button>
 </dialog-wrapper>

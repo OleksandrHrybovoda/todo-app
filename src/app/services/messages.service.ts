@@ -21,10 +21,11 @@ export class MessagesService {
     private snackBar: MatSnackBar
   ) { }
 
-  public openDialog<T, R>(component: ComponentType<T>, data?: any): MatDialogRef<T, R> {
+  public openDialog<T, R>(component: ComponentType<T>, data?: any, width?: string): MatDialogRef<T, R> {
     const dialogConfig: MatDialogConfig = new MatDialogConfig();
 
     dialogConfig.data = data;
+    dialogConfig.width = width;
 
     return this.dialog.open(component, dialogConfig);
   }
