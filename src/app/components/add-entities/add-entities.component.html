@@ -1,4 +1,4 @@
-<h3 mat-dialog-title>Generate {{ data.title }}</h3>
+<h3 mat-dialog-title>Generate {{ title }}</h3>
 
 <div mat-dialog-content>
   <input matInput [(ngModel)]="amount" required />
@@ -6,5 +6,5 @@
 
 <div mat-dialog-actions end>
   <button mat-flat-button mat-dialog-close>CANCEL</button>
-  <button mat-flat-button color="primary" mat-dialog-close="true" [mat-dialog-close]="amount" cdkFocusInitial>GENERATE</button>
+  <button mat-flat-button color="primary" mat-dialog-close="true" [mat-dialog-close]="amount" cdkFocusInitial>{{ confirmButtonText }}</button>
 </div>
