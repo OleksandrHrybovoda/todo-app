@@ -7,7 +7,9 @@ import {
   FormBuilder,
   FormGroup
 } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DiscardCheckBase } from 'src/app/components/discard-check-base/discard-check-base.component';
+import { MessagesService } from 'src/app/services/messages.service';
 import { Task } from '../../models/task.model';
 import { TaskStateManagementService } from '../../services/task-state-management.service';
 import { TasksHelper } from '../../services/tasks.helper';
@@ -17,7 +19,7 @@ import { TasksHelper } from '../../services/tasks.helper';
   templateUrl: './task-form.component.html',
   styleUrls: ['./task-form.component.sass']
 })
-export class TaskFormComponent implements OnInit {
+export class TaskFormComponent extends DiscardCheckBase implements OnInit {
 
   taskForm: FormGroup;
 
@@ -27,9 +29,13 @@ export class TaskFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private tasksHelper: TasksHelper,
+    msgService: MessagesService,
+    matDialogRef: MatDialogRef<TaskFormComponent>,
     private stateManagementService: TaskStateManagementService,
     @Inject(MAT_DIALOG_DATA) private data?: Task
-  ) { }
+  ) {
+    super(msgService, matDialogRef);
+  }
 
   ngOnInit(): void {
     this.init();

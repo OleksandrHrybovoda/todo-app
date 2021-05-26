@@ -10,13 +10,14 @@ import { UsersHelper } from '../../services/users.helper';
 import { combineLatest, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { UsersProvider } from '../../services/users.provider';
+import { DiscardCheckBase } from 'src/app/components/discard-check-base/discard-check-base.component';
 
 @Component({
   selector: 'user-form',
   templateUrl: './user-form.component.html',
   styleUrls: ['./user-form.component.sass']
 })
-export class UserFormComponent implements OnInit, OnDestroy {
+export class UserFormComponent extends DiscardCheckBase implements OnInit, OnDestroy {
 
   userForm: FormGroup;
 
@@ -31,12 +32,13 @@ export class UserFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private userStateManagementService: UserStateManagementService,
     private authService: AuthService,
-    private msgService: MessagesService,
+    msgService: MessagesService,
     private usersHelper: UsersHelper,
-    private usersProvider: UsersProvider,
-    private matDialogRef: MatDialogRef<UserFormComponent>,
+    matDialogRef: MatDialogRef<UserFormComponent>,
     @Inject(MAT_DIALOG_DATA) private user?: User
-  ) { }
+  ) {
+    super(msgService, matDialogRef);
+  }
 
   public ngOnInit(): void {
     this.init();
@@ -69,25 +71,6 @@ export class UserFormComponent implements OnInit, OnDestroy {
     this.userForm.patchValue({
       shortcut: this.shortcut
     });
-  }
-
-  public async onCancelClick(): Promise<void> {
-    if (this.userForm.dirty) {
-      const confirmed = await this.confirmExit();
-      if (!confirmed) {
-       return;
-      }
-    }
-
-    this.matDialogRef.close();
-  }
-
-  private async confirmExit(): Promise<boolean> {
-    const title = 'Are you sure you want to leave?';
-    const message = 'You have unsaved changes. Are you sure you want to leave this page? Unsaved changes will be lost.';
-    const confirmButtonText = 'Leave';
-
-    return this.msgService.confirm(title, message, confirmButtonText);
   }
 
   private initForm(): void {
