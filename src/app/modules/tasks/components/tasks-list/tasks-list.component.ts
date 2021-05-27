@@ -10,6 +10,7 @@ import { MessagesService } from 'src/app/services/messages.service';
 import { EntitiesListBase } from '../../../../components/entities-list-base/entities-list-base.component';
 import { Task } from '../../models/task.model';
 import { TaskStateManagementService } from '../../services/task-state-management.service';
+import { TasksHelper } from '../../services/tasks.helper';
 import { TasksProvider } from '../../services/tasks.provider';
 import { TaskFormComponent } from '../task-form/task-form.component';
 
@@ -31,6 +32,7 @@ export class TasksListComponent extends EntitiesListBase implements OnInit, OnDe
     msgService: MessagesService,
     private stateManagementService: TaskStateManagementService,
     private tasksProvider: TasksProvider,
+    private tasksHelper: TasksHelper,
   ) {
     super(msgService);
   }
@@ -81,10 +83,13 @@ export class TasksListComponent extends EntitiesListBase implements OnInit, OnDe
         creationDate: new Date().toString(),
         lastUpdatedDate: new Date().toString()
       };
-      this.addNewTaskToList(task);
+      this.tasksHelper.createNewTask(task).subscribe(createdTask => {
+        this.stateManagementService.sendTaskCreationEvent(createdTask);
+      });
+      // this.addNewTaskToList(task);
     }
-    const msg: string = 'Successfully added tasks!';
-    this.showMessage(msg);
+    // const msg: string = 'Successfully added tasks!';
+    // this.showMessage(msg);
   }
 
   private init(): void {
