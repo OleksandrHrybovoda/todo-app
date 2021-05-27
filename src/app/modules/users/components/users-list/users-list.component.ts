@@ -9,6 +9,7 @@ import { MessagesService } from 'src/app/services/messages.service';
 import { EntitiesListBase } from '../../../../components/entities-list-base/entities-list-base.component';
 import { User } from '../../models/user.model';
 import { UserStateManagementService } from '../../services/user-state-management.service';
+import { UsersHelper } from '../../services/users.helper';
 import { UsersProvider } from '../../services/users.provider';
 import { UserFormComponent } from '../user-form/user-form.component';
 
@@ -45,6 +46,7 @@ export class UsersListComponent extends EntitiesListBase implements OnInit, OnDe
   constructor(
     msgService: MessagesService,
     private usersProvider: UsersProvider,
+    private userHelper: UsersHelper,
     private userStateManagementService: UserStateManagementService
   ) {
     super(msgService);
@@ -192,13 +194,13 @@ export class UsersListComponent extends EntitiesListBase implements OnInit, OnDe
         gender: 'm',
         email: `${index}@mail.com`,
         login: `Login ${1}`,
-        password: '',
+        password: index.toString(),
         isAdmin: false
       };
-      this.addNewUserToList(user);
+      this.userHelper.createNewUser(user).subscribe(createdUser => {
+        this.userStateManagementService.sendUserCreationEvent(createdUser);
+      });
     }
-    const msg: string = 'Successfully added users!';
-    this.showMessage(msg);
   }
 
   private init(): void {
