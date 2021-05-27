@@ -86,10 +86,7 @@ export class TasksListComponent extends EntitiesListBase implements OnInit, OnDe
       this.tasksHelper.createNewTask(task).subscribe(createdTask => {
         this.stateManagementService.sendTaskCreationEvent(createdTask);
       });
-      // this.addNewTaskToList(task);
     }
-    // const msg: string = 'Successfully added tasks!';
-    // this.showMessage(msg);
   }
 
   private init(): void {
