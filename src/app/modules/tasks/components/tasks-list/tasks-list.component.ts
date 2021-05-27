@@ -59,7 +59,7 @@ export class TasksListComponent extends EntitiesListBase implements OnInit, OnDe
   public openDialogToAddTasks(): void {
     const data = {
       title: 'tasks',
-      confirmButtonText: 'Add tasks',
+      confirmButtonText: 'GENERATE',
       amount: null
     };
     const dialogRef = this.msgService.openDialog(AddEntitiesComponent, data);
