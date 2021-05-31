@@ -21,6 +21,7 @@ import { BaseFormComponent } from './discard-check-base/discard-check-base.compo
     MatButtonModule,
     MatDialogModule,
     MatTableModule,
+    MatFormFieldModule,
     FormsModule,
     MatFormFieldModule,
     MatInputModule
