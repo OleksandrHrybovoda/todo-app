@@ -165,7 +165,8 @@ export class UsersListComponent extends EntitiesListBase implements OnInit, OnDe
   }
 
   public openDialogToAddUser(): void {
-    const dialogRef = this.msgService.openDialog(UserFormComponent);
+    const width = '500px';
+    const dialogRef = this.msgService.openDialog(UserFormComponent, undefined, width);
     dialogRef.disableClose = true;
   }
 
