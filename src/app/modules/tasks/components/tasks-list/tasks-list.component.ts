@@ -6,6 +6,7 @@ import {
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AddEntitiesComponent } from 'src/app/components/add-entities/add-entities.component';
+import { AddEntitiesSettings } from 'src/app/components/add-entities/models/add-entities-settings.model';
 import { MessagesService } from 'src/app/services/messages.service';
 import { EntitiesListBase } from '../../../../components/entities-list-base/entities-list-base.component';
 import { Task } from '../../models/task.model';
@@ -60,14 +61,13 @@ export class TasksListComponent extends EntitiesListBase implements OnInit, OnDe
   }
 
   public openDialogToAddTasks(): void {
-    const data = {
+    const data: AddEntitiesSettings = {
       title: 'tasks',
-      confirmButtonText: 'GENERATE',
       amount: null
     };
     const dialogRef = this.msgService.openDialog(AddEntitiesComponent, data);
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result: number) => {
       data.amount = result;
       if (data.amount) {
         this.generateNewTasks(data.amount);
