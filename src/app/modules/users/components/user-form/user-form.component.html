@@ -1,5 +1,5 @@
 <dialog-wrapper [title]="titleForm">
-  <form [formGroup]="userForm" class="form-group">
+  <form [formGroup]="form" class="form-group">
     <div class="inputs-container">
       <mat-form-field class="field-control">
         <mat-label>First Name</mat-label>
@@ -30,7 +30,7 @@
     <mat-form-field class="field-control">
       <mat-label>Email</mat-label>
       <input matInput formControlName="email">
-      <mat-error *ngIf="userForm.value.email.invalid"> {{ getEmailErrorMessage() }} </mat-error>
+      <mat-error *ngIf="form.value.email.invalid"> {{ getEmailErrorMessage() }} </mat-error>
     </mat-form-field>
 
     <mat-form-field class="field-control">
@@ -59,7 +59,7 @@
           [mat-dialog-close]="true"
           cdkFocusInitial
           color="primary"
-          [disabled]="userForm.invalid"
+          [disabled]="form.invalid"
           (click)="submit()">
     {{ buttonText | uppercase}}
   </button>

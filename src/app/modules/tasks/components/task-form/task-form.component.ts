@@ -7,7 +7,9 @@ import {
   FormBuilder,
   FormGroup
 } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { BaseFormComponent } from 'src/app/components/discard-check-base/discard-check-base.component';
+import { MessagesService } from 'src/app/services/messages.service';
 import { Task } from '../../models/task.model';
 import { TaskStateManagementService } from '../../services/task-state-management.service';
 import { TasksHelper } from '../../services/tasks.helper';
@@ -17,9 +19,9 @@ import { TasksHelper } from '../../services/tasks.helper';
   templateUrl: './task-form.component.html',
   styleUrls: ['./task-form.component.sass']
 })
-export class TaskFormComponent implements OnInit {
+export class TaskFormComponent extends BaseFormComponent implements OnInit {
 
-  taskForm: FormGroup;
+  form: FormGroup;
 
   title: string;
   buttonText: string;
@@ -27,9 +29,13 @@ export class TaskFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private tasksHelper: TasksHelper,
+    msgService: MessagesService,
+    matDialogRef: MatDialogRef<TaskFormComponent>,
     private stateManagementService: TaskStateManagementService,
     @Inject(MAT_DIALOG_DATA) private data?: Task
-  ) { }
+  ) {
+    super(msgService, matDialogRef);
+  }
 
   ngOnInit(): void {
     this.init();
@@ -42,7 +48,7 @@ export class TaskFormComponent implements OnInit {
   private editTask(): void {
     const task: Task = {
       id: this.data.id,
-      ...this.taskForm.value
+      ...this.form.value
     };
 
     this.tasksHelper.updateTask(task).subscribe(updatedTask => {
@@ -51,7 +57,7 @@ export class TaskFormComponent implements OnInit {
   }
 
   private createTask(): void {
-    this.tasksHelper.createNewTask(this.taskForm.value).subscribe(createdTask => {
+    this.tasksHelper.createNewTask(this.form.value).subscribe(createdTask => {
       this.stateManagementService.sendTaskCreationEvent(createdTask);
     });
   }
@@ -70,7 +76,7 @@ export class TaskFormComponent implements OnInit {
       description = this.data.description;
     }
 
-    this.taskForm = this.fb.group({
+    this.form = this.fb.group({
       title,
       description,
     });

@@ -10,15 +10,16 @@ import { UsersHelper } from '../../services/users.helper';
 import { combineLatest, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { UsersProvider } from '../../services/users.provider';
+import { BaseFormComponent } from 'src/app/components/discard-check-base/discard-check-base.component';
 
 @Component({
   selector: 'user-form',
   templateUrl: './user-form.component.html',
   styleUrls: ['./user-form.component.sass']
 })
-export class UserFormComponent implements OnInit, OnDestroy {
+export class UserFormComponent extends BaseFormComponent implements OnInit, OnDestroy {
 
-  userForm: FormGroup;
+  form: FormGroup;
 
   titleForm: string;
   buttonText: string;
@@ -31,12 +32,13 @@ export class UserFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private userStateManagementService: UserStateManagementService,
     private authService: AuthService,
-    private msgService: MessagesService,
+    msgService: MessagesService,
     private usersHelper: UsersHelper,
-    private usersProvider: UsersProvider,
-    private matDialogRef: MatDialogRef<UserFormComponent>,
+    matDialogRef: MatDialogRef<UserFormComponent>,
     @Inject(MAT_DIALOG_DATA) private user?: User
-  ) { }
+  ) {
+    super(msgService, matDialogRef);
+  }
 
   public ngOnInit(): void {
     this.init();
@@ -51,8 +53,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   private initShortcutFeature(): void {
-    const firstNameObservable = this.userForm.get('firstName').valueChanges;
-    const lastNameObservable = this.userForm.get('lastName').valueChanges;
+    const firstNameObservable = this.form.get('firstName').valueChanges;
+    const lastNameObservable = this.form.get('lastName').valueChanges;
 
     combineLatest([firstNameObservable, lastNameObservable])
       .pipe(takeUntil(this.destroy$))
@@ -66,28 +68,9 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   public setProposalShortcut(): void {
-    this.userForm.patchValue({
+    this.form.patchValue({
       shortcut: this.shortcut
     });
-  }
-
-  public async onCancelClick(): Promise<void> {
-    if (this.userForm.dirty) {
-      const confirmed = await this.confirmExit();
-      if (!confirmed) {
-       return;
-      }
-    }
-
-    this.matDialogRef.close();
-  }
-
-  private async confirmExit(): Promise<boolean> {
-    const title = 'Are you sure you want to leave?';
-    const message = 'You have unsaved changes. Are you sure you want to leave this page? Unsaved changes will be lost.';
-    const confirmButtonText = 'Leave';
-
-    return this.msgService.confirm(title, message, confirmButtonText);
   }
 
   private initForm(): void {
@@ -107,7 +90,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
       login = this.user.login;
     }
 
-    this.userForm = this.fb.group({
+    this.form = this.fb.group({
       firstName: [firstName, Validators.required],
       lastName: [lastName, Validators.required],
       shortcut: [shortcut, Validators.required],
@@ -119,11 +102,11 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   public getEmailErrorMessage(): string {
-    if (this.userForm.get('email').hasError('required')) {
+    if (this.form.get('email').hasError('required')) {
       return 'You must enter a value';
     }
 
-    return this.userForm.get('email').hasError('email') ? 'Not a valid email' : '';
+    return this.form.get('email').hasError('email') ? 'Not a valid email' : '';
   }
 
   private setTitle(): void {
@@ -136,13 +119,13 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   public generatePassword(): void {
-    this.userForm.patchValue({ password: this.authService.generatePassword(15) });
+    this.form.patchValue({ password: this.authService.generatePassword(15) });
   }
 
   private editUser(): void {
     this.user = {
       id: this.user.id,
-      ...this.userForm.value
+      ...this.form.value
     };
     this.usersHelper.updateUser(this.user).subscribe(updatedUser => {
       this.userStateManagementService.sendUserUpdateEvent(updatedUser);
@@ -150,7 +133,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   private createUser(): void {
-    this.usersHelper.createNewUser(this.userForm.value).subscribe(createdUser => {
+    this.usersHelper.createNewUser(this.form.value).subscribe(createdUser => {
       this.userStateManagementService.sendUserCreationEvent(createdUser);
     });
   }

@@ -13,6 +13,7 @@ import { AddEntitiesComponent } from './add-entities/add-entities.component';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { BaseFormComponent } from './discard-check-base/discard-check-base.component';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     TableWrapperComponent,
     EntitiesListBase,
     AddEntitiesComponent,
+    BaseFormComponent
   ],
   exports: [
     HeaderComponent,
@@ -39,7 +41,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     DialogWrapperComponent,
     TableWrapperComponent,
     EntitiesListBase,
-    AddEntitiesComponent
+    AddEntitiesComponent,
+    BaseFormComponent
   ]
 })
 export class SharedComponentsModule {
