@@ -6,12 +6,14 @@ import { MessagesService } from 'src/app/services/messages.service';
 @Component({
   template: '',
 })
-export class DiscardCheckBase {
+export class BaseFormComponent {
 
-  constructor(public msgService: MessagesService, public matDialogRef: MatDialogRef<any>) { }
+  form: FormGroup;
 
-  public async onCancelClick(form: FormGroup): Promise<void> {
-    if (form.dirty) {
+  constructor(protected msgService: MessagesService, protected matDialogRef: MatDialogRef<any>) { }
+
+  public async onCancelClick(): Promise<void> {
+    if (this.form.dirty) {
       const confirmed = await this.confirmExit();
       if (!confirmed) {
        return;

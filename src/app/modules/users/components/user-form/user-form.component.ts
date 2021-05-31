@@ -10,16 +10,16 @@ import { UsersHelper } from '../../services/users.helper';
 import { combineLatest, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { UsersProvider } from '../../services/users.provider';
-import { DiscardCheckBase } from 'src/app/components/discard-check-base/discard-check-base.component';
+import { BaseFormComponent } from 'src/app/components/discard-check-base/discard-check-base.component';
 
 @Component({
   selector: 'user-form',
   templateUrl: './user-form.component.html',
   styleUrls: ['./user-form.component.sass']
 })
-export class UserFormComponent extends DiscardCheckBase implements OnInit, OnDestroy {
+export class UserFormComponent extends BaseFormComponent implements OnInit, OnDestroy {
 
-  userForm: FormGroup;
+  form: FormGroup;
 
   titleForm: string;
   buttonText: string;
@@ -53,8 +53,8 @@ export class UserFormComponent extends DiscardCheckBase implements OnInit, OnDes
   }
 
   private initShortcutFeature(): void {
-    const firstNameObservable = this.userForm.get('firstName').valueChanges;
-    const lastNameObservable = this.userForm.get('lastName').valueChanges;
+    const firstNameObservable = this.form.get('firstName').valueChanges;
+    const lastNameObservable = this.form.get('lastName').valueChanges;
 
     combineLatest([firstNameObservable, lastNameObservable])
       .pipe(takeUntil(this.destroy$))
@@ -68,7 +68,7 @@ export class UserFormComponent extends DiscardCheckBase implements OnInit, OnDes
   }
 
   public setProposalShortcut(): void {
-    this.userForm.patchValue({
+    this.form.patchValue({
       shortcut: this.shortcut
     });
   }
@@ -90,7 +90,7 @@ export class UserFormComponent extends DiscardCheckBase implements OnInit, OnDes
       login = this.user.login;
     }
 
-    this.userForm = this.fb.group({
+    this.form = this.fb.group({
       firstName: [firstName, Validators.required],
       lastName: [lastName, Validators.required],
       shortcut: [shortcut, Validators.required],
@@ -102,11 +102,11 @@ export class UserFormComponent extends DiscardCheckBase implements OnInit, OnDes
   }
 
   public getEmailErrorMessage(): string {
-    if (this.userForm.get('email').hasError('required')) {
+    if (this.form.get('email').hasError('required')) {
       return 'You must enter a value';
     }
 
-    return this.userForm.get('email').hasError('email') ? 'Not a valid email' : '';
+    return this.form.get('email').hasError('email') ? 'Not a valid email' : '';
   }
 
   private setTitle(): void {
@@ -119,13 +119,13 @@ export class UserFormComponent extends DiscardCheckBase implements OnInit, OnDes
   }
 
   public generatePassword(): void {
-    this.userForm.patchValue({ password: this.authService.generatePassword(15) });
+    this.form.patchValue({ password: this.authService.generatePassword(15) });
   }
 
   private editUser(): void {
     this.user = {
       id: this.user.id,
-      ...this.userForm.value
+      ...this.form.value
     };
     this.usersHelper.updateUser(this.user).subscribe(updatedUser => {
       this.userStateManagementService.sendUserUpdateEvent(updatedUser);
@@ -133,7 +133,7 @@ export class UserFormComponent extends DiscardCheckBase implements OnInit, OnDes
   }
 
   private createUser(): void {
-    this.usersHelper.createNewUser(this.userForm.value).subscribe(createdUser => {
+    this.usersHelper.createNewUser(this.form.value).subscribe(createdUser => {
       this.userStateManagementService.sendUserCreationEvent(createdUser);
     });
   }
