@@ -2,11 +2,11 @@
 
 <div mat-dialog-content>
   <mat-form-field>
-    <input matInput type="number" [(ngModel)]="data.amount" required />
+    <input matInput type="number" [(ngModel)]="amount" [min]="minNumber" placeholder="Enter amount" />
   </mat-form-field>
 </div>
 
 <div mat-dialog-actions end>
   <button mat-flat-button mat-dialog-close>CANCEL</button>
-  <button mat-flat-button color="primary" mat-dialog-close="true" [mat-dialog-close]="amount" cdkFocusInitial>{{ confirmButtonText }}</button>
+  <button mat-flat-button color="primary" mat-dialog-close="true" [mat-dialog-close]="amount" cdkFocusInitial [disabled]="!amount || amount < minNumber">{{ confirmButtonText }}</button>
 </div>
