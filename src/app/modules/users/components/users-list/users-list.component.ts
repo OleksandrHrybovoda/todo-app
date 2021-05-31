@@ -169,7 +169,6 @@ export class UsersListComponent extends EntitiesListBase implements OnInit, OnDe
   public openDialogToAddUsers(): void {
     const data: AddEntitiesSettings = {
       title: 'users',
-      confirmButtonText: 'GENERATE',
       amount: null
     };
     const dialogRef = this.msgService.openDialog(AddEntitiesComponent, data);

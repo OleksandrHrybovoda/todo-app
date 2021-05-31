@@ -11,7 +11,7 @@ export class AddEntitiesComponent implements OnInit {
 
   public amount: number;
   public title: string;
-  public confirmButtonText: string;
+  public confirmButtonText: string = 'GENERATE';
 
   constructor(public dialogRef: MatDialogRef<AddEntitiesComponent>,
               @Inject(MAT_DIALOG_DATA) public data: AddEntitiesSettings) { }
@@ -26,7 +26,7 @@ export class AddEntitiesComponent implements OnInit {
 
   private applySettings(): void {
     this.title = this.data.title;
-    this.confirmButtonText = this.data.confirmButtonText;
+    this.confirmButtonText ??= this.data.confirmButtonText;
     this.amount = this.data.amount;
   }
 }

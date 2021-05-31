@@ -1,5 +1,5 @@
 export class AddEntitiesSettings {
   title: string;
-  confirmButtonText: string;
+  confirmButtonText?: string;
   amount: number;
 }
