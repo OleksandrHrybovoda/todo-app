@@ -13,7 +13,6 @@ export class AddEntitiesComponent implements OnInit {
   public title: string;
   public confirmButtonText: string;
   public minNumber: number = 1;
-  public isDisableButton: boolean = false;
 
   constructor(public dialogRef: MatDialogRef<AddEntitiesComponent>,
               @Inject(MAT_DIALOG_DATA) public data: AddEntitiesSettings) { }
@@ -26,12 +25,8 @@ export class AddEntitiesComponent implements OnInit {
     this.applySettings();
   }
 
-  public changeAmount(amount: number): void {
-    if (!amount || amount < this.minNumber) {
-      this.isDisableButton = true;
-    } else {
-      this.isDisableButton = false;
-    }
+  public isSubmitButtonDisabled(): boolean {
+    return  !this.amount || this.amount < this.minNumber;
   }
 
   private applySettings(): void {
