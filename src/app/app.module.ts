@@ -7,6 +7,8 @@ import { TasksModule } from './modules/tasks/tasks.module';
 import { ServicesModule } from './services/services.module';
 import { MatSelectModule } from '@angular/material/select';
 import { UsersModule } from './modules/users/users.module';
+import { GuardsModule } from './core/guards/guards.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @NgModule({
   imports: [
@@ -16,7 +18,9 @@ import { UsersModule } from './modules/users/users.module';
     MatSelectModule,
     ServicesModule,
     TasksModule,
-    UsersModule
+    UsersModule,
+    GuardsModule,
+    AuthModule,
   ],
   declarations: [
     AppComponent

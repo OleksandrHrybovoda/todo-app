@@ -1,9 +1,21 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthService {
 
-  constructor() { }
+  constructor(private router: Router) { }
+
+  public isAuthenticated(): boolean {
+    const isTokenExist = localStorage.getItem('token') ? true : false;
+
+    return isTokenExist;
+  }
+
+  public logout(): void {
+    localStorage.clear();
+    this.router.navigate(['/login']);
+  }
 
   public generatePassword(length: number): string {
     const specials: string = '!@#$%^&*()_+{}:"<>?\|[];\',./`~';
