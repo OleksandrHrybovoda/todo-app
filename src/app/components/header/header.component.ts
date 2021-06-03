@@ -10,7 +10,7 @@ export class HeaderComponent {
 
   @Input() pageName: string;
 
-  public username: string = localStorage.getItem('name');
+  public username: string = this.authService.getLoggedInUser();
 
   constructor(private authService: AuthService) { }
 

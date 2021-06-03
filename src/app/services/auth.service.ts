@@ -12,17 +12,41 @@ export class AuthService {
     return isTokenExist;
   }
 
+  public getLoggedInUser(): string {
+    return this.getItem('name');
+  }
+
+  public setLoggedInUser(key: string, name: string): void {
+    this.setItem(key, name);
+  }
+
+  public setItem(key: string, value: string): void {
+    localStorage.setItem(key, value);
+  }
+
+  public getItem(key: string): string {
+    return localStorage.getItem(key);
+  }
+
+  public removeItem(key: string): void {
+    localStorage.removeItem(key);
+  }
+
+  public clear(): void {
+    localStorage.clear();
+  }
+
   public logout(): void {
     localStorage.clear();
     this.router.navigate(['/login']);
   }
 
   public generatePassword(length: number): string {
-    const specials: string = '!@#$%^&*()_+{}:"<>?\|[];\',./`~';
-    const lowercase: string = 'abcdefghijklmnopqrstuvwxyz';
-    const uppercase: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const numbers: string = '0123456789';
-    let password: string = '';
+    const specials = '!@#$%^&*()_+{}:"<>?\|[];\',./`~';
+    const lowercase = 'abcdefghijklmnopqrstuvwxyz';
+    const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const numbers = '0123456789';
+    let password = '';
 
     const all: string = specials + lowercase + uppercase + numbers;
 

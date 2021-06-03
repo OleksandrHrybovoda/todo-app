@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
+import { MIN_PASSWORD_LENGTH } from '../../../../core/constants/constants';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +14,7 @@ export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
   public loginInvalid = false;
 
-  constructor(private fb: FormBuilder, private router: Router) { }
+  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) { }
 
   public ngOnInit(): void {
     this.init();
@@ -25,13 +27,13 @@ export class LoginComponent implements OnInit {
   private initForm(): void {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(MIN_PASSWORD_LENGTH)]]
     });
   }
 
   public login(): void {
-    localStorage.setItem('token', 'simple token');
-    localStorage.setItem('name', this.loginForm.value.username);
+    this.authService.setItem('token', 'simple token');
+    this.authService.setLoggedInUser('name', this.loginForm.value.username);
     this.router.navigate(['/tasks']);
   }
 
