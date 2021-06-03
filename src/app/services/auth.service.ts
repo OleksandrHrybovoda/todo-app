@@ -7,7 +7,7 @@ export class AuthService {
   constructor(private router: Router) { }
 
   public isAuthenticated(): boolean {
-    const isTokenExist = localStorage.getItem('token') ? true : false;
+    const isTokenExist = this.getItem('token') ? true : false;
 
     return isTokenExist;
   }
@@ -37,7 +37,7 @@ export class AuthService {
   }
 
   public logout(): void {
-    localStorage.clear();
+    this.clear();
     this.router.navigate(['/login']);
   }
 
