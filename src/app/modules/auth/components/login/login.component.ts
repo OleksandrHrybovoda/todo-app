@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
   }
 
   public login(): void {
-    this.localStorageService.set('token', 'simple token');
+    this.localStorageService.setToken('simple token');
     this.authService.setLoggedInUser(this.loginForm.value.username);
     this.router.navigate([LOGIN_REDIRECT]);
   }

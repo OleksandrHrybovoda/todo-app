@@ -9,6 +9,10 @@ export class LocalStorageService {
     return this.get('token');
   }
 
+  public setToken(value: string): void {
+    this.set('token', value);
+  }
+
   public set(key: string, value: string): void {
     localStorage.setItem(key, value);
   }
