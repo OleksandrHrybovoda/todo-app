@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AddEntitiesComponent } from 'src/app/components/add-entities/add-entities.component';
 import { AddEntitiesSettings } from 'src/app/components/add-entities/models/add-entities-settings.model';
+import { AuthService } from 'src/app/services/auth.service';
 import { MessagesService } from 'src/app/services/messages.service';
 import { EntitiesListBase } from '../../../../components/entities-list-base/entities-list-base.component';
 import { User } from '../../models/user.model';
@@ -13,6 +14,7 @@ import { UserStateManagementService } from '../../services/user-state-management
 import { UsersHelper } from '../../services/users.helper';
 import { UsersProvider } from '../../services/users.provider';
 import { UserFormComponent } from '../user-form/user-form.component';
+import { MIN_PASSWORD_LENGTH } from '../../../auth/constants/auth-constants';
 
 @Component({
   selector: 'app-users-list',
@@ -48,6 +50,7 @@ export class UsersListComponent extends EntitiesListBase implements OnInit, OnDe
     msgService: MessagesService,
     private usersProvider: UsersProvider,
     private userHelper: UsersHelper,
+    private authService: AuthService,
     private userStateManagementService: UserStateManagementService
   ) {
     super(msgService);
@@ -197,7 +200,7 @@ export class UsersListComponent extends EntitiesListBase implements OnInit, OnDe
         gender: 'm',
         email: `${index}@mail.com`,
         login: `Login ${1}`,
-        password: index.toString(),
+        password: this.authService.generatePassword(MIN_PASSWORD_LENGTH),
         isAdmin: false
       };
       this.userHelper.createNewUser(user).subscribe(createdUser => {

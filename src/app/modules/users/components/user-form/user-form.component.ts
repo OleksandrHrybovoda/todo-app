@@ -11,6 +11,7 @@ import { combineLatest, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { UsersProvider } from '../../services/users.provider';
 import { BaseFormComponent } from 'src/app/components/discard-check-base/discard-check-base.component';
+import { MIN_PASSWORD_LENGTH } from '../../../auth/constants/auth-constants';
 
 @Component({
   selector: 'user-form',
@@ -97,7 +98,7 @@ export class UserFormComponent extends BaseFormComponent implements OnInit, OnDe
       gender: [gender, Validators.required],
       email: [email, [Validators.required, Validators.email]],
       login: [login, Validators.required],
-      password: ''
+      password: ['', Validators.minLength(MIN_PASSWORD_LENGTH)]
     });
   }
 
@@ -119,7 +120,7 @@ export class UserFormComponent extends BaseFormComponent implements OnInit, OnDe
   }
 
   public generatePassword(): void {
-    this.form.patchValue({ password: this.authService.generatePassword(15) });
+    this.form.patchValue({ password: this.authService.generatePassword(MIN_PASSWORD_LENGTH) });
   }
 
   private editUser(): void {

@@ -6,6 +6,7 @@ import { AuthService } from './auth.service';
 import { MessagesService } from './messages.service';
 import { ApiService } from './api.base';
 import { EntityMapperService } from './entity-mapper';
+import { LocalStorageService } from './local-storage.service';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { EntityMapperService } from './entity-mapper';
     AuthService,
     ApiService,
     EntityMapperService,
+    LocalStorageService
   ]
 })
 export class ServicesModule { }
