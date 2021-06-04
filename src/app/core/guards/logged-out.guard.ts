@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
+import { LOGIN_REDIRECT } from '../constants/constants';
 
 @Injectable()
 export class LoggedOutGuard implements CanActivate {
@@ -13,7 +14,7 @@ export class LoggedOutGuard implements CanActivate {
     state: RouterStateSnapshot
     ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       if (this.auth.isAuthenticated()) {
-        this.router.navigate(['/tasks']);
+        this.router.navigate([LOGIN_REDIRECT]);
         return false;
       }
       return true;

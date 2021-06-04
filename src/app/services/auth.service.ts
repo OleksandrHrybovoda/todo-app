@@ -1,44 +1,33 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { LOGOUT_REDIRECT } from '../core/constants/constants';
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable()
 export class AuthService {
 
-  constructor(private router: Router) { }
+  private userKeyStorage: string = 'name';
+
+  constructor(private router: Router, private localStorageService: LocalStorageService) { }
 
   public isAuthenticated(): boolean {
-    const isTokenExist = this.getItem('token') ? true : false;
+    const isTokenExist = this.localStorageService.getToken() ? true : false;
 
     return isTokenExist;
   }
 
   public getLoggedInUser(): string {
-    return this.getItem('name');
+    return this.localStorageService.get(this.userKeyStorage);
   }
 
-  public setLoggedInUser(key: string, name: string): void {
-    this.setItem(key, name);
-  }
-
-  public setItem(key: string, value: string): void {
-    localStorage.setItem(key, value);
-  }
-
-  public getItem(key: string): string {
-    return localStorage.getItem(key);
-  }
-
-  public removeItem(key: string): void {
-    localStorage.removeItem(key);
-  }
-
-  public clear(): void {
-    localStorage.clear();
+  public setLoggedInUser(name: string): void {
+    const key = this.userKeyStorage;
+    this.localStorageService.set(key, name);
   }
 
   public logout(): void {
-    this.clear();
-    this.router.navigate(['/login']);
+    this.localStorageService.clear();
+    this.router.navigate([LOGOUT_REDIRECT]);
   }
 
   public generatePassword(length: number): string {

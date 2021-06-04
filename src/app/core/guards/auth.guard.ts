@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
+import { LOGOUT_REDIRECT } from '../constants/constants';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -15,7 +16,7 @@ export class AuthGuard implements CanActivate {
       if (this.auth.isAuthenticated()) {
         return true;
       } else {
-        return this.router.parseUrl('/login');
+        return this.router.parseUrl(LOGOUT_REDIRECT);
       }
   }
 
