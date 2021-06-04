@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { LOGOUT_REDIRECT } from '../core/constants/constants';
+import { LOGOUT_REDIRECT } from '../modules/auth/constants/auth-constants';
 import { LocalStorageService } from './local-storage.service';
 
 @Injectable()
 export class AuthService {
 
   private userKeyStorage: string = 'name';
+  private tokenKeyStorage: string = 'token';
 
   constructor(private router: Router, private localStorageService: LocalStorageService) { }
 
   public isAuthenticated(): boolean {
-    const isTokenExist = this.localStorageService.getToken() ? true : false;
+    const isTokenExist = this.getToken() ? true : false;
 
     return isTokenExist;
   }
@@ -30,12 +31,20 @@ export class AuthService {
     this.router.navigate([LOGOUT_REDIRECT]);
   }
 
+  public getToken(): string {
+    return this.localStorageService.get(this.tokenKeyStorage);
+  }
+
+  public setToken(value: string): void {
+    this.localStorageService.set(this.tokenKeyStorage, value);
+  }
+
   public generatePassword(length: number): string {
-    const specials = '!@#$%^&*()_+{}:"<>?\|[];\',./`~';
-    const lowercase = 'abcdefghijklmnopqrstuvwxyz';
-    const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const numbers = '0123456789';
-    let password = '';
+    const specials: string = '!@#$%^&*()_+{}:"<>?\|[];\',./`~';
+    const lowercase: string = 'abcdefghijklmnopqrstuvwxyz';
+    const uppercase: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const numbers: string = '0123456789';
+    let password: string = '';
 
     const all: string = specials + lowercase + uppercase + numbers;
 

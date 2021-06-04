@@ -11,7 +11,7 @@ import { combineLatest, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { UsersProvider } from '../../services/users.provider';
 import { BaseFormComponent } from 'src/app/components/discard-check-base/discard-check-base.component';
-import { MIN_PASSWORD_LENGTH } from '../../../../core/constants/constants';
+import { MIN_PASSWORD_LENGTH } from '../../../auth/constants/auth-constants';
 
 @Component({
   selector: 'user-form',

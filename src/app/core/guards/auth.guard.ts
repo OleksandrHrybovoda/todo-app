@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
-import { LOGOUT_REDIRECT } from '../constants/constants';
+import { LOGOUT_REDIRECT } from '../../modules/auth/constants/auth-constants';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

@@ -14,7 +14,7 @@ import { UserStateManagementService } from '../../services/user-state-management
 import { UsersHelper } from '../../services/users.helper';
 import { UsersProvider } from '../../services/users.provider';
 import { UserFormComponent } from '../user-form/user-form.component';
-import { MIN_PASSWORD_LENGTH } from '../../../../core/constants/constants';
+import { MIN_PASSWORD_LENGTH } from '../../../auth/constants/auth-constants';
 
 @Component({
   selector: 'app-users-list',
