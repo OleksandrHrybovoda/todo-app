@@ -8,6 +8,7 @@ export class AuthService {
 
   private userKeyStorage: string = 'name';
   private tokenKeyStorage: string = 'token';
+  private refreshTokenKeyStorage: string = 'refreshToken';
 
   constructor(private router: Router, private localStorageService: LocalStorageService) { }
 
@@ -37,6 +38,14 @@ export class AuthService {
 
   public setToken(value: string): void {
     this.localStorageService.set(this.tokenKeyStorage, value);
+  }
+
+  public getRefreshToken(): string {
+    return this.localStorageService.get(this.refreshTokenKeyStorage);
+  }
+
+  public setRefreshToken(value: string): void {
+    this.localStorageService.set(this.refreshTokenKeyStorage, value);
   }
 
   public generatePassword(length: number): string {
