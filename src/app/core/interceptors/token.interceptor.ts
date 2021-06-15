@@ -10,12 +10,12 @@ import { map, catchError, switchMap, filter, take } from 'rxjs/operators';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { AuthApiService } from 'src/app/modules/auth/services/auth-api.service';
-import { Token } from 'src/app/modules/auth/models/token.model';
+import { LoginResponse } from 'src/app/modules/auth/models/login-response.model';
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
 
   private isRefreshing = false;
-  private refreshTokenSubject: BehaviorSubject<Token> = new BehaviorSubject<Token>(null);
+  private refreshTokenSubject: BehaviorSubject<LoginResponse> = new BehaviorSubject<LoginResponse>(null);
 
   constructor(public authService: AuthService, private authApiService: AuthApiService) {}
   intercept(

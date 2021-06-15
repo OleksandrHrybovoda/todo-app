@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthApiService } from './auth-api.service';
+import { AuthHelper } from './auth.helper';
+import { AuthProvider } from './auth.provider';
 
 @NgModule({
   imports: [
@@ -8,6 +10,8 @@ import { AuthApiService } from './auth-api.service';
   ],
   providers: [
     AuthApiService,
+    AuthHelper,
+    AuthProvider
   ]
 })
 export class ServicesModule { }

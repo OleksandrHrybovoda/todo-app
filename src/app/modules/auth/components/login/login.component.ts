@@ -9,6 +9,7 @@ import {
   MIN_PASSWORD_LENGTH,
 } from '../../constants/auth-constants';
 import { AuthApiService } from '../../services/auth-api.service';
+import { AuthHelper } from '../../services/auth.helper';
 
 @Component({
   selector: 'app-login',
@@ -25,6 +26,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthService,
+    private authHelper: AuthHelper,
     private authApiService: AuthApiService
   ) {}
 
@@ -47,20 +49,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public login(): void {
-    const body: object = {
-      username: this.loginForm.value.username,
-      password: this.loginForm.value.password
-    };
-    this.authApiService.login(body)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((response) => {
-      this.authService.setToken(response.token);
-      this.authService.setRefreshToken(response.refreshToken);
-      this.authService.setLoggedInUser(this.loginForm.value.username);
-      this.router.navigate([LOGIN_REDIRECT]);
-    }, () => {
-      this.loginInvalid = true;
-    });
+    this.authHelper.loginUser(this.loginForm)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.router.navigate([LOGIN_REDIRECT]);
+      }, () => {
+        this.loginInvalid = true;
+      });
   }
 
   public ngOnDestroy(): void {
