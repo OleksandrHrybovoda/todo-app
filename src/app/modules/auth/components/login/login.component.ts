@@ -8,8 +8,6 @@ import {
   LOGIN_REDIRECT,
   MIN_PASSWORD_LENGTH,
 } from '../../constants/auth-constants';
-import { AuthApiService } from '../../services/auth-api.service';
-import { AuthHelper } from '../../services/auth.helper';
 
 @Component({
   selector: 'app-login',
@@ -25,9 +23,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService,
-    private authHelper: AuthHelper,
-    private authApiService: AuthApiService
+    private authService: AuthService
   ) {}
 
   public ngOnInit(): void {
@@ -49,7 +45,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public login(): void {
-    this.authHelper.loginUser(this.loginForm)
+    const username: string = this.loginForm.value.username;
+    const password: string = this.loginForm.value.password;
+
+    this.authService.login(username, password)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.router.navigate([LOGIN_REDIRECT]);

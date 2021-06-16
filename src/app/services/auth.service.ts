@@ -2,8 +2,13 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { LOGOUT_REDIRECT } from '../modules/auth/constants/auth-constants';
 import { LoginResponse } from '../modules/auth/models/login-response.model';
+import { AuthApiService } from '../modules/auth/services/auth-api.service';
 import { User } from '../modules/users/models/user.model';
 import { LocalStorageService } from './local-storage.service';
+import jwt_decode from 'jwt-decode';
+import { DecodedToken } from '../modules/auth/models/decoded-token.model';
+import { catchError, map } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
 
 @Injectable()
 export class AuthService {
@@ -13,12 +18,30 @@ export class AuthService {
   private refreshTokenKeyStorage: string = 'refreshToken';
   private userKey: string = 'user';
 
-  constructor(private router: Router, private localStorageService: LocalStorageService) { }
+  constructor(private router: Router,
+              private localStorageService: LocalStorageService,
+              private authApiService: AuthApiService
+              ) { }
 
   public isAuthenticated(): boolean {
     const isTokenExist = this.getToken() ? true : false;
 
     return isTokenExist;
+  }
+
+  public login(username: string, password: string): Observable<User> {
+    return this.authApiService.login(username, password)
+    .pipe(
+      map((response: LoginResponse) => {
+        const decodedToken: DecodedToken = jwt_decode(response.token);
+        const user: User = JSON.parse(decodedToken.data);
+        this.successAuth(response, user);
+        return user;
+      }),
+      catchError(() => {
+        return throwError(true);
+      })
+    );
   }
 
   public successAuth(response: LoginResponse, user: User): void {
