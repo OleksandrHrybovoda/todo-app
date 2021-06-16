@@ -9,6 +9,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { UsersModule } from './modules/users/users.module';
 import { GuardsModule } from './core/guards/guards.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { TokenInterceptor } from './core/interceptors/token.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -27,6 +29,13 @@ import { AuthModule } from './modules/auth/auth.module';
   ],
   bootstrap: [
     AppComponent
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
   ]
 })
 export class AppModule { }

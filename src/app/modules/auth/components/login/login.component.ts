@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import {
   LOGIN_REDIRECT,
@@ -12,9 +14,11 @@ import {
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.sass'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   public loginForm: FormGroup;
   public loginInvalid: boolean = false;
+
+  private readonly destroy$ = new Subject();
 
   constructor(
     private fb: FormBuilder,
@@ -41,8 +45,20 @@ export class LoginComponent implements OnInit {
   }
 
   public login(): void {
-    this.authService.setToken('simple token');
-    this.authService.setLoggedInUser(this.loginForm.value.username);
-    this.router.navigate([LOGIN_REDIRECT]);
+    const username: string = this.loginForm.value.username;
+    const password: string = this.loginForm.value.password;
+
+    this.authService.login(username, password)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.router.navigate([LOGIN_REDIRECT]);
+      }, () => {
+        this.loginInvalid = true;
+      });
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

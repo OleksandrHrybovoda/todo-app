@@ -1,20 +1,63 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { LOGOUT_REDIRECT } from '../modules/auth/constants/auth-constants';
+import { LoginResponse } from '../modules/auth/models/login-response.model';
+import { AuthApiService } from '../modules/auth/services/auth-api.service';
+import { User } from '../modules/users/models/user.model';
 import { LocalStorageService } from './local-storage.service';
+import jwt_decode from 'jwt-decode';
+import { DecodedToken } from '../modules/auth/models/decoded-token.model';
+import { catchError, map } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
 
 @Injectable()
 export class AuthService {
 
   private userKeyStorage: string = 'name';
   private tokenKeyStorage: string = 'token';
+  private refreshTokenKeyStorage: string = 'refreshToken';
+  private userKey: string = 'user';
 
-  constructor(private router: Router, private localStorageService: LocalStorageService) { }
+  constructor(private router: Router,
+              private localStorageService: LocalStorageService,
+              private authApiService: AuthApiService
+              ) { }
 
   public isAuthenticated(): boolean {
     const isTokenExist = this.getToken() ? true : false;
 
     return isTokenExist;
+  }
+
+  public login(username: string, password: string): Observable<User> {
+    return this.authApiService.login(username, password)
+    .pipe(
+      map((response: LoginResponse) => {
+        const decodedToken: DecodedToken = jwt_decode(response.token);
+        const user: User = JSON.parse(decodedToken.data);
+        this.successAuth(response, user);
+        return user;
+      }),
+      catchError(() => {
+        return throwError(true);
+      })
+    );
+  }
+
+  public successAuth(response: LoginResponse, user: User): void {
+    this.setToken(response.token);
+    this.setRefreshToken(response.refreshToken);
+    this.setLoggedInUser(user.firstName);
+    this.setCurrentUser(user);
+  }
+
+  public setCurrentUser(user: User): void {
+    this.localStorageService.set(this.userKey, JSON.stringify(user));
+  }
+
+  public getCurrentUser(): User {
+    const user: User = JSON.parse(this.localStorageService.get(this.userKey));
+    return user;
   }
 
   public getLoggedInUser(): string {
@@ -37,6 +80,14 @@ export class AuthService {
 
   public setToken(value: string): void {
     this.localStorageService.set(this.tokenKeyStorage, value);
+  }
+
+  public getRefreshToken(): string {
+    return this.localStorageService.get(this.refreshTokenKeyStorage);
+  }
+
+  public setRefreshToken(value: string): void {
+    this.localStorageService.set(this.refreshTokenKeyStorage, value);
   }
 
   public generatePassword(length: number): string {
