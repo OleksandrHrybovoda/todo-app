@@ -37,6 +37,14 @@ export class EntityMapperService {
     );
   }
 
+  public mapSingleEntity<T>(
+    entity: any,
+    fields: FieldsMap,
+    ctor: Ctor<T>
+  ): any {
+    return this.createEntity(entity, fields, ctor);
+  }
+
   public createEntity(sourceEntity: any, fields: FieldsMap, ctor?: Ctor<any>): any {
     const entity: any = ctor ? ctor.getNew() : {};
 

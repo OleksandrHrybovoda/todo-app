@@ -8,9 +8,9 @@ import { User } from '../models/user.model';
 @Injectable()
 export class UsersApiService extends ApiService {
 
-  private userCtor: Ctor<User>;
+  public userCtor: Ctor<User>;
 
-  private userResponseFields: FieldsMap = {
+  public userResponseFields: FieldsMap = {
     'id': '_id',
     'firstName': 'first_name',
     'lastName': 'last_name',
