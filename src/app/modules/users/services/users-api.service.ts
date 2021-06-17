@@ -5,23 +5,23 @@ import { Ctor, EntityMapperService, FieldsMap } from 'src/app/services/entity-ma
 import { ApiService } from '../../../services/api.base';
 import { User } from '../models/user.model';
 
+export let userCtor: Ctor<User>;
+
+export const userResponseFields: FieldsMap = {
+  'id': '_id',
+  'firstName': 'first_name',
+  'lastName': 'last_name',
+  'shortcut': 'shortcut',
+  'age': 'age',
+  'gender': 'gender',
+  'email': 'email',
+  'login': 'login',
+  'password': 'pwd',
+  'isAdmin': 'isAdmin'
+};
+
 @Injectable()
 export class UsersApiService extends ApiService {
-
-  public userCtor: Ctor<User>;
-
-  public userResponseFields: FieldsMap = {
-    'id': '_id',
-    'firstName': 'first_name',
-    'lastName': 'last_name',
-    'shortcut': 'shortcut',
-    'age': 'age',
-    'gender': 'gender',
-    'email': 'email',
-    'login': 'login',
-    'password': 'pwd',
-    'isAdmin': 'isAdmin'
-  };
 
   private userCreateUpdateFields: FieldsMap = {
     '_id': 'id',
@@ -39,7 +39,7 @@ export class UsersApiService extends ApiService {
   constructor(http: HttpClient, private entityMapper: EntityMapperService) {
     super(http);
 
-    this.userCtor = new Ctor(User);
+    userCtor = new Ctor(User);
   }
 
   public getUsers(page: number, size: number): Observable<User[]> {
@@ -47,7 +47,7 @@ export class UsersApiService extends ApiService {
 
     const source: Observable<User[]> = this.http.get<User[]>(url);
 
-    return this.entityMapper.mapEntities(source, this.userResponseFields, this.userCtor);
+    return this.entityMapper.mapEntities(source, userResponseFields, userCtor);
   }
 
   public createUser(user: User): Observable<User> {
@@ -57,7 +57,7 @@ export class UsersApiService extends ApiService {
 
     const source: Observable<User> = this.http.post<User>(request, userToSend);
 
-    return this.entityMapper.mapEntity(source, this.userResponseFields, this.userCtor);
+    return this.entityMapper.mapEntity(source, userResponseFields, userCtor);
   }
 
   public editUser(user: User): Observable<User> {
@@ -67,7 +67,7 @@ export class UsersApiService extends ApiService {
 
     const source: Observable<User> = this.http.post<User>(request, userToSend);
 
-    return this.entityMapper.mapEntity(source, this.userResponseFields, this.userCtor);
+    return this.entityMapper.mapEntity(source, userResponseFields, userCtor);
   }
 
   public deleteUser(userId: number): Observable<string> {

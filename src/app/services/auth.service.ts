@@ -10,7 +10,7 @@ import { DecodedToken } from '../modules/auth/models/decoded-token.model';
 import { catchError, map } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { Ctor, EntityMapperService, FieldsMap } from './entity-mapper';
-import { UsersApiService } from '../modules/users/services/users-api.service';
+import { userCtor, userResponseFields } from '../modules/users/services/users-api.service';
 
 @Injectable()
 export class AuthService {
@@ -19,15 +19,13 @@ export class AuthService {
   private tokenKeyStorage: string = 'token';
   private refreshTokenKeyStorage: string = 'refreshToken';
   private userKey: string = 'user';
+  private userCtor: Ctor<User> = userCtor;
 
   constructor(private router: Router,
               private localStorageService: LocalStorageService,
               private authApiService: AuthApiService,
-              private usersApiService: UsersApiService,
               private entityMapper: EntityMapperService
-              ) {
-                this.usersApiService.userCtor = new Ctor(User);
-              }
+              ) { }
 
   public isAuthenticated(): boolean {
     const isTokenExist = this.getToken() ? true : false;
@@ -41,7 +39,8 @@ export class AuthService {
       map((response: LoginResponse) => {
         const decodedToken: DecodedToken = jwt_decode(response.token);
         const userItem: User = JSON.parse(decodedToken.data);
-        const user: User = this.entityMapper.mapSingleEntity(userItem, this.usersApiService.userResponseFields, this.usersApiService.userCtor);
+        this.userCtor = new Ctor(User);
+        const user: User = this.entityMapper.createEntity(userItem, userResponseFields, this.userCtor);
         this.successAuth(response, user);
         return user;
       }),
