@@ -5,23 +5,25 @@ import { Ctor, EntityMapperService, FieldsMap } from 'src/app/services/entity-ma
 import { ApiService } from '../../../services/api.base';
 import { User } from '../models/user.model';
 
+export const userResponseFields: FieldsMap = {
+  'id': '_id',
+  'firstName': 'first_name',
+  'lastName': 'last_name',
+  'shortcut': 'shortcut',
+  'age': 'age',
+  'gender': 'gender',
+  'email': 'email',
+  'login': 'login',
+  'password': 'pwd',
+  'isAdmin': 'isAdmin'
+};
+
 @Injectable()
 export class UsersApiService extends ApiService {
 
   private userCtor: Ctor<User>;
 
-  private userResponseFields: FieldsMap = {
-    'id': '_id',
-    'firstName': 'first_name',
-    'lastName': 'last_name',
-    'shortcut': 'shortcut',
-    'age': 'age',
-    'gender': 'gender',
-    'email': 'email',
-    'login': 'login',
-    'password': 'pwd',
-    'isAdmin': 'isAdmin'
-  };
+  private userResponseFields = userResponseFields;
 
   private userCreateUpdateFields: FieldsMap = {
     '_id': 'id',

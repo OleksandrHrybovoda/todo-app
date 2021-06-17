@@ -9,6 +9,8 @@ import jwt_decode from 'jwt-decode';
 import { DecodedToken } from '../modules/auth/models/decoded-token.model';
 import { catchError, map } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
+import { Ctor, EntityMapperService } from './entity-mapper';
+import { userResponseFields } from '../modules/users/services/users-api.service';
 
 @Injectable()
 export class AuthService {
@@ -20,7 +22,8 @@ export class AuthService {
 
   constructor(private router: Router,
               private localStorageService: LocalStorageService,
-              private authApiService: AuthApiService
+              private authApiService: AuthApiService,
+              private entityMapper: EntityMapperService
               ) { }
 
   public isAuthenticated(): boolean {
@@ -34,7 +37,9 @@ export class AuthService {
     .pipe(
       map((response: LoginResponse) => {
         const decodedToken: DecodedToken = jwt_decode(response.token);
-        const user: User = JSON.parse(decodedToken.data);
+        const userItem: User = JSON.parse(decodedToken.data);
+        const userCtor: Ctor<User> = new Ctor(User);
+        const user: User = this.entityMapper.createEntity(userItem, userResponseFields, userCtor);
         this.successAuth(response, user);
         return user;
       }),
