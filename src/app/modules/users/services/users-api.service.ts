@@ -5,8 +5,6 @@ import { Ctor, EntityMapperService, FieldsMap } from 'src/app/services/entity-ma
 import { ApiService } from '../../../services/api.base';
 import { User } from '../models/user.model';
 
-export let userCtor: Ctor<User>;
-
 export const userResponseFields: FieldsMap = {
   'id': '_id',
   'firstName': 'first_name',
@@ -22,6 +20,10 @@ export const userResponseFields: FieldsMap = {
 
 @Injectable()
 export class UsersApiService extends ApiService {
+
+  private userCtor: Ctor<User>;
+
+  private userResponseFields = userResponseFields;
 
   private userCreateUpdateFields: FieldsMap = {
     '_id': 'id',
@@ -39,7 +41,7 @@ export class UsersApiService extends ApiService {
   constructor(http: HttpClient, private entityMapper: EntityMapperService) {
     super(http);
 
-    userCtor = new Ctor(User);
+    this.userCtor = new Ctor(User);
   }
 
   public getUsers(page: number, size: number): Observable<User[]> {
@@ -47,7 +49,7 @@ export class UsersApiService extends ApiService {
 
     const source: Observable<User[]> = this.http.get<User[]>(url);
 
-    return this.entityMapper.mapEntities(source, userResponseFields, userCtor);
+    return this.entityMapper.mapEntities(source, this.userResponseFields, this.userCtor);
   }
 
   public createUser(user: User): Observable<User> {
@@ -57,7 +59,7 @@ export class UsersApiService extends ApiService {
 
     const source: Observable<User> = this.http.post<User>(request, userToSend);
 
-    return this.entityMapper.mapEntity(source, userResponseFields, userCtor);
+    return this.entityMapper.mapEntity(source, this.userResponseFields, this.userCtor);
   }
 
   public editUser(user: User): Observable<User> {
@@ -67,7 +69,7 @@ export class UsersApiService extends ApiService {
 
     const source: Observable<User> = this.http.post<User>(request, userToSend);
 
-    return this.entityMapper.mapEntity(source, userResponseFields, userCtor);
+    return this.entityMapper.mapEntity(source, this.userResponseFields, this.userCtor);
   }
 
   public deleteUser(userId: number): Observable<string> {

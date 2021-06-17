@@ -9,8 +9,8 @@ import jwt_decode from 'jwt-decode';
 import { DecodedToken } from '../modules/auth/models/decoded-token.model';
 import { catchError, map } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
-import { Ctor, EntityMapperService, FieldsMap } from './entity-mapper';
-import { userCtor, userResponseFields } from '../modules/users/services/users-api.service';
+import { Ctor, EntityMapperService } from './entity-mapper';
+import { userResponseFields } from '../modules/users/services/users-api.service';
 
 @Injectable()
 export class AuthService {
@@ -19,7 +19,6 @@ export class AuthService {
   private tokenKeyStorage: string = 'token';
   private refreshTokenKeyStorage: string = 'refreshToken';
   private userKey: string = 'user';
-  private userCtor: Ctor<User> = userCtor;
 
   constructor(private router: Router,
               private localStorageService: LocalStorageService,
@@ -39,8 +38,8 @@ export class AuthService {
       map((response: LoginResponse) => {
         const decodedToken: DecodedToken = jwt_decode(response.token);
         const userItem: User = JSON.parse(decodedToken.data);
-        this.userCtor = new Ctor(User);
-        const user: User = this.entityMapper.createEntity(userItem, userResponseFields, this.userCtor);
+        const userCtor: Ctor<User> = new Ctor(User);
+        const user: User = this.entityMapper.createEntity(userItem, userResponseFields, userCtor);
         this.successAuth(response, user);
         return user;
       }),
