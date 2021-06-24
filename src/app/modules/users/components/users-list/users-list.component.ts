@@ -193,17 +193,16 @@ export class UsersListComponent extends EntitiesListBase implements OnInit, OnDe
     for (let index = 0; index < amount; index++) {
       let user: User = {
         id: index + 1,
-        firstName: `First name ${index + 1}`,
-        lastName: `Last name ${index + 1}`,
-        shortcut: `Shortcut ${index + 1}`,
+        firstName: `First name_${Date.now()}_${index + 1}`,
+        lastName: `Last name_${Date.now()}_${index + 1}`,
+        shortcut: `Shortcut_${Date.now()}_${index + 1}`,
         age: 5 * (index + 4),
         gender: 'm',
-        email: `${index}@mail.com`,
-        login: `Login ${index + 1}`,
+        email: `${Date.now()}@mail.com`,
+        login: `Login_${Date.now()}_${index + 1}`,
         password: this.authService.generatePassword(MIN_PASSWORD_LENGTH),
         isAdmin: false
       };
-      user = this.userHelper.getUniqueUser(user, this.users.data);
       this.userHelper.createNewUser(user).subscribe(createdUser => {
         this.userStateManagementService.sendUserCreationEvent(createdUser);
       });
