@@ -45,7 +45,7 @@ export class UsersHelper {
     if (isUnique) {
       return shortcut;
     } else {
-      if (iterator > 100) {
+      if (iterator > 10) {
         return null;
       }
       const potentialShortcut: string = `${shortcut}${iterator}`;
