@@ -27,7 +27,12 @@ export class UsersHelper {
   }
 
   public async getPotentialShortcut(firstName: string, lastName: string, iterator = 1): Promise<string | null> {
-    let shortcut: string = `${firstName.toUpperCase()}${lastName.toUpperCase()}`;
+    let shortcut: string = '';
+    if (iterator !== 1) {
+      shortcut = `${firstName.toUpperCase()}${lastName.toUpperCase()}`;
+    } else {
+      shortcut = `${firstName.toUpperCase()}${lastName.toUpperCase()}${iterator}`;
+    }
 
     shortcut = await this.usersProvider.isShortcutUnique(shortcut).then(isUnique => {
       return this.checkIsShortcutUnique(isUnique, shortcut, iterator);
@@ -44,7 +49,7 @@ export class UsersHelper {
         return null;
       }
       const potentialShortcut: string = `${shortcut}${iterator}`;
-      this.getPotentialShortcut(potentialShortcut[0], potentialShortcut[1], ++iterator);
+      this.getPotentialShortcut(potentialShortcut[0], potentialShortcut[1], iterator++);
     }
   }
 
