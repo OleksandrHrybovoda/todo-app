@@ -191,7 +191,7 @@ export class UsersListComponent extends EntitiesListBase implements OnInit, OnDe
 
   private generateNewUsers(amount: number): void {
     for (let index = 0; index < amount; index++) {
-      const user = {
+      let user: User = {
         id: index + 1,
         firstName: `First name ${index + 1}`,
         lastName: `Last name ${index + 1}`,
@@ -199,10 +199,11 @@ export class UsersListComponent extends EntitiesListBase implements OnInit, OnDe
         age: 5 * (index + 4),
         gender: 'm',
         email: `${index}@mail.com`,
-        login: `Login ${1}`,
+        login: `Login ${index + 1}`,
         password: this.authService.generatePassword(MIN_PASSWORD_LENGTH),
         isAdmin: false
       };
+      user = this.userHelper.getUniqueUser(user, this.users.data);
       this.userHelper.createNewUser(user).subscribe(createdUser => {
         this.userStateManagementService.sendUserCreationEvent(createdUser);
       });
