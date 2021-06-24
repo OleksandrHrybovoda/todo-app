@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Input
 } from '@angular/core';
@@ -11,7 +12,8 @@ import { TaskFormComponent } from '../task-form/task-form.component';
 @Component({
   selector: 'app-task',
   templateUrl: './task.component.html',
-  styleUrls: ['./task.component.sass']
+  styleUrls: ['./task.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskComponent {
 
