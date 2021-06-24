@@ -53,25 +53,6 @@ export class UsersHelper {
     }
   }
 
-  public getUniqueUser(user: User, users: User[]): User {
-    const duplicate = users.find(userItem => userItem.firstName === user.firstName);
-    if (duplicate) {
-      user.id = this.generateId();
-      user.firstName = this.getGeneratedUserProperty(user.firstName);
-      user.lastName = this.getGeneratedUserProperty(user.lastName);
-      user.login =  this.getGeneratedUserProperty(user.login);
-      user.email = `${this.generateId()}${user.email.slice(1)}`;
-      user.shortcut = this.getGeneratedUserProperty(user.shortcut);
-      return user;
-    } else {
-      return user;
-    }
-  }
-
-  private getGeneratedUserProperty(property: string): string {
-    return `${property.slice(0, -1)}${this.generateId()}`;
-  }
-
   private generateId(): number {
     return Math.floor(Math.random() * 1000);
   }
