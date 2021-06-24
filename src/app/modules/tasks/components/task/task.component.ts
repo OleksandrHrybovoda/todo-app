@@ -1,6 +1,9 @@
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
-  Input
+  Input,
+  OnChanges
 } from '@angular/core';
 import { MessagesService } from 'src/app/services/messages.service';
 import { Task } from '../../models/task.model';
@@ -11,17 +14,28 @@ import { TaskFormComponent } from '../task-form/task-form.component';
 @Component({
   selector: 'app-task',
   templateUrl: './task.component.html',
-  styleUrls: ['./task.component.sass']
+  styleUrls: ['./task.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TaskComponent {
+export class TaskComponent implements OnChanges {
 
   @Input() task: Task;
 
   constructor(
     private msgService: MessagesService,
     private stateManagementService: TaskStateManagementService,
-    private tasksProvider: TasksProvider
-  ) { }
+    private tasksProvider: TasksProvider,
+    public cd: ChangeDetectorRef
+  ) {
+    this.cd.detach();
+  }
+
+  public ngOnChanges(): void {
+    this.cd.reattach();
+    setTimeout(() => {
+      this.cd.detach();
+    });
+  }
 
   public async onDeleteButtonClick(): Promise<void> {
     const title: string = 'Delete task';

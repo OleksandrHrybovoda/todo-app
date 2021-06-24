@@ -1,4 +1,6 @@
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   OnDestroy,
   OnInit
@@ -19,13 +21,14 @@ import { TaskFormComponent } from '../task-form/task-form.component';
   selector: 'app-tasks-list',
   templateUrl: './tasks-list.component.html',
   styleUrls: ['./tasks-list.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TasksListComponent extends EntitiesListBase implements OnInit, OnDestroy {
 
   public tasks: Task[] = [];
 
   private page: number = 0;
-  private size: number = 10;
+  private size: number = 15000;
 
   private readonly destroy$ = new Subject();
 
@@ -34,6 +37,7 @@ export class TasksListComponent extends EntitiesListBase implements OnInit, OnDe
     private stateManagementService: TaskStateManagementService,
     private tasksProvider: TasksProvider,
     private tasksHelper: TasksHelper,
+    private cd: ChangeDetectorRef
   ) {
     super(msgService);
   }
@@ -130,6 +134,7 @@ export class TasksListComponent extends EntitiesListBase implements OnInit, OnDe
           if (tasks.length > 0) {
             this.page++;
           }
+          this.cd.markForCheck();
         },
         (err) => {
           const msg: string = err.error.message;
@@ -151,6 +156,7 @@ export class TasksListComponent extends EntitiesListBase implements OnInit, OnDe
 
   private addNewTaskToList(task: Task): void {
     this.tasks.push(task);
+    this.cd.markForCheck();
   }
 
   private subscribeToTaskRemoval(): void {
@@ -166,6 +172,7 @@ export class TasksListComponent extends EntitiesListBase implements OnInit, OnDe
 
   private deleteTaskFromList(task: Task): void {
     this.tasks = this.tasks.filter(taskItem => taskItem.id !== task.id);
+    this.cd.markForCheck();
   }
 
   private subscribeToTaskUpdate(): void {
@@ -182,6 +189,7 @@ export class TasksListComponent extends EntitiesListBase implements OnInit, OnDe
   private updateTaskInList(task: Task): void {
     const elementsIndex = this.tasks.findIndex(element => element.id === task.id);
     this.tasks[elementsIndex] = task;
+    this.cd.markForCheck();
   }
 
 }
