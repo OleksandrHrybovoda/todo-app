@@ -10,6 +10,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
 import { SharedComponentsModule } from 'src/app/components/shared-components.module';
 import { UserFormComponent } from './user-form/user-form.component';
@@ -22,6 +23,7 @@ import { UserFormComponent } from './user-form/user-form.component';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatSelectModule,
+    MatAutocompleteModule,
     MatInputModule,
     MatIconModule,
     MatPaginatorModule,

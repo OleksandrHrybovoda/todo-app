@@ -12,10 +12,14 @@
       </mat-form-field>
     </div>
 
-    <mat-form-field class="field-control" [hintLabel]="shortcut ? 'Proposal' : null">
+    <mat-form-field class="field-control">
       <mat-label>Shortcut</mat-label>
-      <input matInput formControlName="shortcut">
-      <mat-hint align="end" class="hint" (click)="setProposalShortcut()">{{ shortcut }}</mat-hint>
+      <input matInput formControlName="shortcut" [matAutocomplete]="auto">
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+        <mat-option [value]="shortcut" (click)="setProposalShortcut()">
+          {{ shortcut }}
+        </mat-option>
+      </mat-autocomplete>
     </mat-form-field>
 
     <mat-form-field class="field-control">

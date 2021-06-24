@@ -80,7 +80,7 @@ export class UsersApiService extends ApiService {
   public isShortcutUnique(shortcut: string): Promise<boolean> {
     const promise: Promise<boolean> = new Promise((resolve, reject) => {
       const url: string = `${this.endpoint}/isShortcutUnique`;
-      this.http.post<boolean>(url, shortcut)
+      this.http.post<boolean>(url, { shortcut })
         .toPromise()
         .then(res => {
           resolve(res);
