@@ -11,14 +11,16 @@
     </mat-form-field>
   </form>
 
-  <button mat-raised-button (click)="onCancelClick()">CANCEL</button>
-  <button mat-raised-button
-          [mat-dialog-close]="true"
-          cdkFocusInitial
-          [disabled]="form.invalid"
-          color="primary"
-          class="action-button"
-          (click)="submit()">
-    {{ buttonText | uppercase }}
-  </button>
+  <div class="buttons-group">
+    <button mat-raised-button (click)="onCancelClick()">CANCEL</button>
+    <button mat-raised-button
+            [mat-dialog-close]="true"
+            cdkFocusInitial
+            [disabled]="form.invalid"
+            color="primary"
+            class="action-button"
+            (click)="submit()">
+      {{ buttonText | uppercase }}
+    </button>
+  </div>
 </dialog-wrapper>
