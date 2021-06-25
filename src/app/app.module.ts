@@ -7,9 +7,9 @@ import { TasksModule } from './modules/tasks/tasks.module';
 import { ServicesModule } from './services/services.module';
 import { MatSelectModule } from '@angular/material/select';
 import { UsersModule } from './modules/users/users.module';
-import { GuardsModule } from './core/guards/guards.module';
+import { GuardsModule } from './modules/auth/guards/guards.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { TokenInterceptor } from './core/interceptors/token.interceptor';
+import { TokenInterceptor } from './modules/auth/interceptors/token.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
