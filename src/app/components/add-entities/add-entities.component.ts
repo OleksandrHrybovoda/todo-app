@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AddEntitiesSettings } from 'src/app/components/add-entities/models/add-entities-settings.model';
+import { AddEntitiesSettings } from 'src/app/components/add-entities/add-entities-settings.model';
 
 @Component({
   selector: 'app-add-entities',
