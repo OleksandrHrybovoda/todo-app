@@ -39,7 +39,8 @@ export class AuthService {
         const decodedToken: DecodedToken = jwt_decode(response.token);
         const userItem: User = JSON.parse(decodedToken.data);
         const userCtor: Ctor<User> = new Ctor(User);
-        const user: User = this.entityMapper.createEntity(userItem, userResponseFields, userCtor);
+        let user: User = new User();
+        user = this.entityMapper.createEntity(userItem, userResponseFields, userCtor);
         this.successAuth(response, user);
         return user;
       }),
@@ -52,7 +53,6 @@ export class AuthService {
   public successAuth(response: LoginResponse, user: User): void {
     this.setToken(response.token);
     this.setRefreshToken(response.refreshToken);
-    this.setLoggedInUser(user.firstName);
     this.setCurrentUser(user);
   }
 
@@ -63,15 +63,6 @@ export class AuthService {
   public getCurrentUser(): User {
     const user: User = JSON.parse(this.localStorageService.get(this.userKey));
     return user;
-  }
-
-  public getLoggedInUser(): string {
-    return this.localStorageService.get(this.userKeyStorage);
-  }
-
-  public setLoggedInUser(name: string): void {
-    const key = this.userKeyStorage;
-    this.localStorageService.set(key, name);
   }
 
   public logout(): void {
