@@ -8,7 +8,7 @@ import {
   FormGroup
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { BaseFormComponent } from 'src/app/components/discard-check-base/discard-check-base.component';
+import { BaseFormComponent } from 'src/app/components/base-form/base-form.component';
 import { MessagesService } from 'src/app/services/messages.service';
 import { Task } from '../../models/task.model';
 import { TaskStateManagementService } from '../../services/task-state-management.service';
