@@ -1,8 +1,11 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
     <span>{{ pageName }}</span>
-    <ng-content></ng-content>
     <p>{{ username }}</p>
     <button mat-raised-button (click)="logout()">LOGOUT</button>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+    <span class="spacer"></span>
+    <ng-content></ng-content>
   </mat-toolbar-row>
 </mat-toolbar>
