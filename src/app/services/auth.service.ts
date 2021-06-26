@@ -11,26 +11,19 @@ import { catchError, map } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { Ctor, EntityMapperService } from './entity-mapper';
 import { userResponseFields } from '../modules/users/services/users-api.service';
+import { AuthStorageService } from './auth-storage.service';
 
 @Injectable()
 export class AuthService {
 
-  private userKeyStorage: string = 'name';
-  private tokenKeyStorage: string = 'token';
-  private refreshTokenKeyStorage: string = 'refreshToken';
   private userKey: string = 'user';
 
   constructor(private router: Router,
               private localStorageService: LocalStorageService,
               private authApiService: AuthApiService,
+              private authStorageService: AuthStorageService,
               private entityMapper: EntityMapperService
               ) { }
-
-  public isAuthenticated(): boolean {
-    const isTokenExist = this.getToken() ? true : false;
-
-    return isTokenExist;
-  }
 
   public login(username: string, password: string): Observable<User> {
     return this.authApiService.login(username, password)
@@ -51,8 +44,8 @@ export class AuthService {
   }
 
   public successAuth(response: LoginResponse, user: User): void {
-    this.setToken(response.token);
-    this.setRefreshToken(response.refreshToken);
+    this.authStorageService.setToken(response.token);
+    this.authStorageService.setRefreshToken(response.refreshToken);
     this.setCurrentUser(user);
   }
 
@@ -68,22 +61,6 @@ export class AuthService {
   public logout(): void {
     this.localStorageService.clear();
     this.router.navigate([LOGOUT_REDIRECT]);
-  }
-
-  public getToken(): string {
-    return this.localStorageService.get(this.tokenKeyStorage);
-  }
-
-  public setToken(value: string): void {
-    this.localStorageService.set(this.tokenKeyStorage, value);
-  }
-
-  public getRefreshToken(): string {
-    return this.localStorageService.get(this.refreshTokenKeyStorage);
-  }
-
-  public setRefreshToken(value: string): void {
-    this.localStorageService.set(this.refreshTokenKeyStorage, value);
   }
 
   public generatePassword(length: number): string {

@@ -6,26 +6,26 @@ import {
   HttpErrorResponse,
   HttpInterceptor,
 } from '@angular/common/http';
-import { map, catchError, switchMap, filter, take } from 'rxjs/operators';
+import { catchError, switchMap, filter, take } from 'rxjs/operators';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
 import { AuthApiService } from 'src/app/modules/auth/services/auth-api.service';
 import { LoginResponse } from 'src/app/modules/auth/models/login-response.model';
+import { AuthStorageService } from 'src/app/services/auth-storage.service';
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
 
   private isRefreshing = false;
   private refreshTokenSubject: BehaviorSubject<LoginResponse> = new BehaviorSubject<LoginResponse>(null);
 
-  constructor(public authService: AuthService, private authApiService: AuthApiService) {}
+  constructor(public authStorageService: AuthStorageService, private authApiService: AuthApiService) {}
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const token: string = this.authService.getToken();
+    const token: string = this.authStorageService.getToken();
 
     if (token) {
-      request = this.addToken(request, this.authService.getToken());
+      request = this.addToken(request, this.authStorageService.getToken());
     }
 
     return next.handle(request).pipe(catchError(error => {
@@ -54,7 +54,7 @@ export class TokenInterceptor implements HttpInterceptor {
         switchMap((token) => {
           this.isRefreshing = false;
           this.refreshTokenSubject.next(token);
-          this.authService.setRefreshToken(token.refreshToken);
+          this.authStorageService.setRefreshToken(token.refreshToken);
           return next.handle(this.addToken(request, token.token));
         }));
 
@@ -63,7 +63,7 @@ export class TokenInterceptor implements HttpInterceptor {
         filter(token => token != null),
         take(1),
         switchMap(jwt => {
-          this.authService.setRefreshToken(jwt.refreshToken);
+          this.authStorageService.setRefreshToken(jwt.refreshToken);
           return next.handle(this.addToken(request, jwt.token));
         }));
     }
