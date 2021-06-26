@@ -11,6 +11,7 @@ export class HeaderComponent implements OnInit {
   @Input() pageName: string;
 
   public username: string;
+  public pages: string[] = ['tasks', 'users'];
 
   constructor(private authService: AuthService) { }
 

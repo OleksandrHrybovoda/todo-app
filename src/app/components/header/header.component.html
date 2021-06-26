@@ -1,6 +1,9 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
     <span>{{ pageName }}</span>
+    <div class="routes" *ngFor="let page of pages">
+      <a [routerLink]="['/' + page]" routerLinkActive="active">{{ page | titlecase }}</a>
+    </div>
     <p>{{ username }}</p>
     <button mat-raised-button (click)="logout()">LOGOUT</button>
   </mat-toolbar-row>
