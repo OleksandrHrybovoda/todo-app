@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit {
   }
 
   public logout(): void {
-    this.authStorageService.clearAuthStorage();
+    this.authService.logout();
   }
 
 }

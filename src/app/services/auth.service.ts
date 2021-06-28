@@ -9,13 +9,16 @@ import { Observable, throwError } from 'rxjs';
 import { Ctor, EntityMapperService } from './entity-mapper';
 import { userResponseFields } from '../modules/users/services/users-api.service';
 import { AuthStorageService } from './auth-storage.service';
+import { LOGOUT_REDIRECT } from '../modules/auth/constants/auth-constants';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthService {
 
   constructor(private authApiService: AuthApiService,
               private authStorageService: AuthStorageService,
-              private entityMapper: EntityMapperService
+              private entityMapper: EntityMapperService,
+              private router: Router
               ) { }
 
   public login(username: string, password: string): Observable<User> {
@@ -46,6 +49,11 @@ export class AuthService {
     const isTokenExist = this.authStorageService.getToken() ? true : false;
 
     return isTokenExist;
+  }
+
+  public logout(): void {
+    this.authStorageService.clearAuthStorage();
+    this.router.navigate([LOGOUT_REDIRECT]);
   }
 
   public generatePassword(length: number): string {
