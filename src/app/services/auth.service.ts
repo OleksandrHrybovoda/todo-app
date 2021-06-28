@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { LOGOUT_REDIRECT } from '../modules/auth/constants/auth-constants';
 import { LoginResponse } from '../modules/auth/models/login-response.model';
 import { AuthApiService } from '../modules/auth/services/auth-api.service';
 import { User } from '../modules/users/models/user.model';
-import { LocalStorageService } from './local-storage.service';
 import jwt_decode from 'jwt-decode';
 import { DecodedToken } from '../modules/auth/models/decoded-token.model';
 import { catchError, map } from 'rxjs/operators';
@@ -16,9 +13,7 @@ import { AuthStorageService } from './auth-storage.service';
 @Injectable()
 export class AuthService {
 
-  constructor(private router: Router,
-              private localStorageService: LocalStorageService,
-              private authApiService: AuthApiService,
+  constructor(private authApiService: AuthApiService,
               private authStorageService: AuthStorageService,
               private entityMapper: EntityMapperService
               ) { }
@@ -51,11 +46,6 @@ export class AuthService {
     const isTokenExist = this.authStorageService.getToken() ? true : false;
 
     return isTokenExist;
-  }
-
-  public logout(): void {
-    this.localStorageService.clear();
-    this.router.navigate([LOGOUT_REDIRECT]);
   }
 
   public generatePassword(length: number): string {

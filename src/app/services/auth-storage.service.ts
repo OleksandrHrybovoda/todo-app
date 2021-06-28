@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { LOGOUT_REDIRECT } from '../modules/auth/constants/auth-constants';
 import { User } from '../modules/users/models/user.model';
 import { LocalStorageService } from './local-storage.service';
 
@@ -9,7 +11,9 @@ export class AuthStorageService {
   private tokenKeyStorage: string = 'token';
   private refreshTokenKeyStorage: string = 'refreshToken';
 
-  constructor(private localStorageService: LocalStorageService) { }
+  constructor(private localStorageService: LocalStorageService,
+              private router: Router
+              ) { }
 
   public getToken(): string {
     return this.localStorageService.get(this.tokenKeyStorage);
@@ -17,6 +21,11 @@ export class AuthStorageService {
 
   public setToken(value: string): void {
     this.localStorageService.set(this.tokenKeyStorage, value);
+  }
+
+  public clearAuthStorage(): void {
+    this.localStorageService.clear();
+    this.router.navigate([LOGOUT_REDIRECT]);
   }
 
   public getRefreshToken(): string {
