@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { AuthStorageService } from 'src/app/services/auth-storage.service';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -12,10 +13,12 @@ export class HeaderComponent implements OnInit {
 
   public username: string;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authStorageService: AuthStorageService,
+              private authService: AuthService
+              ) { }
 
   public ngOnInit(): void {
-    this.username = this.authService.getCurrentUser().firstName;
+    this.username = this.authStorageService.getCurrentUser().firstName;
   }
 
   public logout(): void {

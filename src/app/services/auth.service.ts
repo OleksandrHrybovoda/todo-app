@@ -16,8 +16,6 @@ import { AuthStorageService } from './auth-storage.service';
 @Injectable()
 export class AuthService {
 
-  private userKey: string = 'user';
-
   constructor(private router: Router,
               private localStorageService: LocalStorageService,
               private authApiService: AuthApiService,
@@ -46,16 +44,13 @@ export class AuthService {
   public successAuth(response: LoginResponse, user: User): void {
     this.authStorageService.setToken(response.token);
     this.authStorageService.setRefreshToken(response.refreshToken);
-    this.setCurrentUser(user);
+    this.authStorageService.setCurrentUser(user);
   }
 
-  public setCurrentUser(user: User): void {
-    this.localStorageService.set(this.userKey, JSON.stringify(user));
-  }
+  public isAuthenticated(): boolean {
+    const isTokenExist = this.authStorageService.getToken() ? true : false;
 
-  public getCurrentUser(): User {
-    const user: User = JSON.parse(this.localStorageService.get(this.userKey));
-    return user;
+    return isTokenExist;
   }
 
   public logout(): void {
