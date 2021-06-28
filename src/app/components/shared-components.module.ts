@@ -14,9 +14,13 @@ import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { BaseFormComponent } from './base-form/base-form.component';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
+    CommonModule,
+    RouterModule,
     MatToolbarModule,
     MatButtonModule,
     MatDialogModule,
