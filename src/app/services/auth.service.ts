@@ -1,36 +1,25 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { LOGOUT_REDIRECT } from '../modules/auth/constants/auth-constants';
 import { LoginResponse } from '../modules/auth/models/login-response.model';
 import { AuthApiService } from '../modules/auth/services/auth-api.service';
 import { User } from '../modules/users/models/user.model';
-import { LocalStorageService } from './local-storage.service';
 import jwt_decode from 'jwt-decode';
 import { DecodedToken } from '../modules/auth/models/decoded-token.model';
 import { catchError, map } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { Ctor, EntityMapperService } from './entity-mapper';
 import { userResponseFields } from '../modules/users/services/users-api.service';
+import { AuthStorageService } from './auth-storage.service';
+import { LOGOUT_REDIRECT } from '../modules/auth/constants/auth-constants';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthService {
 
-  private userKeyStorage: string = 'name';
-  private tokenKeyStorage: string = 'token';
-  private refreshTokenKeyStorage: string = 'refreshToken';
-  private userKey: string = 'user';
-
-  constructor(private router: Router,
-              private localStorageService: LocalStorageService,
-              private authApiService: AuthApiService,
-              private entityMapper: EntityMapperService
+  constructor(private authApiService: AuthApiService,
+              private authStorageService: AuthStorageService,
+              private entityMapper: EntityMapperService,
+              private router: Router
               ) { }
-
-  public isAuthenticated(): boolean {
-    const isTokenExist = this.getToken() ? true : false;
-
-    return isTokenExist;
-  }
 
   public login(username: string, password: string): Observable<User> {
     return this.authApiService.login(username, password)
@@ -51,39 +40,20 @@ export class AuthService {
   }
 
   public successAuth(response: LoginResponse, user: User): void {
-    this.setToken(response.token);
-    this.setRefreshToken(response.refreshToken);
-    this.setCurrentUser(user);
+    this.authStorageService.setToken(response.token);
+    this.authStorageService.setRefreshToken(response.refreshToken);
+    this.authStorageService.setCurrentUser(user);
   }
 
-  public setCurrentUser(user: User): void {
-    this.localStorageService.set(this.userKey, JSON.stringify(user));
-  }
+  public isAuthenticated(): boolean {
+    const isTokenExist = this.authStorageService.getToken() ? true : false;
 
-  public getCurrentUser(): User {
-    const user: User = JSON.parse(this.localStorageService.get(this.userKey));
-    return user;
+    return isTokenExist;
   }
 
   public logout(): void {
-    this.localStorageService.clear();
+    this.authStorageService.clearAuthStorage();
     this.router.navigate([LOGOUT_REDIRECT]);
-  }
-
-  public getToken(): string {
-    return this.localStorageService.get(this.tokenKeyStorage);
-  }
-
-  public setToken(value: string): void {
-    this.localStorageService.set(this.tokenKeyStorage, value);
-  }
-
-  public getRefreshToken(): string {
-    return this.localStorageService.get(this.refreshTokenKeyStorage);
-  }
-
-  public setRefreshToken(value: string): void {
-    this.localStorageService.set(this.refreshTokenKeyStorage, value);
   }
 
   public generatePassword(length: number): string {

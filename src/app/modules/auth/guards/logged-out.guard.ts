@@ -7,13 +7,13 @@ import { LOGIN_REDIRECT } from '../constants/auth-constants';
 @Injectable()
 export class LoggedOutGuard implements CanActivate {
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
     ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      if (this.auth.isAuthenticated()) {
+      if (this.authService.isAuthenticated()) {
         this.router.navigate([LOGIN_REDIRECT]);
         return false;
       }

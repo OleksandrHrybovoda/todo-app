@@ -7,6 +7,7 @@ import { MessagesService } from './messages.service';
 import { ApiService } from './api.base';
 import { EntityMapperService } from './entity-mapper';
 import { LocalStorageService } from './local-storage.service';
+import { AuthStorageService } from './auth-storage.service';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { LocalStorageService } from './local-storage.service';
     MessagesService,
     AuthService,
     ApiService,
+    AuthStorageService,
     EntityMapperService,
     LocalStorageService
   ]
