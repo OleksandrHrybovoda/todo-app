@@ -5,7 +5,10 @@
       <a *ngFor="let page of pages" [routerLink]="['/' + page.url]" routerLinkActive="active">{{ page.name }}</a>
     </div>
     <p>{{ username }}</p>
-    <button mat-raised-button (click)="logout()">LOGOUT</button>
+    <div class="language">
+      <a *ngFor="let language of languageList" [routerLink]="['/' + language.code]">{{ languageList.label }}</a>
+    </div>
+    <button mat-raised-button (click)="logout()" i18n>LOGOUT</button>
   </mat-toolbar-row>
   <mat-toolbar-row>
     <span class="spacer"></span>

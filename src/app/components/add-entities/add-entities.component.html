@@ -1,12 +1,12 @@
-<h3 mat-dialog-title>Generate {{ title }}</h3>
+<h3 mat-dialog-title i18n>Generate {{ title }}</h3>
 
 <div mat-dialog-content>
   <mat-form-field>
-    <input matInput type="number" [(ngModel)]="amount" [min]="minNumber" placeholder="Enter amount" />
+    <input matInput type="number" [(ngModel)]="amount" [min]="minNumber" placeholder="Enter amount" i18n-placeholder="Enter amount" />
   </mat-form-field>
 </div>
 
 <div mat-dialog-actions end>
-  <button mat-flat-button mat-dialog-close>CANCEL</button>
+  <button mat-flat-button mat-dialog-close i18n>CANCEL</button>
   <button mat-flat-button color="primary" mat-dialog-close="true" [mat-dialog-close]="amount" cdkFocusInitial [disabled]="isSubmitButtonDisabled()">{{ confirmButtonText }}</button>
 </div>

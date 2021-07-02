@@ -2,18 +2,18 @@
   <form [formGroup]="form" class="form-group">
     <div class="inputs-container">
       <mat-form-field class="field-control">
-        <mat-label>First Name</mat-label>
+        <mat-label i18n>First Name</mat-label>
         <input matInput formControlName="firstName">
       </mat-form-field>
 
       <mat-form-field class="field-control">
-        <mat-label>Last Name</mat-label>
+        <mat-label i18n>Last Name</mat-label>
         <input matInput formControlName="lastName">
       </mat-form-field>
     </div>
 
     <mat-form-field class="field-control">
-      <mat-label>Shortcut</mat-label>
+      <mat-label i18n>Shortcut</mat-label>
       <input matInput formControlName="shortcut" [matAutocomplete]="auto">
       <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
         <mat-option [value]="shortcut" (click)="setProposalShortcut()">
@@ -23,28 +23,28 @@
     </mat-form-field>
 
     <mat-form-field class="field-control">
-      <mat-label>Gender</mat-label>
+      <mat-label i18n>Gender</mat-label>
       <mat-select formControlName="gender">
-        <mat-option value="f">Female</mat-option>
-        <mat-option value="m">Male</mat-option>
-        <mat-option value="u" selected>Unspecified</mat-option>
+        <mat-option value="f" i18n>Female</mat-option>
+        <mat-option value="m" i18n>Male</mat-option>
+        <mat-option value="u" selected i18n>Unspecified</mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field class="field-control">
-      <mat-label>Email</mat-label>
+      <mat-label i18n>Email</mat-label>
       <input matInput formControlName="email">
       <mat-error *ngIf="form.value.email.invalid"> {{ getEmailErrorMessage() }} </mat-error>
     </mat-form-field>
 
     <mat-form-field class="field-control">
-      <mat-label>Login</mat-label>
+      <mat-label i18n>Login</mat-label>
       <input matInput formControlName="login">
     </mat-form-field>
 
     <div class="inputs-container" *ngIf="!isEditMode()">
       <mat-form-field class="field-control password-field">
-        <mat-label>Password</mat-label>
+        <mat-label i18n>Password</mat-label>
         <input matInput [type]="hidePassword ? 'password' : 'text'" minLength="3" formControlName="password">
         <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
           <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
@@ -58,7 +58,7 @@
 
   </form>
 
-  <button mat-raised-button (click)="onCancelClick()">CANCEL</button>
+  <button mat-raised-button (click)="onCancelClick()" i18n>CANCEL</button>
   <button mat-raised-button
           [mat-dialog-close]="true"
           cdkFocusInitial
