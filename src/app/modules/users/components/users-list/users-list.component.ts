@@ -72,7 +72,7 @@ export class UsersListComponent extends EntitiesListBase implements OnInit, OnDe
       .subscribe(user => {
         this.addNewUserToList(user);
 
-        const msg: string = 'Successfully added new user!';
+        const msg: string = $localize`Successfully added new user!`;
         this.showMessage(msg);
       });
   }
@@ -88,7 +88,7 @@ export class UsersListComponent extends EntitiesListBase implements OnInit, OnDe
       .subscribe(user => {
         this.deleteUserFromList(user);
 
-        const msg: string = 'Successfully removed user!';
+        const msg: string = $localize`Successfully removed user!`;
         this.showMessage(msg);
       });
   }
@@ -104,7 +104,7 @@ export class UsersListComponent extends EntitiesListBase implements OnInit, OnDe
       .subscribe(user => {
         this.updateUserInList(user);
 
-        const msg: string = 'User successfully updated!';
+        const msg: string = $localize`User successfully updated!`;
         this.showMessage(msg);
       });
   }
@@ -116,9 +116,9 @@ export class UsersListComponent extends EntitiesListBase implements OnInit, OnDe
   }
 
   public async deleteAllUsers(): Promise<void> {
-    const title: string = 'Delete all users';
-    const message: string = 'Are you sure you want to delete all the users ?';
-    const action: string = 'DELETE';
+    const title: string = $localize`Delete all users`;
+    const message: string = $localize`Are you sure you want to delete all the users ?`;
+    const action: string = $localize`DELETE`;
 
     const deletionConfirmed = await this.msgService.confirm(title, message, action);
 
@@ -134,9 +134,9 @@ export class UsersListComponent extends EntitiesListBase implements OnInit, OnDe
   }
 
   public async onDeleteButtonClick(user: User): Promise<void> {
-    const title: string = 'Delete user';
-    const message: string = 'Are you sure you want to delete user ?';
-    const action: string = 'DELETE';
+    const title: string = $localize`Delete user`;
+    const message: string = $localize`Are you sure you want to delete user ?`;
+    const action: string = $localize`DELETE`;
 
     const deletionConfirmed = await this.msgService.confirm(title, message, action);
 
@@ -176,7 +176,7 @@ export class UsersListComponent extends EntitiesListBase implements OnInit, OnDe
 
   public openDialogToAddUsers(): void {
     const data: AddEntitiesSettings = {
-      title: 'users',
+      title: $localize`users`,
       amount: null
     };
     const dialogRef = this.msgService.openDialog(AddEntitiesComponent, data);

@@ -16,7 +16,7 @@ export class ConfirmComponent {
   @Input() public title = '';
   @Input() public message = '';
 
-  @Input() public confirmButtonText = 'Confirm';
+  @Input() public confirmButtonText = $localize`Confirm`;
 
   constructor(@Inject(MAT_DIALOG_DATA) private data?: ConfirmDialogData) {
     this.setInputs();

@@ -31,7 +31,7 @@ export class AddEntitiesComponent implements OnInit {
 
   private applySettings(): void {
     this.title = this.data.title;
-    this.confirmButtonText = this.data.confirmButtonText ?? 'GENERATE';
+    this.confirmButtonText = this.data.confirmButtonText ?? $localize`GENERATE`;
     this.amount = this.data.amount ?? 100;
   }
 }

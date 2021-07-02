@@ -17,15 +17,15 @@ export class HeaderComponent implements OnInit {
   public pages: Page[] = [
   {
     url: 'tasks',
-    name: 'Tasks'
+    name: $localize`Tasks`
   },
   {
     url: 'users',
-    name: 'Users'
+    name: $localize`Users`
   }];
   public languageList: Language[] = [
-    { code: 'en', label: 'English' },
-    { code: 'ua', label: 'Ukraine' }
+    { code: 'en', label: $localize`English` },
+    { code: 'ua', label: $localize`Ukraine` }
   ];
 
   constructor(private authStorageService: AuthStorageService,
