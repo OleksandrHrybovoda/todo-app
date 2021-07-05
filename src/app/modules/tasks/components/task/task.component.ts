@@ -26,9 +26,9 @@ export class TaskComponent {
   ) { }
 
   public async onDeleteButtonClick(): Promise<void> {
-    const title: string = 'Delete task';
-    const message: string = 'Are you sure you want to delete task ?';
-    const action: string = 'DELETE';
+    const title: string = $localize`Delete task`;
+    const message: string = $localize`Are you sure you want to delete task ?`;
+    const action: string = $localize`DELETE`;
 
     const deletionConfirmed = await this.msgService.confirm(title, message, action);
 

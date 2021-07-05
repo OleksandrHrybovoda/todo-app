@@ -66,7 +66,7 @@ export class TasksListComponent extends EntitiesListBase implements OnInit, OnDe
 
   public openDialogToAddTasks(): void {
     const data: AddEntitiesSettings = {
-      title: 'tasks',
+      title: $localize`tasks`,
       amount: null
     };
     const dialogRef = this.msgService.openDialog(AddEntitiesComponent, data);
@@ -102,9 +102,9 @@ export class TasksListComponent extends EntitiesListBase implements OnInit, OnDe
   }
 
   public async deleteAllTasks(): Promise<void> {
-    const title: string = 'Delete all tasks';
-    const message: string = 'Are you sure you want to delete all the tasks ?';
-    const action: string = 'DELETE';
+    const title: string = $localize`Delete all tasks`;
+    const message: string = $localize`Are you sure you want to delete all the tasks ?`;
+    const action: string = $localize`DELETE`;
 
     const deletionConfirmed = await this.msgService.confirm(title, message, action);
 
@@ -127,7 +127,7 @@ export class TasksListComponent extends EntitiesListBase implements OnInit, OnDe
           this.tasks = this.tasks.concat(tasks);
 
           if (showMsg) {
-            const msg: string = `${tasks.length} tasks successfully fetched.`;
+            const msg: string = $localize`${tasks.length} tasks successfully fetched.`;
             this.showMessage(msg);
           }
 
@@ -149,7 +149,7 @@ export class TasksListComponent extends EntitiesListBase implements OnInit, OnDe
       .subscribe(task => {
         this.addNewTaskToList(task);
 
-        const msg: string = 'Successfully added new task!';
+        const msg: string = $localize`Successfully added new task!`;
         this.showMessage(msg);
       });
   }
@@ -165,7 +165,7 @@ export class TasksListComponent extends EntitiesListBase implements OnInit, OnDe
       .subscribe(task => {
         this.deleteTaskFromList(task);
 
-        const msg: string = 'Successfully removed task!';
+        const msg: string = $localize`Successfully removed task!`;
         this.showMessage(msg);
       });
   }
@@ -181,7 +181,7 @@ export class TasksListComponent extends EntitiesListBase implements OnInit, OnDe
       .subscribe(task => {
         this.updateTaskInList(task);
 
-        const msg: string = 'Task successfully updated!';
+        const msg: string = $localize`Task successfully updated!`;
         this.showMessage(msg);
       });
   }

@@ -1,6 +1,6 @@
 <mat-card-header>
   <mat-card-title>{{ task.title }}</mat-card-title>
-  <span class="sub-title">created: {{ task.creationDate | date: 'YYYY/MM/dd' }} | updated: {{ task.lastUpdatedDate | date: 'YYYY/MM/dd' }}</span>
+  <span class="sub-title" i18n>created: {{ task.creationDate | date: 'YYYY/MM/dd' }} | updated: {{ task.lastUpdatedDate | date: 'YYYY/MM/dd' }}</span>
 </mat-card-header>
 
 <mat-card-content>
@@ -8,7 +8,7 @@
     {{ task.description }}
   </p>
   <div class="card-actions">
-    <button mat-raised-button color="primary" (click)="onEditButtonClick()">Edit</button>
-    <button mat-raised-button color="warn" (click)="onDeleteButtonClick()">Delete</button>
+    <button mat-raised-button color="primary" (click)="onEditButtonClick()" i18n>Edit</button>
+    <button mat-raised-button color="warn" (click)="onDeleteButtonClick()" i18n>Delete</button>
   </div>
 </mat-card-content>

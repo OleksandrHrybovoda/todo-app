@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, LOCALE_ID, OnInit } from '@angular/core';
 import { AuthStorageService } from 'src/app/services/auth-storage.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { Language } from './language.model';
 import { Page } from './page.model';
 
 @Component({
@@ -16,15 +17,20 @@ export class HeaderComponent implements OnInit {
   public pages: Page[] = [
   {
     url: 'tasks',
-    name: 'Tasks'
+    name: $localize`Tasks`
   },
   {
     url: 'users',
-    name: 'Users'
+    name: $localize`Users`
   }];
+  public languageList: Language[] = [
+    { code: 'en', label: $localize`English` },
+    { code: 'ua', label: $localize`Ukraine` }
+  ];
 
   constructor(private authStorageService: AuthStorageService,
-              private authService: AuthService
+              private authService: AuthService,
+              @Inject(LOCALE_ID) protected localeId: string
               ) { }
 
   public ngOnInit(): void {

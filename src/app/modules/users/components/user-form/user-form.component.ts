@@ -104,15 +104,15 @@ export class UserFormComponent extends BaseFormComponent implements OnInit, OnDe
 
   public getEmailErrorMessage(): string {
     if (this.form.get('email').hasError('required')) {
-      return 'You must enter a value';
+      return $localize`You must enter a value`;
     }
 
-    return this.form.get('email').hasError('email') ? 'Not a valid email' : '';
+    return this.form.get('email').hasError('email') ? $localize`Not a valid email` : '';
   }
 
   private setTitle(): void {
-    this.titleForm = this.isEditMode() ? 'Edit user' : 'Create user';
-    this.buttonText = this.isEditMode() ? 'Edit' : 'Create';
+    this.titleForm = this.isEditMode() ? $localize`Edit user` : $localize`Create user`;
+    this.buttonText = this.isEditMode() ? $localize`Edit` : $localize`Create`;
   }
 
   public submit(): void {

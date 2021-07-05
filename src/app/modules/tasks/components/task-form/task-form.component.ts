@@ -83,8 +83,8 @@ export class TaskFormComponent extends BaseFormComponent implements OnInit {
   }
 
   private setTitle(): void {
-    this.title = this.isEditMode() ? 'Edit task' : 'Create task';
-    this.buttonText = this.isEditMode() ? 'Edit' : 'Create';
+    this.title = this.isEditMode() ? $localize`Edit task` : $localize`Create task`;
+    this.buttonText = this.isEditMode() ? $localize`Edit` : $localize`Create`;
   }
 
   private isEditMode(): boolean {

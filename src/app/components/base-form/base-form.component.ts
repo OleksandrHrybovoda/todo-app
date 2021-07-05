@@ -24,9 +24,9 @@ export class BaseFormComponent {
   }
 
   private async confirmExit(): Promise<boolean> {
-    const title = 'Are you sure you want to leave?';
-    const message = 'You have unsaved changes. Are you sure you want to leave this page? Unsaved changes will be lost.';
-    const confirmButtonText = 'Leave';
+    const title = $localize`Are you sure you want to leave?`;
+    const message = $localize`You have unsaved changes. Are you sure you want to leave this page? Unsaved changes will be lost.`;
+    const confirmButtonText = $localize`Leave`;
 
     return this.msgService.confirm(title, message, confirmButtonText);
   }
