@@ -1,0 +1,22 @@
+<app-header [pageName]="'Tasks'" class="header">
+  <button mat-raised-button (click)="deleteAllTasks()" i18n>
+    DELETE ALL TASKS
+  </button>
+  <button mat-raised-button (click)="openDialogToAddTasks()" i18n>
+    ADD TASKS
+  </button>
+  <button mat-raised-button (click)="openDialogToAddTask()" i18n>
+    ADD NEW TASK
+  </button>
+</app-header>
+
+<div class="cards">
+
+  <mat-card class="card" *ngFor="let task of tasks; trackBy: trackByItem">
+    <app-task [task]="task"></app-task>
+  </mat-card>
+
+  <div class="pag-button">
+    <button mat-raised-button (click)="showMoreTasks()" i18n>Show more</button>
+  </div>
+</div>
